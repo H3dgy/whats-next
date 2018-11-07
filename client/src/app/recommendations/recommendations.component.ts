@@ -15,7 +15,7 @@ export class RecommendationsComponent implements OnInit {
   getRecommendations(): void {
     this.apiClient
       .getRecommendedShows(123)
-      .subscribe(shows => (this.shows = shows.map(show => new TVShow(show))));
+      .subscribe(shows => (this.shows = shows.map(show => TVShow.from(show))));
   }
 
   ngOnInit() {

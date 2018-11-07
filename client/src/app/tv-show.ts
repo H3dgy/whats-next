@@ -9,8 +9,8 @@ export default class TVShow {
   backdrop_path: string;
   poster_path: string;
 
-  constructor(show: object) {
-    Object.assign(this, show);
+  static from(show: object) {
+    return Object.assign(new TVShow(), show);
   }
 
   get image() {
