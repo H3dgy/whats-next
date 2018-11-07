@@ -9,6 +9,7 @@ import { MyTvShowsComponent } from './my-tv-shows/my-tv-shows.component';
 import { ShowListItemComponent } from './show-list-item/show-list-item.component';
 import { ShowDetailsComponent } from './show-details/show-details.component';
 import { SimilarShowsComponent } from './show-details/similar-shows/similar-shows.component';
+import { TrackShowComponent } from './utils/track-show/track-show.component';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { SimilarShowsComponent } from './show-details/similar-shows/similar-show
     MyTvShowsComponent,
     ShowListItemComponent,
     ShowDetailsComponent,
-    SimilarShowsComponent
+    SimilarShowsComponent,
+    TrackShowComponent
   ],
   imports: [BrowserModule, HttpClientModule, AppRoutingModule],
   providers: [],

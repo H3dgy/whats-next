@@ -20,4 +20,12 @@ export class ApiClientService {
   getTVShowDetails(id: number): Observable<TVShow> {
     return this.http.get<TVShow>(`${this.baseUrl}/shows/${id}`);
   }
+
+  markAsSeen(id: number): Observable<void> {
+    return this.http.post<void>(`${this.baseUrl}/shows/${id}/seen`, '');
+  }
+
+  markToSee(id: number): Observable<void> {
+    return this.http.post<void>(`${this.baseUrl}/shows/${id}/2see`, '');
+  }
 }

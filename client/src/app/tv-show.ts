@@ -2,6 +2,7 @@ import { environment } from '../environments/environment';
 
 const imagesUrl = environment.imagesBaseUrl;
 const bdSize = environment.backdropSizes[0];
+const posterSize = environment.posterSizes[4];
 
 export default class TVShow {
   showId: number;
@@ -16,5 +17,9 @@ export default class TVShow {
 
   get image() {
     return `${imagesUrl}/${bdSize}/${this.backdrop_path}`;
+  }
+
+  get poster() {
+    return `${imagesUrl}/${posterSize}/${this.poster_path}`;
   }
 }
