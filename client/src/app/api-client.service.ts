@@ -13,7 +13,7 @@ export class ApiClientService {
 
   constructor(private http: HttpClient) {}
 
-  getRecommendedShows(userId: number): Observable<TVShow[]> {
-    return this.http.get<TVShow[]>(`${this.baseUrl}/${userId}/recommended`);
+  getRecommendedShows(): Observable<TVShow[]> {
+    return this.http.get<TVShow[]>(`${this.baseUrl}/recommended`);
   }
 }

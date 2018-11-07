@@ -14,7 +14,7 @@ export class RecommendationsComponent implements OnInit {
 
   getRecommendations(): void {
     this.apiClient
-      .getRecommendedShows(123)
+      .getRecommendedShows()
       .subscribe(shows => (this.shows = shows.map(show => TVShow.from(show))));
   }
 
