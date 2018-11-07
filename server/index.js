@@ -4,6 +4,8 @@ const cors = require('cors');
 const app = new express();
 const data = require('./data.json');
 
+const db = require('./models/index');
+
 app
   .use(cors())
   .use(bodyParser)
@@ -26,5 +28,9 @@ app
   .post('/shows/:showId/2see', (req, res) => {
     console.log(`show ${req.params.showId} marked to see`);
     res.status(200).end();
-  })
-  .listen(4000);
+  });
+
+(async function() {
+  await db.sequelize.sync();
+  app.listen(4000);
+})();
