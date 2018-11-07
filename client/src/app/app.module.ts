@@ -8,9 +8,17 @@ import { RecommendationsComponent } from './recommendations/recommendations.comp
 import { MyTvShowsComponent } from './my-tv-shows/my-tv-shows.component';
 import { ShowListItemComponent } from './show-list-item/show-list-item.component';
 import { ShowDetailsComponent } from './show-details/show-details.component';
+import { SimilarShowsComponent } from './show-details/similar-shows/similar-shows.component';
 
 @NgModule({
-  declarations: [AppComponent, RecommendationsComponent, MyTvShowsComponent, ShowListItemComponent, ShowDetailsComponent],
+  declarations: [
+    AppComponent,
+    RecommendationsComponent,
+    MyTvShowsComponent,
+    ShowListItemComponent,
+    ShowDetailsComponent,
+    SimilarShowsComponent
+  ],
   imports: [BrowserModule, HttpClientModule, AppRoutingModule],
   providers: [],
   bootstrap: [AppComponent]

@@ -8,8 +8,8 @@
     "test": "ng test --browsers ChromeHeadless",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "format": "prettier --write \"src/**/*.{js, jsx, css, json}\"",
-    "format:check": "prettier --list-different \"src/**/*.{js, jsx, css, json}\""
+    "format": "prettier --write \"src/**/*.{js, jsx, css, json, html}\"",
+    "format:check": "prettier --list-different \"src/**/*.{js, jsx, css, json, html}\""
   },
   "private": true,
   "dependencies": {

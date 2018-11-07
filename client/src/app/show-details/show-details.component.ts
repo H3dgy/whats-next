@@ -12,6 +12,7 @@ import TVShow from '../tv-show';
 })
 export class ShowDetailsComponent implements OnInit {
   show: TVShow;
+  similarShows: TVShow[];
 
   constructor(
     private client: ApiClientService,
@@ -25,8 +26,11 @@ export class ShowDetailsComponent implements OnInit {
 
   ngOnInit() {
     const id = +this.route.snapshot.paramMap.get('showId');
-    this.client
-      .getTVShowDetails(id)
-      .subscribe(show => (this.show = TVShow.from(show)));
+    this.client.getTVShowDetails(id).subscribe(show => {
+      this.show = TVShow.from(show);
+      this.similarShows = this.show.similar.results.map(show =>
+        TVShow.from(show)
+      );
+    });
   }
 }

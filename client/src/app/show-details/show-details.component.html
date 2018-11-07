@@ -1,12 +1,12 @@
 <div>
-  <img [src]='show.image' alt="{{show.name}}">
+  <img [src]="show.image" alt="{{show.name}}">
   <h1>{{show.name}}</h1>
   <p><span>Seasons: {{show.number_of_seasons}}</span> - <span>Rating: {{show.vote_average}}</span></p>
   <p>{{show.overview}}</p>
 
   <h2>More like this</h2>
   <ul>
-    <li *ngFor='let simShow of show.similar.results'>{{simShow.name}}</li>
+    <app-similar-shows *ngFor='let simShow of similarShows' [show]='simShow'></app-similar-shows>
   </ul>
 
   <a (click)="goBack()">Back</a>
