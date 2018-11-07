@@ -14,8 +14,6 @@ export class ApiClientService {
   constructor(private http: HttpClient) {}
 
   getRecommendedShows(userId: number): Observable<TVShow[]> {
-    console.log('hi');
-
     return this.http.get<TVShow[]>(`${this.baseUrl}/${userId}/recommended`);
   }
 }

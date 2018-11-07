@@ -1,1 +1,7 @@
 <h2>Recommendations</h2>
+<ul>
+  <li *ngFor="let show of shows">
+    <h3>{{show.name}}</h3>
+    <img [src]='show.image' alt="">
+  </li>
+</ul>
