@@ -9,7 +9,6 @@ import TVShow from '../tv-show';
 })
 export class RecommendationsComponent implements OnInit {
   shows: TVShow[];
-  userId: number;
   constructor(private apiClient: ApiClientService) {}
 
   getRecommendations(): void {

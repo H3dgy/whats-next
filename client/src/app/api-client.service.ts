@@ -16,4 +16,8 @@ export class ApiClientService {
   getRecommendedShows(): Observable<TVShow[]> {
     return this.http.get<TVShow[]>(`${this.baseUrl}/recommended`);
   }
+
+  getTVShowDetails(id: number): Observable<TVShow> {
+    return this.http.get<TVShow>(`${this.baseUrl}/shows/${id}`);
+  }
 }
