@@ -11,18 +11,20 @@ showsController.recommended = async (_, res) => {
 
 showsController.get = async (req, res) => {
   const show = await getShow(req.params.showId);
-  console.log('show-->', show.tmdbId);
-
   res.status(200).send(show);
 };
 
-showsController.markAsSeen = (req, res) => {
-  console.log(`show ${req.params.showId} marked as seen`);
-  res.status(200).end();
+showsController.markAsSeen = async (req, res) => {
+  const user = await db.User.findByPk(req.userId);
+  user.seen = user.seen.concat(req.params.showId);
+  await user.save();
+  res.status(200).send();
 };
 
-showsController.markToSee = (req, res) => {
-  console.log(`show ${req.params.showId} marked to see`);
+showsController.markToSee = async (req, res) => {
+  const user = await db.User.findByPk(req.userId);
+  user.toSee = user.toSee.concat(req.params.showId);
+  await user.save();
   res.status(200).end();
 };
 
@@ -38,9 +40,12 @@ async function getShow(id) {
       .then(data => data.json())
       .then(data =>
         db.Show.create({
-          name: data.name,
           tmdbId: data.id,
-          backdrop_path: data.backdrop_path
+          name: data.name,
+          backdrop_path: data.backdrop_path,
+          number_of_seasons: data.number_of_seasons,
+          vote_average: data.vote_average,
+          overview: data.overview
         })
       );
     return show;

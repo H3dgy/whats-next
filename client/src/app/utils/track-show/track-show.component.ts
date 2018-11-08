@@ -13,12 +13,12 @@ export class TrackShowComponent {
   constructor(private apiClient: ApiClientService) {}
 
   toSee(showId) {
-    console.log('add to see showId', showId);
     this.apiClient.markToSee(showId).subscribe();
+    console.log('added to see showId', showId);
   }
 
   seen(showId) {
-    console.log('add as seen showId', showId);
     this.apiClient.markAsSeen(showId).subscribe();
+    console.log('added as seen showId', showId);
   }
 }
