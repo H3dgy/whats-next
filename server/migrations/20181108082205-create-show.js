@@ -4,15 +4,14 @@ module.exports = {
     return queryInterface.createTable('Shows', {
       id: {
         allowNull: false,
-        autoIncrement: false,
+        autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.UUID,
-        defaultValue: Sequelize.UUIDV4
+        type: Sequelize.INTEGER
       },
-      tmbd: {
+      tmbdId: {
         allowNull: false,
         unique: true,
-        type: Sequelize.STRING
+        type: Sequelize.INTEGER
       },
       name: {
         allowNull: false,

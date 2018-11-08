@@ -1,19 +1,17 @@
 'use strict';
 
-const uuid = require('uuid/v4');
-
 module.exports = {
   up: queryInterface => {
     return queryInterface.bulkInsert('Users', [
       {
-        id: uuid(),
+        id: 1,
         name: 'Alice',
         email: 'alice@example.com',
         createdAt: new Date(),
         updatedAt: new Date()
       },
       {
-        id: uuid(),
+        id: 2,
         name: 'Bob',
         email: 'bob@example.com',
         createdAt: new Date(),

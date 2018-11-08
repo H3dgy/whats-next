@@ -3,7 +3,7 @@ module.exports = (sequelize, DataTypes) => {
   const Show = sequelize.define(
     'Show',
     {
-      tmbd: DataTypes.STRING,
+      tmbdId: DataTypes.INTEGER,
       name: DataTypes.STRING,
       backdrop_path: DataTypes.STRING
     },

@@ -1,15 +1,11 @@
+const db = require('../models/index');
 const data = require('../data.json');
 
 const showsController = {};
 
-showsController.recommended = (_, res) => {
-  res
-    .cookie('heys', 'ho, lets', {
-      expires: new Date(Date.now() + 43200 * 60),
-      httpOnly: true
-    })
-    .status(200)
-    .send(data.recommendations);
+showsController.recommended = async (_, res) => {
+  const results = await db.Show.findAll({ where: {}, raw: true });
+  res.status(200).send(results);
 };
 
 showsController.get = (_, res) => {

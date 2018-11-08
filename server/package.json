@@ -7,11 +7,13 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "eslint \"**/*.{js,jsx}\"",
     "format": "prettier --write \"**/*.{js, jsx, css, json}\"",
-    "format:check": "prettier --list-different \"**/*.{js, jsx, css, json}\""
+    "format:check": "prettier --list-different \"**/*.{js, jsx, css, json}\"",
+    "recreateDb" : "sequelize db:drop && sequelize db:create && sequelize db:migrate && sequelize db:seed:all"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "cookie-parser": "^1.4.3",
     "cors": "^2.8.5",
     "express": "^4.16.4",
     "pg": "^7.6.1",
