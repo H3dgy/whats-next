@@ -17,7 +17,6 @@ export class MyTvShowsComponent implements OnInit {
     this.apiClient.getUser().subscribe(user => {
       this.seen = user.seen.map(show => TVShow.from(show));
       this.toSee = user.toSee.map(show => TVShow.from(show));
-      console.log(!!this.toSee.length, !!this.seen.length);
     });
   }
 

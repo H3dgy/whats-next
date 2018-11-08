@@ -14,11 +14,9 @@ export class TrackShowComponent {
 
   toSee(showId) {
     this.apiClient.markToSee(showId).subscribe();
-    console.log('added to see showId', showId);
   }
 
   seen(showId) {
     this.apiClient.markAsSeen(showId).subscribe();
-    console.log('added as seen showId', showId);
   }
 }

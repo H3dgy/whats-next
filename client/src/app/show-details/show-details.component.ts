@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 
@@ -10,7 +10,7 @@ import TVShow from '../tv-show';
   templateUrl: './show-details.component.html',
   styleUrls: ['./show-details.component.scss']
 })
-export class ShowDetailsComponent implements OnInit {
+export class ShowDetailsComponent {
   show: TVShow;
   similarShows: TVShow[];
 
@@ -18,17 +18,18 @@ export class ShowDetailsComponent implements OnInit {
     private client: ApiClientService,
     private route: ActivatedRoute,
     private location: Location
-  ) {}
+  ) {
+    this.route.url.subscribe(() => this.updateDetails());
+  }
 
   goBack(): void {
     this.location.back();
   }
 
-  ngOnInit() {
+  updateDetails() {
     const id = +this.route.snapshot.paramMap.get('showId');
     this.client.getTVShowDetails(id).subscribe(show => {
       this.show = TVShow.from(show);
-      console.log(show);
       this.similarShows = this.show.similar.map(show => TVShow.from(show));
     });
   }
