@@ -1,1 +1,16 @@
 <h2>My TV Shows</h2>
+<div class="seen" *ngIf="seen">
+  <h3>Seen Shows</h3>
+  <app-show-list-item
+    *ngFor="let show of seen"
+    [show]="show"
+  ></app-show-list-item>
+</div>
+
+<div class="to-see" *ngIf="toSee">
+  <h3>Shows to see</h3>
+  <app-show-list-item
+    *ngFor="let show of toSee"
+    [show]="show"
+  ></app-show-list-item>
+</div>
