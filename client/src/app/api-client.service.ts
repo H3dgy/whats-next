@@ -26,6 +26,6 @@ export class ApiClientService {
   }
 
   markToSee(id: number): Observable<void> {
-    return this.http.post<void>(`${this.baseUrl}/shows/${id}/2see`, '');
+    return this.http.post<void>(`${this.baseUrl}/shows/${id}/toSee`, '');
   }
 }
