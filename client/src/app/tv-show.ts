@@ -9,7 +9,7 @@ export default class TVShow {
   name: string;
   backdrop_path: string;
   poster_path: string;
-  similar: { results: TVShow[] };
+  similar: TVShow[];
 
   static from(show: object) {
     return Object.assign(new TVShow(), show);

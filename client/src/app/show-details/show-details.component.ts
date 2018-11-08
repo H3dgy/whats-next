@@ -28,9 +28,8 @@ export class ShowDetailsComponent implements OnInit {
     const id = +this.route.snapshot.paramMap.get('showId');
     this.client.getTVShowDetails(id).subscribe(show => {
       this.show = TVShow.from(show);
-      this.similarShows = this.show.similar.results.map(show =>
-        TVShow.from(show)
-      );
+      console.log(show);
+      this.similarShows = this.show.similar.map(show => TVShow.from(show));
     });
   }
 }
