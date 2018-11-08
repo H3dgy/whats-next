@@ -32,5 +32,6 @@ export class ShowDetailsComponent {
       this.show = TVShow.from(show);
       this.similarShows = this.show.similar.map(show => TVShow.from(show));
     });
+    window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
   }
 }
