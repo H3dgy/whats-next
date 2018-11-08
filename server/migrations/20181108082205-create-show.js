@@ -8,7 +8,7 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      tmbdId: {
+      tmdbId: {
         allowNull: false,
         unique: true,
         type: Sequelize.INTEGER
@@ -19,6 +19,15 @@ module.exports = {
       },
       backdrop_path: {
         type: Sequelize.STRING
+      },
+      number_of_seasons: {
+        type: Sequelize.INTEGER
+      },
+      vote_average: {
+        type: Sequelize.FLOAT
+      },
+      overview: {
+        type: Sequelize.TEXT
       },
       createdAt: {
         allowNull: false,

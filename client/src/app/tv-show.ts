@@ -5,7 +5,7 @@ const bdSize = environment.backdropSizes[0];
 const posterSize = environment.posterSizes[4];
 
 export default class TVShow {
-  showId: number;
+  tmdbId: number;
   name: string;
   backdrop_path: string;
   poster_path: string;

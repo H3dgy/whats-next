@@ -1,7 +1,7 @@
 <div>
-  <a routerLink='/shows/{{show.id}}'>
-    <h3>{{show.name}}</h3>
-    <img [src]='show.image' alt="">
+  <a routerLink="/shows/{{show.tmdbId}}">
+    <h3>{{ show.name }}</h3>
+    <img [src]="show.image" alt="" />
   </a>
-  <app-track-show [showId]="show.id"></app-track-show>
+  <app-track-show [showId]="show.tmdbId"></app-track-show>
 </div>

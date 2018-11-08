@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const bodyParser = express.json();
 const cookieParser = require('cookie-parser');
