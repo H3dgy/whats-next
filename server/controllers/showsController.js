@@ -11,6 +11,36 @@ showsController.recommended = async (_, res) => {
 
 showsController.get = async (req, res) => {
   const show = await getShow(req.params.showId);
+  if (!show.similar.length) {
+    const key = process.env.API_KEY;
+    const id = req.params.showId;
+    await fetch(
+      `https://api.themoviedb.org/3/tv/${id}?api_key=${key}&append_to_response=similar`
+    )
+      .then(data => data.json())
+      .then(async data => {
+        show.similar = data.similar.results.map(el => el.id);
+        await data.similar.results.map(async data => {
+          await db.Show.findOrCreate({
+            where: {
+              tmdbId: data.id
+            },
+            defaults: {
+              name: data.name,
+              backdrop_path: data.backdrop_path,
+              number_of_seasons: data.number_of_seasons,
+              vote_average: data.vote_average,
+              overview: data.overview
+            }
+          });
+        });
+        return show.save();
+      });
+  }
+
+  const similar = await db.Show.findAll({ where: { tmdbId: show.similar } });
+  show.similar = similar;
+
   res.status(200).send(show);
 };
 
@@ -35,19 +65,20 @@ async function getShow(id) {
   } else {
     const key = process.env.API_KEY;
     const show = await fetch(
-      `https://api.themoviedb.org/3/tv/${id}?api_key=${key}`
+      `https://api.themoviedb.org/3/tv/${id}?api_key=${key}&append_to_response=similar`
     )
       .then(data => data.json())
-      .then(data =>
-        db.Show.create({
+      .then(async data => {
+        await db.Show.create({
           tmdbId: data.id,
           name: data.name,
           backdrop_path: data.backdrop_path,
           number_of_seasons: data.number_of_seasons,
           vote_average: data.vote_average,
           overview: data.overview
-        })
-      );
+        });
+        return data;
+      });
     return show;
   }
 }

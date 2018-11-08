@@ -8,7 +8,8 @@ module.exports = (sequelize, DataTypes) => {
       backdrop_path: DataTypes.STRING,
       number_of_seasons: DataTypes.INTEGER,
       vote_average: DataTypes.FLOAT,
-      overview: DataTypes.TEXT
+      overview: DataTypes.TEXT,
+      similar: DataTypes.ARRAY(DataTypes.DECIMAL)
     },
     {}
   );
