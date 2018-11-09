@@ -5,7 +5,7 @@ const db = require('../models/index');
 const showsController = {};
 
 showsController.recommended = async (_, res) => {
-  const results = await db.Show.findAll({ where: {}, raw: true });
+  const results = await db.Show.findAll({ where: {}, raw: true, limit: 20 });
   res.status(200).send(results);
 };
 
