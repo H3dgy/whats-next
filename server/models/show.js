@@ -6,10 +6,13 @@ module.exports = (sequelize, DataTypes) => {
       tmdbId: DataTypes.INTEGER,
       name: DataTypes.STRING,
       backdrop_path: DataTypes.STRING,
+      poster_path: DataTypes.STRING,
       number_of_seasons: DataTypes.INTEGER,
       vote_average: DataTypes.FLOAT,
       overview: DataTypes.TEXT,
-      similar: DataTypes.ARRAY(DataTypes.DECIMAL)
+      similar: DataTypes.ARRAY(DataTypes.DECIMAL),
+      genre_ids: DataTypes.ARRAY(DataTypes.DECIMAL),
+      tmdbBlob: DataTypes.JSON
     },
     {}
   );

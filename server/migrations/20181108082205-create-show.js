@@ -20,6 +20,9 @@ module.exports = {
       backdrop_path: {
         type: Sequelize.STRING
       },
+      poster_path: {
+        type: Sequelize.STRING
+      },
       number_of_seasons: {
         type: Sequelize.INTEGER
       },

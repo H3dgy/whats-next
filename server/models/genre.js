@@ -3,7 +3,11 @@ module.exports = (sequelize, DataTypes) => {
   const Genre = sequelize.define(
     'Genre',
     {
-      id: DataTypes.INTEGER,
+      id: {
+        allowNull: false,
+        primaryKey: true,
+        type: DataTypes.INTEGER
+      },
       name: DataTypes.STRING
     },
     {}

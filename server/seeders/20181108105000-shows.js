@@ -7,9 +7,11 @@ module.exports = {
       tmdbId: show.id,
       name: show.name,
       backdrop_path: show.backdrop_path,
+      poster_path: show.poster_path,
       number_of_seasons: show.number_of_seasons,
       vote_average: show.vote_average,
       overview: show.overview,
+      genre_ids: show.genre_ids,
       createdAt: new Date(),
       updatedAt: new Date()
     }));
