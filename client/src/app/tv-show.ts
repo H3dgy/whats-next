@@ -9,6 +9,8 @@ export default class TVShow {
   name: string;
   backdrop_path: string;
   poster_path: string;
+  vote_average: number;
+  number_of_seasons: number;
   similar: TVShow[];
 
   static from(show: object) {

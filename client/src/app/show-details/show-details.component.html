@@ -3,7 +3,12 @@
   <h1>{{ show.name }}</h1>
   <p>
     <span>Seasons: {{ show.number_of_seasons }}</span> -
-    <span>Rating: {{ show.vote_average }}</span>
+    <span
+      ><app-ratings
+        [rating]="show.vote_average"
+        [itemId]="show.tmdbId"
+      ></app-ratings
+    ></span>
   </p>
   <p>{{ show.overview }}</p>
 

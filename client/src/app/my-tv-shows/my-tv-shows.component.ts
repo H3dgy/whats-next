@@ -8,8 +8,8 @@ import TVShow from '../tv-show';
   styleUrls: ['./my-tv-shows.component.scss']
 })
 export class MyTvShowsComponent implements OnInit {
-  seen: TVShow[];
-  toSee: TVShow[];
+  seen: TVShow[] = [];
+  toSee: TVShow[] = [];
 
   constructor(private apiClient: ApiClientService) {}
 

@@ -10,6 +10,7 @@ import { ShowListItemComponent } from './show-list-item/show-list-item.component
 import { ShowDetailsComponent } from './show-details/show-details.component';
 import { SimilarShowsComponent } from './show-details/similar-shows/similar-shows.component';
 import { TrackShowComponent } from './utils/track-show/track-show.component';
+import { RatingsComponent } from './utils/ratings/ratings.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { TrackShowComponent } from './utils/track-show/track-show.component';
     ShowListItemComponent,
     ShowDetailsComponent,
     SimilarShowsComponent,
-    TrackShowComponent
+    TrackShowComponent,
+    RatingsComponent
   ],
   imports: [BrowserModule, HttpClientModule, AppRoutingModule],
   providers: [],
