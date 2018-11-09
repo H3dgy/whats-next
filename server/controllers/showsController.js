@@ -17,6 +17,12 @@ showsController.get = async (req, res) => {
   res.status(200).send(show);
 };
 
+showsController.search = async (req, res) => {
+  const { term } = req.body;
+  const results = await searchShows(term);
+  res.status(200).send(results);
+};
+
 showsController.markAsSeen = async (req, res) => {
   const user = await db.User.findByPk(req.userId);
   user.seen = user.seen.concat(req.params.showId);
@@ -105,6 +111,17 @@ async function createSimilarShows(showsArr) {
       }
     })
   );
+}
+
+async function searchShows(term) {
+  const key = process.env.API_KEY;
+  const results = await fetch(
+    `https://api.themoviedb.org/3/search/tv?api_key=${key}&query=${term}`
+  )
+    .then(data => data.json())
+    .then(data => data.results);
+
+  return results.map(res => ({ id: res.id, name: res.name }));
 }
 
 module.exports = showsController;

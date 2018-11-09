@@ -5,6 +5,7 @@ const usersController = require('./controllers/usersController');
 
 router
   .get('/recommended', showsController.recommended)
+  .post('/shows/search', showsController.search)
   .get('/shows/:showId', showsController.get)
   .post('/shows/:showId/seen', showsController.markAsSeen)
   .post('/shows/:showId/toSee', showsController.markToSee)
