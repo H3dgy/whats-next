@@ -19,6 +19,7 @@ showsController.get = async (req, res) => {
     )
       .then(data => data.json())
       .then(async data => {
+        show.number_of_seasons = data.number_of_seasons;
         show.similar = data.similar.results.map(el => el.id);
         await data.similar.results.map(async data => {
           await db.Show.findOrCreate({
@@ -60,27 +61,24 @@ showsController.markToSee = async (req, res) => {
 
 async function getShow(id) {
   const localShow = await db.Show.findOne({ where: { tmdbId: +id } });
-  if (localShow) {
-    return localShow;
-  } else {
-    const key = process.env.API_KEY;
-    const show = await fetch(
-      `https://api.themoviedb.org/3/tv/${id}?api_key=${key}&append_to_response=similar`
-    )
-      .then(data => data.json())
-      .then(async data => {
-        await db.Show.create({
-          tmdbId: data.id,
-          name: data.name,
-          backdrop_path: data.backdrop_path,
-          number_of_seasons: data.number_of_seasons,
-          vote_average: data.vote_average,
-          overview: data.overview
-        });
-        return data;
+  if (localShow) return localShow;
+
+  const key = process.env.API_KEY;
+  return await fetch(
+    `https://api.themoviedb.org/3/tv/${id}?api_key=${key}&append_to_response=similar`
+  )
+    .then(data => data.json())
+    .then(async data => {
+      await db.Show.create({
+        tmdbId: data.id,
+        name: data.name,
+        backdrop_path: data.backdrop_path,
+        number_of_seasons: data.number_of_seasons,
+        vote_average: data.vote_average,
+        overview: data.overview
       });
-    return show;
-  }
+      return data;
+    });
 }
 
 module.exports = showsController;
