@@ -3,16 +3,24 @@ const fetch = require('node-fetch');
 const db = require('../models/index');
 
 const showsController = {};
+const Op = db.Sequelize.Op;
 
 showsController.recommended = async (_, res) => {
-  const results = await db.Show.findAll({ where: {}, raw: true, limit: 20 });
+  const results = await db.Show.findAll({
+    where: { backdrop_path: { [Op.ne]: null } },
+    raw: true,
+    limit: 20,
+    order: [['vote_average', 'DESC']]
+  });
   res.status(200).send(results);
 };
 
 showsController.get = async (req, res) => {
   const id = +req.params.showId;
   const show = await getShow(id);
-  const similar = await db.Show.findAll({ where: { tmdbId: show.similar } });
+  const similar = await db.Show.findAll({
+    where: { tmdbId: show.similar, backdrop_path: { [Op.ne]: null } }
+  });
   show.similar = similar;
   res.status(200).send(show);
 };
