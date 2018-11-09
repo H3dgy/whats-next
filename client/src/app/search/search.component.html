@@ -1,1 +1,11 @@
 <input id="searchTextField" [(ngModel)]="searchText" />
+
+<div *ngIf="!searchText.length">Search for a term</div>
+<div *ngIf="searchText.length && !results.length">
+  No results for {{ searchText }}
+</div>
+<ul *ngIf="results.length">
+  <li *ngFor="let result of results">
+    <a routerLink="/shows/{{result.id}}">{{ result.name }}</a>
+  </li>
+</ul>

@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { fromEvent } from 'rxjs';
 import { debounceTime, filter } from 'rxjs/operators';
+import { ApiClientService } from '../api-client.service';
+import SearchResult from '../search-result';
 
 @Component({
   selector: 'app-search',
@@ -9,8 +11,9 @@ import { debounceTime, filter } from 'rxjs/operators';
 })
 export class SearchComponent implements OnInit {
   searchText = '';
+  results: SearchResult[] = [];
 
-  constructor() {}
+  constructor(private apiClient: ApiClientService) {}
 
   ngOnInit() {
     let inputElm = document.getElementById('searchTextField');
@@ -20,7 +23,9 @@ export class SearchComponent implements OnInit {
         filter(() => this.searchText.length > 2)
       )
       .subscribe(() => {
-        console.log(this.searchText);
+        this.apiClient
+          .searchTerm(this.searchText)
+          .subscribe(results => (this.results = results));
       });
   }
 }

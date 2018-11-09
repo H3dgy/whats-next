@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 
 import TVShow from './tv-show';
 import User from './user';
+import SearchResult from './search-result';
 
 @Injectable({
   providedIn: 'root'
@@ -32,5 +33,11 @@ export class ApiClientService {
 
   markToSee(id: number): Observable<void> {
     return this.http.post<void>(`${this.baseUrl}/shows/${id}/toSee`, '');
+  }
+
+  searchTerm(term: string): Observable<SearchResult[]> {
+    return this.http.post<SearchResult[]>(`${this.baseUrl}/shows/search`, {
+      term
+    });
   }
 }
