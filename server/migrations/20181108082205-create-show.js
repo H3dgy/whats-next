@@ -34,6 +34,14 @@ module.exports = {
         allowNull: false,
         defaultValue: []
       },
+      genre_ids: {
+        type: Sequelize.ARRAY(Sequelize.INTEGER),
+        allowNull: false,
+        defaultValue: []
+      },
+      tmdbBlob: {
+        type: Sequelize.JSON
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE
