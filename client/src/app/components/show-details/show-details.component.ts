@@ -33,6 +33,5 @@ export class ShowDetailsComponent {
       this.similarShows = this.show.similar.map(show => TVShow.from(show));
       this.show.vote_average = Math.round(this.show.vote_average / 2);
     });
-    // window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
   }
 }

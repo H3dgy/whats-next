@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { ApiClientService } from '../../services/api-client.service';
 import TVShow from '../../models/tv-show';
+import { UserService } from 'src/app/services/user.service';
+import { ApiClientService } from 'src/app/services/api-client.service';
 
 @Component({
   selector: 'app-my-tv-shows',
@@ -11,16 +12,18 @@ export class MyTvShowsComponent implements OnInit {
   seen: TVShow[] = [];
   toSee: TVShow[] = [];
 
-  constructor(private apiClient: ApiClientService) {}
-
-  getUser(): void {
-    this.apiClient.getUser().subscribe(user => {
-      this.seen = user.seen.map(show => TVShow.from(show));
-      this.toSee = user.toSee.map(show => TVShow.from(show));
-    });
-  }
+  constructor(
+    private userService: UserService,
+    private apiClient: ApiClientService
+  ) {}
 
   ngOnInit() {
-    this.getUser();
+    this.apiClient.getUser().subscribe(user => {
+      user.seen = user.seen.map(show => TVShow.from(show));
+      user.toSee = user.toSee.map(show => TVShow.from(show));
+      this.userService.user = user;
+      this.seen = user.seen;
+      this.toSee = user.toSee;
+    });
   }
 }

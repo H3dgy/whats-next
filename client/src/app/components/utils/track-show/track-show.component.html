@@ -1,2 +1,2 @@
-<button (click)="toSee(showId)">Add to see</button>
-<button (click)="seen(showId)">Mark as seen</button>
+<button *ngIf="!isToSee" (click)="toSee(showId)">Add to see</button>
+<button *ngIf="!isSeen" (click)="seen(showId)">Mark as seen</button>
