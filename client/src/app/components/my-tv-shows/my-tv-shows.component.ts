@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ApiClientService } from '../api-client.service';
-import TVShow from '../tv-show';
+import { ApiClientService } from '../../services/api-client.service';
+import TVShow from '../../models/tv-show';
 
 @Component({
   selector: 'app-my-tv-shows',

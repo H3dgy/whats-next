@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { RecommendationsComponent } from './recommendations/recommendations.component';
-import { MyTvShowsComponent } from './my-tv-shows/my-tv-shows.component';
-import { ShowDetailsComponent } from './show-details/show-details.component';
-import { SearchComponent } from './search/search.component';
+import { RecommendationsComponent } from './components/recommendations/recommendations.component';
+import { MyTvShowsComponent } from './components/my-tv-shows/my-tv-shows.component';
+import { SearchComponent } from './components/search/search.component';
+import { ShowDetailsComponent } from './components/show-details/show-details.component';
 
 const routes: Routes = [
   { path: 'recommendations', component: RecommendationsComponent },

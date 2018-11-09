@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { ApiClientService } from 'src/app/api-client.service';
+import { ApiClientService } from 'src/app/services/api-client.service';
 
 @Component({
   selector: 'app-track-show',

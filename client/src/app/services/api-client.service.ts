@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import { environment } from '../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-import TVShow from './tv-show';
-import User from './user';
-import SearchResult from './search-result';
+import TVShow from '../models/tv-show';
+import User from '../models/user';
+import SearchResult from '../models/search-result';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'

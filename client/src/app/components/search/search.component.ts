@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { fromEvent } from 'rxjs';
 import { debounceTime, filter } from 'rxjs/operators';
-import { ApiClientService } from '../api-client.service';
-import SearchResult from '../search-result';
+import { ApiClientService } from '../../services/api-client.service';
+import SearchResult from '../../models/search-result';
 
 @Component({
   selector: 'app-search',

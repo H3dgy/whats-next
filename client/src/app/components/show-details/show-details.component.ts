@@ -2,8 +2,8 @@ import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 
-import { ApiClientService } from '../api-client.service';
-import TVShow from '../tv-show';
+import { ApiClientService } from '../../services/api-client.service';
+import TVShow from '../../models/tv-show';
 
 @Component({
   selector: 'app-show-details',

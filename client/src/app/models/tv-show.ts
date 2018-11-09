@@ -1,4 +1,4 @@
-import { environment } from '../environments/environment';
+import { environment } from 'src/environments/environment';
 
 const imagesUrl = environment.imagesBaseUrl;
 const bdSize = environment.backdropSizes[0];

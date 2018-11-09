@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import TVShow from 'src/app/tv-show';
+import TVShow from 'src/app/models/tv-show';
 
 @Component({
   selector: 'app-similar-shows',
