@@ -1,1 +1,3 @@
 client/src/utils/secrets.ts
+coverage/
+.env
