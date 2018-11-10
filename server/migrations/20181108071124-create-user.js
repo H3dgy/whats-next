@@ -17,6 +17,11 @@ module.exports = {
         allowNull: false,
         unique: true
       },
+      avatar: {
+        type: Sequelize.STRING,
+        allowNull: false,
+        unique: true
+      },
       seen: {
         type: Sequelize.ARRAY(Sequelize.INTEGER),
         allowNull: false,
