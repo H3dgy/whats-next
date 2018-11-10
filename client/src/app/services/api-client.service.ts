@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 import TVShow from '../models/tv-show';
 import User from '../models/user';
@@ -16,11 +17,15 @@ export class ApiClientService {
   constructor(private http: HttpClient) {}
 
   getUser(): Observable<User> {
-    return this.http.get<User>(`${this.baseUrl}/user`);
+    return this.http
+      .get<User>(`${this.baseUrl}/user`)
+      .pipe(map(data => Object.assign(new User(), data)));
   }
 
   getRecommendedShows(): Observable<TVShow[]> {
-    return this.http.get<TVShow[]>(`${this.baseUrl}/recommended`);
+    return this.http
+      .get<TVShow[]>(`${this.baseUrl}/recommended`)
+      .pipe(map(data => data.map(show => TVShow.from(show))));
   }
 
   getTVShowDetails(id: number): Observable<TVShow> {

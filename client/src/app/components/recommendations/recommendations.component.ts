@@ -12,9 +12,9 @@ export class RecommendationsComponent implements OnInit {
   constructor(private apiClient: ApiClientService) {}
 
   getRecommendations(): void {
-    this.apiClient
-      .getRecommendedShows()
-      .subscribe(shows => (this.shows = shows.map(show => TVShow.from(show))));
+    this.apiClient.getRecommendedShows().subscribe(shows => {
+      this.shows = shows;
+    });
   }
 
   ngOnInit() {

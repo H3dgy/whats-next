@@ -15,7 +15,7 @@ export class TrackShowComponent implements OnInit {
 
   constructor(
     private apiClient: ApiClientService,
-    private userService: UserService
+    public userService: UserService
   ) {}
 
   toSee(showId) {
@@ -31,9 +31,15 @@ export class TrackShowComponent implements OnInit {
   }
 
   ngOnInit() {
-    const seenIds = this.userService.user.seen.map(sh => sh.tmdbId);
-    const toSeeIds = this.userService.user.toSee.map(sh => sh.tmdbId);
-    this.isSeen = seenIds.includes(this.showId);
-    this.isToSee = toSeeIds.includes(this.showId);
+    if (!this.userService.user) {
+      this.apiClient.getUser().subscribe(user => {
+        this.userService.user = user;
+        this.isSeen = this.userService.user.isSeen(this.showId);
+        this.isToSee = this.userService.user.isToSee(this.showId);
+      });
+    } else {
+      this.isSeen = this.userService.user.isSeen(this.showId);
+      this.isToSee = this.userService.user.isToSee(this.showId);
+    }
   }
 }

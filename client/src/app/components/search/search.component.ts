@@ -23,11 +23,11 @@ export class SearchComponent implements OnInit {
   }
 
   ngOnInit() {
-    let inputElm = document.getElementById('searchTextField');
+    const inputElm = document.getElementById('searchTextField');
     fromEvent(inputElm, 'keyup')
       .pipe(
         debounceTime(500),
-        filter(() => this.searchText.length > 2)
+        filter(() => this.searchText.length >= 2)
       )
       .subscribe(() => {
         this.apiClient.searchTerm(this.searchText).subscribe(results => {
