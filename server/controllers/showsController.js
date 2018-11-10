@@ -54,7 +54,12 @@ async function getShow(id) {
 }
 
 function completeInfo(show) {
-  return !!show.number_of_seasons && !!show.similar.length && !!show.tmdbBlob;
+  return (
+    !!show.number_of_seasons &&
+    !!show.similar.length &&
+    !!show.recommendations.length &&
+    !!show.tmdbBlob
+  );
 }
 
 async function createShow(id) {
@@ -73,11 +78,13 @@ async function createShow(id) {
         vote_average: data.vote_average,
         overview: data.overview,
         similar: data.similar.results.map(el => el.id),
+        recommendations: data.recommendations.results.map(el => el.id),
         genre_ids: data.genre_ids,
         tmdbBlob: data
       };
       const show = await db.Show.create(attrs);
-      await createSimilarShows(data.similar.results);
+      await createRelatedShows(data.similar.results);
+      await createRelatedShows(data.recommendations.results);
       return show;
     });
 }
@@ -87,22 +94,24 @@ async function updateShowInfo(id) {
   const key = process.env.API_KEY;
 
   return await fetch(
-    `https://api.themoviedb.org/3/tv/${id}?api_key=${key}&append_to_response=similar`
+    `https://api.themoviedb.org/3/tv/${id}?api_key=${key}&append_to_response=similar,recommendations`
   )
     .then(data => data.json())
     .then(async data => {
       const attrs = {
         number_of_seasons: data.number_of_seasons,
         similar: data.similar.results.map(el => el.id),
+        recommendations: data.recommendations.results.map(el => el.id),
         tmdbBlob: data
       };
       await show.update(attrs, { where: { tmdbId: data.id } });
-      await createSimilarShows(data.similar.results);
+      await createRelatedShows(data.similar.results);
+      await createRelatedShows(data.recommendations.results);
       return show;
     });
 }
 
-async function createSimilarShows(showsArr) {
+async function createRelatedShows(showsArr) {
   await Promise.all(
     showsArr.map(async show => {
       const ss = await db.Show.findOne({ where: { tmdbId: show.id } });

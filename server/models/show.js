@@ -11,6 +11,7 @@ module.exports = (sequelize, DataTypes) => {
       vote_average: DataTypes.FLOAT,
       overview: DataTypes.TEXT,
       similar: DataTypes.ARRAY(DataTypes.DECIMAL),
+      recommendations: DataTypes.ARRAY(DataTypes.DECIMAL),
       genre_ids: DataTypes.ARRAY(DataTypes.DECIMAL),
       tmdbBlob: DataTypes.JSON
     },

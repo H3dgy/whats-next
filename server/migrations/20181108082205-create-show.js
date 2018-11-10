@@ -37,6 +37,11 @@ module.exports = {
         allowNull: false,
         defaultValue: []
       },
+      recommendations: {
+        type: Sequelize.ARRAY(Sequelize.INTEGER),
+        allowNull: false,
+        defaultValue: []
+      },
       genre_ids: {
         type: Sequelize.ARRAY(Sequelize.INTEGER),
         allowNull: false,
