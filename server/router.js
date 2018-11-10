@@ -11,6 +11,7 @@ router
   .post('/user/:showId/seen', usersController.addSeen)
   .post('/user/:showId/toSee', usersController.addToSee)
   .delete('/user/:showId/seen', usersController.removeSeen)
-  .delete('/user/:showId/toSee', usersController.removeToSee);
+  .delete('/user/:showId/toSee', usersController.removeToSee)
+  .post('/user/:showId/rate', usersController.rate);
 
 module.exports = router;

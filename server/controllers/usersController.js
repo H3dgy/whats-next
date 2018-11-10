@@ -66,4 +66,19 @@ usersController.removeToSee = async (req, res) => {
   res.status(200).send(user);
 };
 
+usersController.rate = async (req, res) => {
+  const userId = +req.userId;
+  const showId = +req.params.showId;
+  const rating = await db.Rating.findOrCreate({
+    where: { userId, showId },
+    defaults: { rating: req.body.rating }
+  })
+    .spread(rating => {
+      rating.rating = req.body.rating;
+      return rating;
+    })
+    .then(rating => rating.save());
+  res.status(200).send(rating[0]);
+};
+
 module.exports = usersController;

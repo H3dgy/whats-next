@@ -17,7 +17,12 @@ showsController.recommended = async (_, res) => {
 
 showsController.get = async (req, res) => {
   const id = +req.params.showId;
-  const show = await getShow(id);
+  const show = (await getShow(id)).get({ plain: true });
+  const user = await db.User.findByPk(req.userId, { raw: true });
+  const user_rating = await db.Rating.findOne({
+    where: { userId: user.id, showId: show.tmdbId }
+  });
+  show.user_rating = (user_rating && user_rating.rating) || 0;
   const similar = await db.Show.findAll({
     where: { tmdbId: show.similar, backdrop_path: { [Op.ne]: null } }
   });
