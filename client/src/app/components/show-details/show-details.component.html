@@ -1,6 +1,15 @@
 <div *ngIf="show; else: loader">
   <img [src]="show.image" alt="{{show.name}}" />
   <h1>{{ show.name }}</h1>
+  <div *ngIf="isTracking">
+    <app-ratings
+      [rating]="show.user_rating"
+      [itemId]="show.tmdbId"
+      (ratingClick)="movieRated($event)"
+    >
+    </app-ratings>
+  </div>
+  <hr />
   <p>
     <span>Seasons: {{ show.number_of_seasons }}</span> -
     <span> Popular vote: {{ show.vote_average }} </span>

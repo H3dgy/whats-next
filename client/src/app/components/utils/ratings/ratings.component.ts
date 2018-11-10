@@ -20,7 +20,7 @@ export class RatingsComponent implements OnInit {
   onClick(rating: number): void {
     this.rating = rating;
     this.ratingClick.emit({
-      itemId: this.itemId,
+      showId: this.itemId,
       rating: rating
     });
   }

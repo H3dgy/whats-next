@@ -69,4 +69,11 @@ export class ApiClientService {
       term
     });
   }
+
+  postRating(rating: any): Observable<void> {
+    return this.http.post<void>(
+      `${this.baseUrl}/user/${rating.showId}/rate`,
+      rating
+    );
+  }
 }
