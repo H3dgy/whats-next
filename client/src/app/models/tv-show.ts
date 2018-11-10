@@ -12,6 +12,7 @@ export default class TVShow {
   vote_average: number;
   number_of_seasons: number;
   similar: TVShow[];
+  recommendations: TVShow[];
 
   static from(show: object) {
     return Object.assign(new TVShow(), show);

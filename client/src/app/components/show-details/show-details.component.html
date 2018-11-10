@@ -3,19 +3,14 @@
   <h1>{{ show.name }}</h1>
   <p>
     <span>Seasons: {{ show.number_of_seasons }}</span> -
-    <span *ngIf="show.vote_average">
-      <app-ratings
-        [rating]="show.vote_average"
-        [itemId]="show.tmdbId"
-      ></app-ratings>
-    </span>
+    <span> Popular vote: {{ show.vote_average }} </span>
   </p>
   <p>{{ show.overview }}</p>
 
   <h2>More like this</h2>
   <ul>
     <app-similar-shows
-      *ngFor="let simShow of similarShows"
+      *ngFor="let simShow of show.similar"
       [show]="simShow"
     ></app-similar-shows>
   </ul>

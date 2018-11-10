@@ -12,7 +12,6 @@ import TVShow from '../../models/tv-show';
 })
 export class ShowDetailsComponent {
   show: TVShow;
-  similarShows: TVShow[];
 
   constructor(
     private client: ApiClientService,
@@ -29,9 +28,7 @@ export class ShowDetailsComponent {
   updateDetails() {
     const id = +this.route.snapshot.paramMap.get('showId');
     this.client.getTVShowDetails(id).subscribe(show => {
-      this.show = TVShow.from(show);
-      this.similarShows = this.show.similar.map(show => TVShow.from(show));
-      this.show.vote_average = Math.round(this.show.vote_average / 2);
+      this.show = show;
     });
   }
 }

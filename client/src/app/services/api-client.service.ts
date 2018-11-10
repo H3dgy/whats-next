@@ -19,7 +19,7 @@ export class ApiClientService {
   getUser(): Observable<User> {
     return this.http
       .get<User>(`${this.baseUrl}/user`)
-      .pipe(map(data => Object.assign(new User(), data)));
+      .pipe(map(user => User.from(user)));
   }
 
   getRecommendedShows(): Observable<TVShow[]> {
@@ -29,23 +29,39 @@ export class ApiClientService {
   }
 
   getTVShowDetails(id: number): Observable<TVShow> {
-    return this.http.get<TVShow>(`${this.baseUrl}/shows/${id}`);
+    return this.http.get<TVShow>(`${this.baseUrl}/shows/${id}`).pipe(
+      map(show => {
+        show.similar = show.similar.map(show => TVShow.from(show));
+        show.recommendations = show.recommendations.map(show =>
+          TVShow.from(show)
+        );
+        return TVShow.from(show);
+      })
+    );
   }
 
   addSeen(id: number): Observable<User> {
-    return this.http.post<User>(`${this.baseUrl}/user/${id}/seen`, '');
+    return this.http
+      .post<User>(`${this.baseUrl}/user/${id}/seen`, '')
+      .pipe(map(user => User.from(user)));
   }
 
   addToSee(id: number): Observable<User> {
-    return this.http.post<User>(`${this.baseUrl}/user/${id}/toSee`, '');
+    return this.http
+      .post<User>(`${this.baseUrl}/user/${id}/toSee`, '')
+      .pipe(map(user => User.from(user)));
   }
 
   removeSeen(id: number): Observable<User> {
-    return this.http.delete<User>(`${this.baseUrl}/user/${id}/seen`);
+    return this.http
+      .delete<User>(`${this.baseUrl}/user/${id}/seen`)
+      .pipe(map(user => User.from(user)));
   }
 
   removeToSee(id: number): Observable<User> {
-    return this.http.delete<User>(`${this.baseUrl}/user/${id}/toSee`);
+    return this.http
+      .delete<User>(`${this.baseUrl}/user/${id}/toSee`)
+      .pipe(map(user => User.from(user)));
   }
 
   searchTerm(term: string): Observable<SearchResult[]> {

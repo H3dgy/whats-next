@@ -1,8 +1,9 @@
-<div *ngIf="userService.user">
+<div>
   <button (click)="toSee(showId)">
-    {{ !isSeen ? 'Add' : 'Remove from' }} to see
+    {{ !isToSee ? 'Add' : 'Remove from' }} to see
   </button>
   <button (click)="seen(showId)">
-    {{ !isToSee ? 'Add' : 'Remove' }} as seen
+    {{ !isSeen ? 'Add' : 'Remove' }} as seen
   </button>
 </div>
+{{ isSeen }}==={{ isToSee }}

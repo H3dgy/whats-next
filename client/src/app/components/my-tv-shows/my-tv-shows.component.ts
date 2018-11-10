@@ -20,7 +20,13 @@ export class MyTvShowsComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.userService.user$.subscribe(user => {
+      console.log('user set on my tv shows');
+      this.user = user;
+    });
+
     this.apiClient.getUser().subscribe(user => {
+      console.log('calling get user');
       user.seen = user.seen.map(show => TVShow.from(show));
       user.toSee = user.toSee.map(show => TVShow.from(show));
       this.user = user;

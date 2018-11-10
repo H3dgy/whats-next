@@ -19,6 +19,8 @@ export class TrackShowComponent implements OnInit {
   ) {}
 
   toSee(showId) {
+    console.log(!this.isSeen);
+
     if (!this.isSeen) {
       this.apiClient
         .addToSee(showId)
@@ -43,15 +45,11 @@ export class TrackShowComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (!this.userService.user) {
-      this.apiClient.getUser().subscribe(user => {
-        this.userService.user = user;
-        this.isSeen = this.userService.user.isSeen(this.showId);
-        this.isToSee = this.userService.user.isToSee(this.showId);
-      });
-    } else {
-      this.isSeen = this.userService.user.isSeen(this.showId);
-      this.isToSee = this.userService.user.isToSee(this.showId);
-    }
+    this.userService.user$.subscribe(user => {
+      console.log('received user on track show');
+
+      this.isSeen = user.isSeen(this.showId);
+      this.isToSee = user.isToSee(this.showId);
+    });
   }
 }

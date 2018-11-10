@@ -7,6 +7,11 @@ export default class User {
   avatar: string;
   seen: TVShow[];
   toSee: TVShow[];
+
+  static from(user: User): User {
+    return Object.assign(new User(), user);
+  }
+
   private get trackedShows() {
     return [...this.seen.map(s => s.tmdbId), ...this.toSee.map(s => s.tmdbId)];
   }
