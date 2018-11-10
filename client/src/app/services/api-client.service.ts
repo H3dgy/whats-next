@@ -32,12 +32,20 @@ export class ApiClientService {
     return this.http.get<TVShow>(`${this.baseUrl}/shows/${id}`);
   }
 
-  markAsSeen(id: number): Observable<void> {
-    return this.http.post<void>(`${this.baseUrl}/shows/${id}/seen`, '');
+  addSeen(id: number): Observable<User> {
+    return this.http.post<User>(`${this.baseUrl}/user/${id}/seen`, '');
   }
 
-  markToSee(id: number): Observable<void> {
-    return this.http.post<void>(`${this.baseUrl}/shows/${id}/toSee`, '');
+  addToSee(id: number): Observable<User> {
+    return this.http.post<User>(`${this.baseUrl}/user/${id}/toSee`, '');
+  }
+
+  removeSeen(id: number): Observable<User> {
+    return this.http.delete<User>(`${this.baseUrl}/user/${id}/seen`);
+  }
+
+  removeToSee(id: number): Observable<User> {
+    return this.http.delete<User>(`${this.baseUrl}/user/${id}/toSee`);
   }
 
   searchTerm(term: string): Observable<SearchResult[]> {

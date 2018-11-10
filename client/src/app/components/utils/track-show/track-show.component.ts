@@ -19,14 +19,26 @@ export class TrackShowComponent implements OnInit {
   ) {}
 
   toSee(showId) {
-    if (!this.userService.user.toSee.includes(showId)) {
-      this.apiClient.markToSee(showId).subscribe();
+    if (!this.isSeen) {
+      this.apiClient
+        .addToSee(showId)
+        .subscribe(user => (this.userService.user = user));
+    } else {
+      this.apiClient
+        .removeSeen(showId)
+        .subscribe(user => (this.userService.user = user));
     }
   }
 
   seen(showId) {
-    if (!this.userService.user.seen.includes(showId)) {
-      this.apiClient.markAsSeen(showId).subscribe();
+    if (!this.seen) {
+      this.apiClient
+        .addSeen(showId)
+        .subscribe(user => (this.userService.user = user));
+    } else {
+      this.apiClient
+        .removeSeen(showId)
+        .subscribe(user => (this.userService.user = user));
     }
   }
 
