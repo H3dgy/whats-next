@@ -7,8 +7,10 @@ router
   .get('/recommended', showsController.recommended)
   .post('/shows/search', showsController.search)
   .get('/shows/:showId', showsController.get)
-  .post('/shows/:showId/seen', showsController.markAsSeen)
-  .post('/shows/:showId/toSee', showsController.markToSee)
-  .get('/user', usersController.get);
+  .get('/user', usersController.get)
+  .post('/user/:showId/seen', usersController.addSeen)
+  .post('/user/:showId/toSee', usersController.addToSee)
+  .delete('/user/:showId/seen', usersController.removeSeen)
+  .delete('/user/:showId/toSee', usersController.removeToSee);
 
 module.exports = router;

@@ -31,20 +31,6 @@ showsController.search = async (req, res) => {
   res.status(200).send(results);
 };
 
-showsController.markAsSeen = async (req, res) => {
-  const user = await db.User.findByPk(req.userId);
-  user.seen = user.seen.concat(req.params.showId);
-  await user.save();
-  res.status(200).send();
-};
-
-showsController.markToSee = async (req, res) => {
-  const user = await db.User.findByPk(req.userId);
-  user.toSee = user.toSee.concat(req.params.showId);
-  await user.save();
-  res.status(200).end();
-};
-
 async function getShow(id) {
   const localShow = await db.Show.findOne({ where: { tmdbId: id } });
   if (!localShow) return await createShow(id);
