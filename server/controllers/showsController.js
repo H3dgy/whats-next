@@ -22,6 +22,10 @@ showsController.get = async (req, res) => {
     where: { tmdbId: show.similar, backdrop_path: { [Op.ne]: null } }
   });
   show.similar = similar;
+  const recommendations = await db.Show.findAll({
+    where: { tmdbId: show.recommendations, backdrop_path: { [Op.ne]: null } }
+  });
+  show.recommendations = recommendations;
   res.status(200).send(show);
 };
 
