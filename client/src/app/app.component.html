@@ -5,9 +5,13 @@
 </div>
 
 <nav>
-  <a routerLink="/recommendations">Recommendations</a>
-  <a routerLink="/my-tv-shows">My TV Shows</a>
-  <a routerLink="/search">Search</a>
+  <a [routerLink]="['recommendations']" [routerLinkActive]="['active']">
+    Recommendations
+  </a>
+  <a [routerLink]="['my-tv-shows']" [routerLinkActive]="['active']">
+    My TV Shows
+  </a>
+  <a [routerLink]="['search']" [routerLinkActive]="['active']"> Search </a>
 </nav>
 
 <router-outlet></router-outlet>

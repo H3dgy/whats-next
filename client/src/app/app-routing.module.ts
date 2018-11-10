@@ -9,7 +9,8 @@ const routes: Routes = [
   { path: 'recommendations', component: RecommendationsComponent },
   { path: 'my-tv-shows', component: MyTvShowsComponent },
   { path: 'search', component: SearchComponent },
-  { path: 'shows/:showId', component: ShowDetailsComponent }
+  { path: 'shows/:showId', component: ShowDetailsComponent },
+  { path: '', redirectTo: 'recommendations', pathMatch: 'full' }
 ];
 
 @NgModule({
