@@ -8,7 +8,7 @@ import Show from 'src/app/models/show';
 })
 export class SimilarShowsComponent implements OnInit {
   @Input()
-  show: Show;
+  shows: Show[];
 
   constructor() {}
 

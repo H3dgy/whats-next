@@ -1,6 +1,11 @@
-<div>
-  <a routerLink="/shows/{{show.tmdbId}}">
-    <h2>{{ show.name }}</h2>
-    <img [src]="show.image" alt="{{show.name}}" />
-  </a>
+<div class="similar-shows">
+  <h2>More like this</h2>
+  <ul>
+    <li *ngFor="let show of shows">
+      <a routerLink="/shows/{{show.tmdbId}}">
+        <h1>{{ show.name }}</h1>
+        <img [src]="show.image" alt="{{show.name}}" />
+      </a>
+    </li>
+  </ul>
 </div>

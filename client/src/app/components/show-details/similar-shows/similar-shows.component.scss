@@ -1,0 +1,36 @@
+@import '../../../../css/variables';
+
+.similar-shows {
+  h2 {
+    color: $medium-orange;
+    text-transform: uppercase;
+    font-size: 0.9em;
+    margin: 1.5em 0 0.5em;
+  }
+
+  ul {
+    display: flex;
+    list-style: none;
+    padding: 0;
+    overflow-x: scroll;
+  }
+
+  li {
+    min-width: 250px;
+    position: relative;
+    a {
+      h1 {
+        position: absolute;
+        top: 0;
+        background: none;
+        margin: 0.2em 0.4em;
+        text-transform: uppercase;
+        text-shadow: #000 0 0 2px, #000 0 0 5px;
+      }
+    }
+  }
+
+  li + li {
+    margin-left: 0.5em;
+  }
+}
