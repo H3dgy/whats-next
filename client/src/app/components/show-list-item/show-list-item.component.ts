@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import TVShow from 'src/app/models/tv-show';
 
 @Component({
@@ -6,11 +6,16 @@ import TVShow from 'src/app/models/tv-show';
   templateUrl: './show-list-item.component.html',
   styleUrls: ['./show-list-item.component.scss']
 })
-export class ShowListItemComponent {
+export class ShowListItemComponent implements OnInit {
   @Input()
   show: TVShow;
+  status: string;
 
   statusChanged(e) {
     console.log(e);
+  }
+
+  ngOnInit() {
+    this.status = (this.show.tracking && this.show.tracking.status) || '';
   }
 }

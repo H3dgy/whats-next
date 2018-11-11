@@ -1,5 +1,4 @@
 <h2>My TV Shows</h2>
-
 <div *ngIf="user">
   <div class="user-info">
     <div class="avat"><img src="{{user.avatar}}" alt="{{user.name}}" /></div>
@@ -7,18 +6,18 @@
       <span>{{ user.name }}</span> <span>{{ user.email }}</span>
     </div>
   </div>
-  <div class="to-see" *ngIf="user.toSee.length">
+  <div class="to-see" *ngIf="toSee.length">
     <h3>Shows to see</h3>
     <app-show-list-item
-      *ngFor="let show of user.toSee"
+      *ngFor="let show of toSee"
       [show]="show"
     ></app-show-list-item>
   </div>
 
-  <div class="seen" *ngIf="user.seen.length">
+  <div class="seen" *ngIf="seen.length">
     <h3>Seen Shows</h3>
     <app-show-list-item
-      *ngFor="let show of user.seen"
+      *ngFor="let show of seen"
       [show]="show"
     ></app-show-list-item>
   </div>

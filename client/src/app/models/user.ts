@@ -7,6 +7,7 @@ export default class User {
   avatar: string;
   seen: TVShow[];
   toSee: TVShow[];
+  shows: TVShow[];
 
   static from(user: User): User {
     return Object.assign(new User(), user);

@@ -10,6 +10,8 @@ import Tracking from 'src/app/interfaces/tracking';
 export class TrackShowComponent implements OnInit {
   @Input()
   showId: number;
+  @Input()
+  status: string;
   @Output()
   statusClick: EventEmitter<Tracking> = new EventEmitter<Tracking>();
 

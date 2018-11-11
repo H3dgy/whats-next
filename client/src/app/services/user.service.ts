@@ -3,6 +3,7 @@ import User from '../models/user';
 import { ApiClientService } from './api-client.service';
 import { Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
+import TVShow from '../models/tv-show';
 
 @Injectable({
   providedIn: 'root'
@@ -10,9 +11,12 @@ import { map } from 'rxjs/operators';
 export class UserService {
   private _user: User;
   private userSubject = new Subject<User>();
-  public user$ = this.userSubject
-    .asObservable()
-    .pipe(map(user => User.from(user)));
+  public user$ = this.userSubject.asObservable().pipe(
+    map(user => {
+      user.shows = user.shows.map(show => TVShow.from(show));
+      return User.from(user);
+    })
+  );
 
   get user() {
     return this._user;

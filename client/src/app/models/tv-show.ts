@@ -1,4 +1,5 @@
 import { environment } from 'src/environments/environment';
+import Tracking from '../interfaces/tracking';
 
 const imagesUrl = environment.imagesBaseUrl;
 const bdSize = environment.backdropSizes[0];
@@ -13,6 +14,7 @@ export default class TVShow {
   number_of_seasons: number;
   similar: TVShow[];
   recommendations: TVShow[];
+  tracking?: Tracking;
 
   static from(show: object) {
     return Object.assign(new TVShow(), show);
