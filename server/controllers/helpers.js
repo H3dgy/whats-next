@@ -1,5 +1,6 @@
 const fetch = require('node-fetch');
 const db = require('../models/index');
+const Op = db.Sequelize.Op;
 
 const helpers = {};
 
@@ -120,7 +121,11 @@ helpers.getUser = function getUser(id) {
       {
         association: 'shows',
         attributes: { exclude: ['tmdbBlob'] },
-        through: { attributes: ['status', 'rating'], as: 'tracking' }
+        through: {
+          attributes: ['status', 'rating'],
+          as: 'tracking',
+          where: { status: { [Op.ne]: '' } }
+        }
       }
     ]
   });
