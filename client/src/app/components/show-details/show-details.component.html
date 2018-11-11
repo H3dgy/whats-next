@@ -4,7 +4,7 @@
   <div *ngIf="isTracking">
     <app-ratings
       [rating]="show.user_rating"
-      [itemId]="show.tmdbId"
+      [itemId]="show.id"
       (ratingClick)="movieRated($event)"
     >
     </app-ratings>

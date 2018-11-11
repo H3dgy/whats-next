@@ -68,8 +68,8 @@ usersController.removeToSee = async (req, res) => {
 
 usersController.rate = async (req, res) => {
   const userId = +req.userId;
-  const showId = +req.params.showId;
-  const rating = await db.Rating.findOrCreate({
+  const showId = +req.body.showId;
+  const rating = await db.Tracking.findOrCreate({
     where: { userId, showId },
     defaults: { rating: req.body.rating }
   })

@@ -11,5 +11,13 @@ module.exports = (sequelize, DataTypes) => {
     },
     {}
   );
+  User.associate = function(models) {
+    User.hasMany(models.Tracking, { foreignKey: 'userId' });
+    User.belongsToMany(models.Show, {
+      through: models.Tracking,
+      as: 'show',
+      foreignKey: 'showId'
+    });
+  };
   return User;
 };
