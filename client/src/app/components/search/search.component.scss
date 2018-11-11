@@ -11,7 +11,7 @@
     .search-text-field {
       flex-grow: 1;
       border: 0;
-      background-color: $light-grey;
+      background-color: $dark-grey;
       font-size: 1rem;
       padding: 0.7em;
       margin: 0.5em;
@@ -35,12 +35,12 @@
       text-decoration: none;
 
       &:hover {
-        background-color: $light-grey;
+        background-color: $dark-grey;
         cursor: pointer;
       }
     }
   }
   .search-result + .search-result {
-    border-top: 1px solid $light-grey;
+    border-top: 1px solid $dark-grey;
   }
 }

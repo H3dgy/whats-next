@@ -1,12 +1,20 @@
-<h2>My TV Shows</h2>
-<div *ngIf="user">
+<div *ngIf="user" class="my-tv-shows">
   <div class="user-info">
-    <div class="avat"><img src="{{user.avatar}}" alt="{{user.name}}" /></div>
+    <div class="avatar">
+      <img src="/assets/lp_demo.jpg" alt="{{user.name}}" />
+    </div>
     <div class="info">
-      <span>{{ user.name }}</span> <span>{{ user.email }}</span>
+      <div class="name">{{ user.name }}</div>
+      <div class="email">{{ user.email }}</div>
     </div>
   </div>
-  <div class="to-see" *ngIf="toSee.length">
+
+  <div class="filter-buttons">
+    <a class="item" href="#">to see</a> <a class="item" href="#">seeing</a>
+    <a class="item" href="#">seen</a>
+  </div>
+
+  <div class="category to-see" *ngIf="toSee.length">
     <h3>Shows to see</h3>
     <app-show-list-item
       *ngFor="let show of toSee"
@@ -14,7 +22,7 @@
     ></app-show-list-item>
   </div>
 
-  <div class="seen" *ngIf="seen.length">
+  <div class="category seen" *ngIf="seen.length">
     <h3>Seen Shows</h3>
     <app-show-list-item
       *ngFor="let show of seen"

@@ -1,0 +1,52 @@
+@import '../../../css/variables';
+
+.my-tv-shows {
+  .user-info {
+    margin: 0.5em;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .avatar {
+      img {
+        width: 100px;
+        border: 3px solid rgba(255, 255, 255, 0.5);
+        border-radius: 50%;
+      }
+    }
+    .info {
+      text-align: right;
+
+      .name {
+        color: $medium-orange;
+        font-weight: 400;
+        font-size: 1.2em;
+      }
+      .email {
+        font-style: italic;
+      }
+    }
+  }
+
+  .filter-buttons {
+    display: flex;
+    width: 100vw;
+    justify-content: space-around;
+    background-color: $dark-grey;
+    margin: 1em 0;
+
+    .item {
+      flex-grow: 1;
+      padding: 1.5em 0;
+      background: 0;
+      text-align: center;
+
+      &:hover {
+        background-color: darken($dark-grey, 5%);
+      }
+    }
+  }
+
+  .category {
+  }
+}
