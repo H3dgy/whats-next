@@ -1,1 +1,9 @@
-/* You can add global styles to this file, and also import other style files */
+@import url('https://fonts.googleapis.com/css?family=Montserrat:200,300,400,700');
+@import 'css/variables';
+@import 'css/minireset';
+
+* {
+  font-family: 'Montserrat', Arial, Helvetica, sans-serif;
+  background-color: $background-color;
+  color: $font-color;
+}

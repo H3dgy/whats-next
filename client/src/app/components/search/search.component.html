@@ -1,11 +1,24 @@
-<input id="searchTextField" [(ngModel)]="searchText" />
+<div class="search-component">
+  <div class="search-box-container">
+    <input
+      id="searchTextField"
+      class="search-text-field"
+      [(ngModel)]="searchText"
+      placeholder="enter search text"
+    />
+  </div>
 
-<div *ngIf="!searchText.length">Search for a term</div>
-<div *ngIf="searchText.length && !results.length">
-  No results for {{ searchText }}
+  <div class="no-results" *ngIf="!searchText.length && !results.length">
+    <div *ngIf="!searchText.length">Search for a term</div>
+
+    <div *ngIf="searchText.length && !results.length">
+      No results for {{ searchText }}
+    </div>
+  </div>
+
+  <ul *ngIf="results.length">
+    <li *ngFor="let result of results" class="search-result">
+      <a routerLink="/shows/{{result.id}}">{{ result.name }}</a>
+    </li>
+  </ul>
 </div>
-<ul *ngIf="results.length">
-  <li *ngFor="let result of results">
-    <a routerLink="/shows/{{result.id}}">{{ result.name }}</a>
-  </li>
-</ul>

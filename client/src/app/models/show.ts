@@ -2,7 +2,7 @@ import { environment } from 'src/environments/environment';
 import Tracking from '../interfaces/tracking';
 
 const imagesUrl = environment.imagesBaseUrl;
-const bdSize = environment.backdropSizes[0];
+const bdSize = environment.backdropSizes[1];
 const posterSize = environment.posterSizes[4];
 
 export default class Show {

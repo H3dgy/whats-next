@@ -12,7 +12,10 @@ import { SearchResultsService } from 'src/app/services/search-results.service';
 })
 export class SearchComponent implements OnInit {
   searchText;
-  results: SearchResult[];
+  results: SearchResult[] = [
+    { id: 1, name: 'Alias' },
+    { id: 2, name: 'Game of thrones' }
+  ];
 
   constructor(
     private apiClient: ApiClientService,

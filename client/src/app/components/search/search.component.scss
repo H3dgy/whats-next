@@ -1,0 +1,46 @@
+@import '../../../css/variables';
+
+.search-component {
+  .search-box-container {
+    background-color: $dark-grey;
+    width: 100vw;
+    display: flex;
+    position: fixed;
+    z-index: 2;
+
+    .search-text-field {
+      flex-grow: 1;
+      border: 0;
+      background-color: $light-grey;
+      font-size: 1rem;
+      padding: 0.7em;
+      margin: 0.5em;
+    }
+  }
+
+  .no-results {
+    display: flex;
+    height: 200px;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.3em;
+    font-weight: 700;
+  }
+
+  .search-result {
+    a {
+      display: block;
+      padding: 1.2em;
+      background: none;
+      text-decoration: none;
+
+      &:hover {
+        background-color: $light-grey;
+        cursor: pointer;
+      }
+    }
+  }
+  .search-result + .search-result {
+    border-top: 1px solid $light-grey;
+  }
+}
