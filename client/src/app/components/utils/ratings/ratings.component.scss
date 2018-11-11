@@ -1,3 +1,5 @@
+@import '../../../../css/variables';
+
 .rating {
   border: none;
   float: right;
@@ -18,7 +20,7 @@
   cursor: pointer;
   // font-size: 200%;
   line-height: 1.2;
-  color: #ddd;
+  color: $font-color;
 }
 
 .rating:not(:checked) > label:before {
@@ -26,16 +28,16 @@
 }
 
 .rating > input:checked ~ label {
-  color: #f70;
+  color: $medium-orange;
 }
 
 .rating:not(:checked) > label:hover,
 .rating:not(:checked) > label:hover ~ label {
-  color: gold;
+  color: $light-orange;
 }
 
 .rating > input:checked ~ label:hover,
 .rating > input:checked ~ label:hover ~ label,
 .rating > label:hover ~ input:checked ~ label {
-  color: #ea0;
+  color: $dark-orange;
 }

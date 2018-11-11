@@ -2,7 +2,7 @@
 
 .my-shows {
   .user-info {
-    margin: 0.5em;
+    margin: 1em 0.5em;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -30,26 +30,74 @@
 
   .filter-buttons {
     display: flex;
+    position: relative;
     width: 100vw;
     justify-content: space-around;
+    align-items: baseline;
     background-color: $dark-grey;
     margin: 1em 0;
 
     .item {
       flex-grow: 1;
-      padding: 1.5em 0;
+      padding: 0.7rem 0;
       background: 0;
       text-align: center;
+      font-size: 0.6em;
+      text-transform: uppercase;
+      font-weight: 300;
 
-      &:hover {
+      &::before {
+        display: block;
+        font-size: 1.5rem;
+        margin-bottom: 0.5rem;
+      }
+
+      &:hover,
+      &.active {
         background-color: darken($dark-grey, 5%);
+        color: $medium-orange;
       }
     }
     .item.active {
       background-color: darken($dark-grey, 5%);
     }
   }
+}
 
-  .category {
+.show-details {
+  position: relative;
+
+  header {
+    width: 70vw;
+    img {
+      width: 100vw;
+    }
+
+    h1 {
+      font-weight: 400;
+      text-transform: uppercase;
+      position: absolute;
+      top: 0px;
+      padding: $base-padding;
+      background: none;
+      text-shadow: #000 0 0 2px, #000 0 0 5px;
+      z-index: 5;
+    }
+
+    &:after {
+      content: ' ';
+      background-color: rgba($color: #000000, $alpha: 0.1);
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  .rating {
+    right: 0;
+    z-index: 5;
+    float: right;
   }
 }

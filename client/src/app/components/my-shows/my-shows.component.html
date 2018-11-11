@@ -13,29 +13,34 @@
     <a
       [routerLink]="['/', 'my-shows', 'toSee']"
       [routerLinkActive]="['active']"
-      class="item"
+      class="item icon-to-see"
     >
       to see</a
     >
     <a
       [routerLink]="['/', 'my-shows', 'seen']"
       [routerLinkActive]="['active']"
-      class="item"
+      class="item icon-seen"
       >seen</a
     >
   </div>
 
   <div class="shows" *ngIf="shows.length">
-    <div *ngFor="let show of shows">
-      <a routerLink="/shows/{{show.tmdbId}}">
-        <h3>{{ show.name }}</h3>
-        <img [src]="show.image" alt="" />
-      </a>
-      <app-track-show
+    <div *ngFor="let show of shows" class="show-details">
+      <header>
+        <a routerLink="/shows/{{show.tmdbId}}">
+          <h1>{{ show.name }}</h1>
+          <img [src]="show.image" alt="" />
+        </a>
+      </header>
+      {{ show.tracking.rating }}
+      <app-ratings
         [showId]="show.id"
-        [status]="status"
-        (statusClick)="statusChanged($event)"
-      ></app-track-show>
+        [rating]="show.tracking.rating"
+        (ratingClick)="movieRated($event)"
+        class="rating"
+      >
+      </app-ratings>
     </div>
   </div>
 

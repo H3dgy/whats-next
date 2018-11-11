@@ -1,17 +1,25 @@
-<div>
-  <h1>
-    <a routerLink="/">{{ title }}</a>
-  </h1>
-</div>
-
-<nav>
-  <a [routerLink]="['recommendations']" [routerLinkActive]="['active']">
-    Recommendations
+<nav class="main-nav">
+  <a
+    class="item icon-home"
+    [routerLink]="['recommendations']"
+    [routerLinkActive]="['active']"
+  >
+    Recommended
   </a>
-  <a [routerLink]="['my-shows']" [routerLinkActive]="['active']">
-    My TV Shows
+  <a
+    class="item icon-search"
+    [routerLink]="['search']"
+    [routerLinkActive]="['active']"
+  >
+    Search
   </a>
-  <a [routerLink]="['search']" [routerLinkActive]="['active']"> Search </a>
+  <a
+    class="item icon-user"
+    [routerLink]="['my-shows']"
+    [routerLinkActive]="['active']"
+  >
+    My Shows
+  </a>
 </nav>
 
 <router-outlet></router-outlet>

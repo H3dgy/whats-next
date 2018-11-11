@@ -26,6 +26,9 @@ $base-padding: 0.5em;
   display: flex;
   padding: $base-padding 1em;
   justify-content: space-between;
+  .rating {
+    background-color: red;
+  }
 }
 
 .contents {
