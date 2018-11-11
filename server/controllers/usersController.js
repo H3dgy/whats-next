@@ -1,24 +1,14 @@
 const usersController = {};
+const helpers = require('./helpers');
 const db = require('../models/index');
 
-function getUser(id) {
-  return db.User.findByPk(id, {
-    include: [
-      {
-        association: 'shows',
-        attributes: { exclude: ['tmdbBlob'] },
-        through: { attributes: ['status', 'rating'], as: 'tracking' }
-      }
-    ]
-  });
-}
-
 usersController.get = async (req, res) => {
-  const user = await getUser(req.userId);
+  const user = await helpers.getUser(req.userId);
   res.status(200).send(user);
 };
 
 usersController.status = async (req, res) => {
+  const tmdbId = +req.params.showId;
   const userId = +req.userId;
   const showId = +req.body.showId;
   await db.Tracking.findOrCreate({
@@ -31,11 +21,13 @@ usersController.status = async (req, res) => {
     })
     .then(tracking => tracking.save());
 
-  const user = await getUser(req.userId);
-  res.status(200).send(user);
+  const show = await helpers.getShowForUser(tmdbId, userId);
+  const user = await helpers.getUser(req.userId);
+  res.status(200).send({ user, show });
 };
 
 usersController.rate = async (req, res) => {
+  const tmdbId = +req.params.showId;
   const userId = +req.userId;
   const showId = +req.body.showId;
   await db.Tracking.findOrCreate({
@@ -48,8 +40,9 @@ usersController.rate = async (req, res) => {
     })
     .then(tracking => tracking.save());
 
-  const user = await getUser(req.userId);
-  res.status(200).send(user);
+  const show = await helpers.getShowForUser(tmdbId, userId);
+  const user = await helpers.getUser(req.userId);
+  res.status(200).send({ user, show });
 };
 
 module.exports = usersController;
