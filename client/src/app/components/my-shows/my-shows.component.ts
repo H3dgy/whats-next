@@ -4,6 +4,7 @@ import { UserService } from 'src/app/services/user.service';
 import { ApiClientService } from 'src/app/services/api-client.service';
 import User from 'src/app/models/user';
 import { Status } from 'src/app/models/status';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-my-shows',
@@ -11,29 +12,37 @@ import { Status } from 'src/app/models/status';
   styleUrls: ['./my-shows.component.scss']
 })
 export class MyShowsComponent implements OnInit {
-  seen: Show[] = [];
-  toSee: Show[] = [];
+  shows: Show[] = [];
   user: User;
+  private path: string;
 
   constructor(
     private userService: UserService,
-    private apiClient: ApiClientService
+    private apiClient: ApiClientService,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit() {
+    this.route.url.subscribe(e => {
+      this.path = e[e.length - 1].path.toLowerCase();
+      this.updateShows();
+    });
+
     this.userService.user$.subscribe(user => {
       this.user = user;
-      const shows = user.shows.reduce(
-        (acc, el) => acc[el.tracking.status].push(el) && acc,
-        { [Status.toSee]: [], [Status.seen]: [], [Status.noStatus]: [] }
-      );
-      this.seen = shows[Status.seen];
-      this.toSee = shows[Status.toSee];
+      this.updateShows();
     });
 
     this.apiClient.getUser().subscribe(user => {
       this.user = user;
       this.userService.user = user;
     });
+  }
+
+  updateShows() {
+    if (!this.user) return;
+    this.shows = this.user.shows.filter(
+      show => show.tracking.status.toLowerCase() === this.path
+    );
   }
 }

@@ -10,27 +10,36 @@
   </div>
 
   <div class="filter-buttons">
-    <a class="item" href="#">to see</a> <a class="item" href="#">seeing</a>
-    <a class="item" href="#">seen</a>
+    <a
+      [routerLink]="['/', 'my-shows', 'toSee']"
+      [routerLinkActive]="['active']"
+      class="item"
+    >
+      to see</a
+    >
+    <a
+      [routerLink]="['/', 'my-shows', 'seen']"
+      [routerLinkActive]="['active']"
+      class="item"
+      >seen</a
+    >
   </div>
 
-  <div class="category to-see" *ngIf="toSee.length">
-    <h3>Shows to see</h3>
-    <app-show-list-item
-      *ngFor="let show of toSee"
-      [show]="show"
-    ></app-show-list-item>
+  <div class="shows" *ngIf="shows.length">
+    <div *ngFor="let show of shows">
+      <a routerLink="/shows/{{show.tmdbId}}">
+        <h3>{{ show.name }}</h3>
+        <img [src]="show.image" alt="" />
+      </a>
+      <app-track-show
+        [showId]="show.id"
+        [status]="status"
+        (statusClick)="statusChanged($event)"
+      ></app-track-show>
+    </div>
   </div>
 
-  <div class="category seen" *ngIf="seen.length">
-    <h3>Seen Shows</h3>
-    <app-show-list-item
-      *ngFor="let show of seen"
-      [show]="show"
-    ></app-show-list-item>
+  <div class="no-items" *ngIf="!shows.length">
+    <h3>You are tracking no shows add some to get started</h3>
   </div>
-</div>
-
-<div class="no-items" *ngIf="!seen.length && !toSee.length">
-  <h3>You are tracking no shows add some to get started</h3>
 </div>

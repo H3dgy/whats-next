@@ -45,6 +45,9 @@
         background-color: darken($dark-grey, 5%);
       }
     }
+    .item.active {
+      background-color: darken($dark-grey, 5%);
+    }
   }
 
   .category {

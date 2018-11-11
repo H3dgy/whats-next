@@ -7,7 +7,10 @@ import { ShowDetailsComponent } from './components/show-details/show-details.com
 
 const routes: Routes = [
   { path: 'recommendations', component: RecommendationsComponent },
-  { path: 'my-shows', component: MyShowsComponent },
+  { path: 'my-shows', redirectTo: 'my-shows/toSee', pathMatch: 'full' },
+  { path: 'my-shows/toSee', component: MyShowsComponent, pathMatch: 'full' },
+  { path: 'my-shows/seeing', redirectTo: 'my-shows/toSee', pathMatch: 'full' },
+  { path: 'my-shows/seen', component: MyShowsComponent, pathMatch: 'full' },
   { path: 'search', component: SearchComponent },
   { path: 'shows/:showId', component: ShowDetailsComponent },
   { path: '', redirectTo: 'recommendations', pathMatch: 'full' }
