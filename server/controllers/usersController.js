@@ -17,11 +17,7 @@ usersController.get = async (req, res) => {
       {
         association: 'shows',
         attributes: { exclude: ['tmdbBlob'] },
-        through: { attributes: [] },
-        include: {
-          association: 'trackings',
-          attributes: ['status', 'rating']
-        }
+        through: { attributes: ['status', 'rating'], as: 'tracking' }
       }
     ]
   });
