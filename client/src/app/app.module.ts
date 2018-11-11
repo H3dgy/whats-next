@@ -11,14 +11,14 @@ import { RatingsComponent } from './components/utils/ratings/ratings.component';
 import { SearchComponent } from './components/search/search.component';
 import { RecommendationsComponent } from './components/recommendations/recommendations.component';
 import { ShowDetailsComponent } from './components/show-details/show-details.component';
-import { MyTvShowsComponent } from './components/my-tv-shows/my-tv-shows.component';
+import { MyShowsComponent } from './components/my-shows/my-shows.component';
 import { TrackShowComponent } from './components/utils/track-show/track-show.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     RecommendationsComponent,
-    MyTvShowsComponent,
+    MyShowsComponent,
     ShowListItemComponent,
     ShowDetailsComponent,
     SimilarShowsComponent,

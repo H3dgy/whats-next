@@ -26,7 +26,7 @@ export class ShowListItemComponent implements OnInit {
       this.userService.user = result.user;
       this.show = result.show;
       if (result.show.tracking.status !== '')
-        this.router.navigateByUrl('my-tv-shows');
+        this.router.navigateByUrl('my-shows');
     });
   }
 

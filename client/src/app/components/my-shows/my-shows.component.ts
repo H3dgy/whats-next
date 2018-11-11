@@ -6,11 +6,11 @@ import User from 'src/app/models/user';
 import { Status } from 'src/app/models/status';
 
 @Component({
-  selector: 'app-my-tv-shows',
-  templateUrl: './my-tv-shows.component.html',
-  styleUrls: ['./my-tv-shows.component.scss']
+  selector: 'app-my-shows',
+  templateUrl: './my-shows.component.html',
+  styleUrls: ['./my-shows.component.scss']
 })
-export class MyTvShowsComponent implements OnInit {
+export class MyShowsComponent implements OnInit {
   seen: Show[] = [];
   toSee: Show[] = [];
   user: User;
