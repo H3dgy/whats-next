@@ -1,0 +1,65 @@
+@import '../../../css/variables';
+$base-padding: 0.5em;
+
+.show-details {
+  header {
+    position: relative;
+
+    img {
+      width: 100vw;
+    }
+
+    h1 {
+      font-weight: 400;
+      font-size: 1.3em;
+      text-transform: uppercase;
+      position: absolute;
+      bottom: 0px;
+      padding: $base-padding;
+      background: none;
+      text-shadow: #000 0 0 3px;
+    }
+  }
+}
+
+.social {
+  display: flex;
+  padding: $base-padding 1em;
+  justify-content: space-between;
+}
+
+.contents {
+  padding: $base-padding;
+  header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0.5em 0 1em;
+
+    .seasons {
+      text-transform: uppercase;
+
+      span {
+        margin-right: 0.5em;
+      }
+    }
+    .popular-vote {
+      span {
+        font-size: 0.8em;
+        margin: 0 0.5em;
+      }
+    }
+  }
+}
+
+.loader {
+  display: flex;
+  flex-direction: column;
+  height: 200px;
+  justify-content: center;
+  align-items: center;
+
+  div {
+    font-weight: bold;
+  }
+}
