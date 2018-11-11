@@ -7,6 +7,7 @@ import TVShow from '../models/tv-show';
 import User from '../models/user';
 import SearchResult from '../models/search-result';
 import { environment } from 'src/environments/environment';
+import Tracking from '../interfaces/tracking';
 
 @Injectable({
   providedIn: 'root'
@@ -40,40 +41,23 @@ export class ApiClientService {
     );
   }
 
-  addSeen(id: number): Observable<User> {
-    return this.http
-      .post<User>(`${this.baseUrl}/user/${id}/seen`, '')
-      .pipe(map(user => User.from(user)));
-  }
-
-  addToSee(id: number): Observable<User> {
-    return this.http
-      .post<User>(`${this.baseUrl}/user/${id}/toSee`, '')
-      .pipe(map(user => User.from(user)));
-  }
-
-  removeSeen(id: number): Observable<User> {
-    return this.http
-      .delete<User>(`${this.baseUrl}/user/${id}/seen`)
-      .pipe(map(user => User.from(user)));
-  }
-
-  removeToSee(id: number): Observable<User> {
-    return this.http
-      .delete<User>(`${this.baseUrl}/user/${id}/toSee`)
-      .pipe(map(user => User.from(user)));
-  }
-
   searchTerm(term: string): Observable<SearchResult[]> {
     return this.http.post<SearchResult[]>(`${this.baseUrl}/shows/search`, {
       term
     });
   }
 
-  postRating(rating: any): Observable<void> {
-    return this.http.post<void>(
-      `${this.baseUrl}/user/${rating.showId}/rate`,
-      rating
+  postRating(tracking: Tracking): Observable<User> {
+    return this.http.post<User>(
+      `${this.baseUrl}/user/${tracking.showId}/rate`,
+      tracking
+    );
+  }
+
+  postStatus(tracking: Tracking): Observable<User> {
+    return this.http.post<User>(
+      `${this.baseUrl}/user/${tracking.showId}/status`,
+      tracking
     );
   }
 }

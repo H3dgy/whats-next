@@ -1,5 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 import TVShow from 'src/app/models/tv-show';
+import { ApiClientService } from 'src/app/services/api-client.service';
+import Tracking from 'src/app/interfaces/tracking';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-show-list-item',
@@ -11,8 +14,15 @@ export class ShowListItemComponent implements OnInit {
   show: TVShow;
   status: string;
 
-  statusChanged(e) {
-    console.log(e);
+  constructor(
+    private apiClient: ApiClientService,
+    private userService: UserService
+  ) {}
+
+  statusChanged(status: Tracking) {
+    this.apiClient
+      .postStatus(status)
+      .subscribe(user => (this.userService.user = user));
   }
 
   ngOnInit() {

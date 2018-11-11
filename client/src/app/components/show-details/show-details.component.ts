@@ -32,8 +32,6 @@ export class ShowDetailsComponent implements OnInit {
   updateDetails() {
     const id = +this.route.snapshot.paramMap.get('showId');
     this.apiClient.getTVShowDetails(id).subscribe(show => {
-      console.log('dafsdf');
-
       this.show = show;
       this.isTracking = this.userService.user.isTracking(this.show.tmdbId);
     });
@@ -41,7 +39,6 @@ export class ShowDetailsComponent implements OnInit {
 
   movieRated(rating) {
     this.apiClient.postRating(rating).subscribe();
-    console.log('rated! value:', rating);
   }
 
   ngOnInit() {
