@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiClientService } from '../../services/api-client.service';
-import TVShow from '../../models/tv-show';
+import Show from '../../models/show';
 import { UserService } from 'src/app/services/user.service';
 import User from 'src/app/models/user';
 
@@ -10,7 +10,7 @@ import User from 'src/app/models/user';
   styleUrls: ['./recommendations.component.scss']
 })
 export class RecommendationsComponent implements OnInit {
-  shows: TVShow[];
+  shows: Show[];
 
   constructor(
     private apiClient: ApiClientService,

@@ -3,7 +3,7 @@ import User from '../models/user';
 import { ApiClientService } from './api-client.service';
 import { Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
-import TVShow from '../models/tv-show';
+import Show from '../models/show';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +13,7 @@ export class UserService {
   private userSubject = new Subject<User>();
   public user$ = this.userSubject.asObservable().pipe(
     map(user => {
-      user.shows = user.shows.map(show => TVShow.from(show));
+      user.shows = user.shows.map(show => Show.from(show));
       return User.from(user);
     })
   );

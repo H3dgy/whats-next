@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import TVShow from 'src/app/models/tv-show';
+import Show from 'src/app/models/show';
 
 @Component({
   selector: 'app-similar-shows',
@@ -8,7 +8,7 @@ import TVShow from 'src/app/models/tv-show';
 })
 export class SimilarShowsComponent implements OnInit {
   @Input()
-  show: TVShow;
+  show: Show;
 
   constructor() {}
 

@@ -1,8 +1,8 @@
 <div>
-  <button (click)="statusClicked('toSee')" *ngIf="status !== 'TOSEE'">
+  <button (click)="statusClicked('toSee')">
     {{ status !== 'TOSEE' ? 'Add' : 'Remove from' }} to see
   </button>
-  <button (click)="statusClicked('seen')" *ngIf="status !== 'SEEN'">
+  <button (click)="statusClicked('seen')">
     {{ status !== 'SEEN' ? 'Add' : 'Remove' }} as seen
   </button>
 </div>

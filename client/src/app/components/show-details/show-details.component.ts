@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 
 import { ApiClientService } from '../../services/api-client.service';
-import TVShow from '../../models/tv-show';
+import Show from '../../models/show';
 import { UserService } from 'src/app/services/user.service';
 import { log } from 'util';
 
@@ -13,7 +13,7 @@ import { log } from 'util';
   styleUrls: ['./show-details.component.scss']
 })
 export class ShowDetailsComponent implements OnInit {
-  show: TVShow;
+  show: Show;
   isTracking: boolean;
 
   constructor(

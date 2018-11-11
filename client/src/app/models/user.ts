@@ -1,13 +1,13 @@
-import TVShow from './tv-show';
+import Show from './show';
 
 export default class User {
   id: number;
   name: string;
   email: string;
   avatar: string;
-  seen: TVShow[];
-  toSee: TVShow[];
-  shows: TVShow[];
+  seen: Show[];
+  toSee: Show[];
+  shows: Show[];
 
   static from(user: User): User {
     return Object.assign(new User(), user);

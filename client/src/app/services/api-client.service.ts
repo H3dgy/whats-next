@@ -3,11 +3,12 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import TVShow from '../models/tv-show';
+import Show from '../models/show';
 import User from '../models/user';
 import SearchResult from '../models/search-result';
 import { environment } from 'src/environments/environment';
 import Tracking from '../interfaces/tracking';
+import TrackingResult from '../interfaces/tracking-result';
 
 @Injectable({
   providedIn: 'root'
@@ -23,20 +24,20 @@ export class ApiClientService {
       .pipe(map(user => User.from(user)));
   }
 
-  getRecommendedShows(): Observable<TVShow[]> {
+  getRecommendedShows(): Observable<Show[]> {
     return this.http
-      .get<TVShow[]>(`${this.baseUrl}/recommended`)
-      .pipe(map(data => data.map(show => TVShow.from(show))));
+      .get<Show[]>(`${this.baseUrl}/recommended`)
+      .pipe(map(data => data.map(show => Show.from(show))));
   }
 
-  getTVShowDetails(id: number): Observable<TVShow> {
-    return this.http.get<TVShow>(`${this.baseUrl}/shows/${id}`).pipe(
+  getTVShowDetails(id: number): Observable<Show> {
+    return this.http.get<Show>(`${this.baseUrl}/shows/${id}`).pipe(
       map(show => {
-        show.similar = show.similar.map(show => TVShow.from(show));
+        show.similar = show.similar.map(show => Show.from(show));
         show.recommendations = show.recommendations.map(show =>
-          TVShow.from(show)
+          Show.from(show)
         );
-        return TVShow.from(show);
+        return Show.from(show);
       })
     );
   }
@@ -47,15 +48,15 @@ export class ApiClientService {
     });
   }
 
-  postRating(tracking: Tracking): Observable<User> {
-    return this.http.post<User>(
+  postRating(tracking: Tracking): Observable<TrackingResult> {
+    return this.http.post<TrackingResult>(
       `${this.baseUrl}/user/${tracking.showId}/rate`,
       tracking
     );
   }
 
-  postStatus(tracking: Tracking): Observable<User> {
-    return this.http.post<User>(
+  postStatus(tracking: Tracking): Observable<TrackingResult> {
+    return this.http.post<TrackingResult>(
       `${this.baseUrl}/user/${tracking.showId}/status`,
       tracking
     );

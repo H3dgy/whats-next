@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import TVShow from '../../models/tv-show';
+import Show from '../../models/show';
 import { UserService } from 'src/app/services/user.service';
 import { ApiClientService } from 'src/app/services/api-client.service';
 import User from 'src/app/models/user';
@@ -11,8 +11,8 @@ import { Status } from 'src/app/models/status';
   styleUrls: ['./my-tv-shows.component.scss']
 })
 export class MyTvShowsComponent implements OnInit {
-  seen: TVShow[] = [];
-  toSee: TVShow[] = [];
+  seen: Show[] = [];
+  toSee: Show[] = [];
   user: User;
 
   constructor(
