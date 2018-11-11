@@ -3,7 +3,7 @@ import Show from 'src/app/models/show';
 import { ApiClientService } from 'src/app/services/api-client.service';
 import Tracking from 'src/app/interfaces/tracking';
 import { UserService } from 'src/app/services/user.service';
-import { log } from 'util';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-show-list-item',
@@ -17,14 +17,16 @@ export class ShowListItemComponent implements OnInit {
 
   constructor(
     private apiClient: ApiClientService,
-    private userService: UserService
+    private userService: UserService,
+    private router: Router
   ) {}
 
   statusChanged(status: Tracking) {
     this.apiClient.postStatus(status).subscribe(result => {
-      console.log(result.show);
       this.userService.user = result.user;
       this.show = result.show;
+      if (result.show.tracking.status !== '')
+        this.router.navigateByUrl('my-tv-shows');
     });
   }
 

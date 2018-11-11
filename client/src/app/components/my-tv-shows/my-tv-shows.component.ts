@@ -25,7 +25,7 @@ export class MyTvShowsComponent implements OnInit {
       this.user = user;
       const shows = user.shows.reduce(
         (acc, el) => acc[el.tracking.status].push(el) && acc,
-        { [Status.toSee]: [], [Status.seen]: [] }
+        { [Status.toSee]: [], [Status.seen]: [], [Status.noStatus]: [] }
       );
       this.seen = shows[Status.seen];
       this.toSee = shows[Status.toSee];

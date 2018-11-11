@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
 
 import { ApiClientService } from '../../services/api-client.service';
 import Show from '../../models/show';
 import { UserService } from 'src/app/services/user.service';
-import { log } from 'util';
+import Tracking from 'src/app/interfaces/tracking';
 
 @Component({
   selector: 'app-show-details',
@@ -15,11 +15,13 @@ import { log } from 'util';
 export class ShowDetailsComponent implements OnInit {
   show: Show;
   isTracking: boolean;
+  status: string;
 
   constructor(
     private apiClient: ApiClientService,
     private userService: UserService,
     private route: ActivatedRoute,
+    private router: Router,
     private location: Location
   ) {
     this.route.url.subscribe(() => this.updateDetails());
@@ -34,11 +36,21 @@ export class ShowDetailsComponent implements OnInit {
     this.apiClient.getTVShowDetails(id).subscribe(show => {
       this.show = show;
       this.isTracking = this.userService.user.isTracking(this.show.tmdbId);
+      this.status = (this.show.tracking && this.show.tracking.status) || '';
     });
   }
 
   movieRated(rating) {
     this.apiClient.postRating(rating).subscribe();
+  }
+
+  statusChanged(status: Tracking) {
+    this.apiClient.postStatus(status).subscribe(result => {
+      this.userService.user = result.user;
+      this.show = result.show;
+      if (result.show.tracking.status !== '')
+        this.router.navigateByUrl('my-tv-shows');
+    });
   }
 
   ngOnInit() {

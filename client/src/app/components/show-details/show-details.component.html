@@ -1,10 +1,15 @@
 <div *ngIf="show; else: loader">
   <img [src]="show.image" alt="{{show.name}}" />
   <h1>{{ show.name }}</h1>
+  <app-track-show
+    [showId]="show.id"
+    [status]="status"
+    (statusClick)="statusChanged($event)"
+  ></app-track-show>
   <div *ngIf="isTracking">
     <app-ratings
-      [rating]="show.user_rating"
       [showId]="show.id"
+      [rating]="show.user_rating"
       (ratingClick)="movieRated($event)"
     >
     </app-ratings>
