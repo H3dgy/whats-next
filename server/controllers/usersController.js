@@ -1,12 +1,30 @@
 const usersController = {};
 const db = require('../models/index');
 
-usersController.get = async (req, res) => {
+usersController.get2 = async (req, res) => {
   const user = await db.User.findByPk(req.userId, { raw: true });
   const seen = await db.Show.findAll({ where: { tmdbId: user.seen } });
   const toSee = await db.Show.findAll({ where: { tmdbId: user.toSee } });
   user.seen = seen;
   user.toSee = toSee;
+
+  res.status(200).send(user);
+};
+
+usersController.get = async (req, res) => {
+  const user = await db.User.findByPk(req.userId, {
+    include: [
+      {
+        association: 'shows',
+        attributes: { exclude: ['tmdbBlob'] },
+        through: { attributes: [] },
+        include: {
+          association: 'trackings',
+          attributes: ['status', 'rating']
+        }
+      }
+    ]
+  });
 
   res.status(200).send(user);
 };

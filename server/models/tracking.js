@@ -9,8 +9,8 @@ module.exports = (sequelize, DataTypes) => {
     {}
   );
   Tracking.associate = function(models) {
-    Tracking.belongsTo(models.User, { foreignKey: 'userId' });
-    Tracking.belongsTo(models.Show, { foreignKey: 'showId' });
+    Tracking.belongsTo(models.User, { as: 'user', foreignKey: 'userId' });
+    Tracking.belongsTo(models.Show, { as: 'show', foreignKey: 'showId' });
   };
   return Tracking;
 };
