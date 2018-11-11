@@ -9,4 +9,8 @@ import TVShow from 'src/app/models/tv-show';
 export class ShowListItemComponent {
   @Input()
   show: TVShow;
+
+  statusChanged(e) {
+    console.log(e);
+  }
 }

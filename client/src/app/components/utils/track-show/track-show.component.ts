@@ -1,6 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { ApiClientService } from 'src/app/services/api-client.service';
-import { UserService } from 'src/app/services/user.service';
+import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
+import { Status } from 'src/app/models/status';
+import Tracking from 'src/app/interfaces/tracking';
 
 @Component({
   selector: 'app-track-show',
@@ -10,46 +10,12 @@ import { UserService } from 'src/app/services/user.service';
 export class TrackShowComponent implements OnInit {
   @Input()
   showId: number;
-  isSeen: boolean;
-  isToSee: boolean;
+  @Output()
+  statusClick: EventEmitter<Tracking> = new EventEmitter<Tracking>();
 
-  constructor(
-    private apiClient: ApiClientService,
-    public userService: UserService
-  ) {}
+  ngOnInit() {}
 
-  toSee(showId) {
-    console.log(!this.isSeen);
-
-    if (!this.isSeen) {
-      this.apiClient
-        .addToSee(showId)
-        .subscribe(user => (this.userService.user = user));
-    } else {
-      this.apiClient
-        .removeSeen(showId)
-        .subscribe(user => (this.userService.user = user));
-    }
-  }
-
-  seen(showId) {
-    if (!this.seen) {
-      this.apiClient
-        .addSeen(showId)
-        .subscribe(user => (this.userService.user = user));
-    } else {
-      this.apiClient
-        .removeSeen(showId)
-        .subscribe(user => (this.userService.user = user));
-    }
-  }
-
-  ngOnInit() {
-    this.userService.user$.subscribe(user => {
-      console.log('received user on track show');
-
-      this.isSeen = user.isSeen(this.showId);
-      this.isToSee = user.isToSee(this.showId);
-    });
+  statusClicked(statusStr: string): void {
+    this.statusClick.emit({ showId: this.showId, status: Status[statusStr] });
   }
 }

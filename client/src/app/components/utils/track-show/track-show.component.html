@@ -1,9 +1,8 @@
 <div>
-  <button (click)="toSee(showId)">
+  <button (click)="statusClicked('toSee')">
     {{ !isToSee ? 'Add' : 'Remove from' }} to see
   </button>
-  <button (click)="seen(showId)">
+  <button (click)="statusClicked('seen')">
     {{ !isSeen ? 'Add' : 'Remove' }} as seen
   </button>
 </div>
-{{ isSeen }}==={{ isToSee }}

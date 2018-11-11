@@ -11,74 +11,34 @@ usersController.get = async (req, res) => {
   res.status(200).send(user);
 };
 
-usersController.addSeen = async (req, res) => {
-  const user = await db.User.findByPk(req.userId);
-  const id = +req.params.showId;
-
-  if (user.seen.includes(id)) {
-    res.status(200).send(user);
-    return;
-  }
-
-  if (user.toSee.includes(id)) {
-    user.toSee = user.toSee.filter(sId => sId !== id);
-  }
-  user.seen = user.seen.concat(id);
-  await user.save();
-
-  res.status(200).send(user);
-};
-
-usersController.addToSee = async (req, res) => {
-  const user = await db.User.findByPk(req.userId);
-  const id = +req.params.showId;
-
-  if (user.toSee.includes(id)) {
-    res.status(200).send(user);
-    return;
-  }
-
-  if (user.seen.includes(id)) {
-    user.seen = user.seen.filter(sId => sId !== id);
-  }
-  user.toSee = user.toSee.concat(id);
-  await user.save();
-
-  res.status(200).send(user);
-};
-
-usersController.removeSeen = async (req, res) => {
-  const user = await db.User.findByPk(req.userId);
-  const id = +req.params.showId;
-  user.seen = user.seen.filter(sId => sId !== id);
-  await user.save();
-
-  res.status(200).send(user);
-};
-
-usersController.removeToSee = async (req, res) => {
-  const user = await db.User.findByPk(req.userId);
-  const id = +req.params.showId;
-
-  user.toSee = user.toSee.filter(sId => sId !== id);
-  await user.save();
-
-  res.status(200).send(user);
+usersController.status = async (req, res) => {
+  const userId = +req.userId;
+  const showId = +req.body.showId;
+  const tracking = await db.Tracking.findOrCreate({
+    where: { userId, showId },
+    defaults: { status: req.body.status }
+  })
+    .spread(tracking => {
+      tracking.status = req.body.status;
+      return tracking;
+    })
+    .then(tracking => tracking.save());
+  res.status(200).send(tracking);
 };
 
 usersController.rate = async (req, res) => {
   const userId = +req.userId;
   const showId = +req.body.showId;
-  const rating = await db.Tracking.findOrCreate({
+  const tracking = await db.Tracking.findOrCreate({
     where: { userId, showId },
     defaults: { rating: req.body.rating }
   })
-    .spread(rating => {
-      rating.rating = req.body.rating;
-      return rating;
+    .spread(tracking => {
+      tracking.rating = req.body.rating;
+      return tracking;
     })
-    .then(rating => rating.save());
-  res.status(200).send(rating[0]);
+    .then(tracking => tracking.save());
+  res.status(200).send(tracking);
 };
 
 module.exports = usersController;

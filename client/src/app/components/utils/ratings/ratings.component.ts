@@ -1,4 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import Tracking from 'src/app/interfaces/tracking';
 
 @Component({
   selector: 'app-ratings',
@@ -9,18 +10,20 @@ export class RatingsComponent implements OnInit {
   @Input()
   rating: number;
   @Input()
-  itemId: number;
+  showId: number;
   @Output()
-  ratingClick: EventEmitter<any> = new EventEmitter<any>();
+  ratingClick: EventEmitter<Tracking> = new EventEmitter<Tracking>();
 
   inputName: string;
+
   ngOnInit() {
-    this.inputName = this.itemId + '_rating';
+    this.inputName = this.showId + '_rating';
   }
-  onClick(rating: number): void {
+
+  ratingClicked(rating: number): void {
     this.rating = rating;
     this.ratingClick.emit({
-      showId: this.itemId,
+      showId: this.showId,
       rating: rating
     });
   }
