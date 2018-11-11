@@ -5,10 +5,19 @@ const db = require('../models/index');
 const showsController = {};
 const Op = db.Sequelize.Op;
 
-showsController.recommended = async (_, res) => {
+showsController.recommended = async (req, res) => {
   const results = await db.Show.findAll({
     where: { backdrop_path: { [Op.ne]: null } },
-    raw: true,
+    attributes: { exclude: ['tmdbBlob'] },
+    include: [
+      {
+        model: db.Tracking,
+        as: 'tracking',
+        where: { userId: req.userId },
+        required: false,
+        attributes: ['status', 'rating']
+      }
+    ],
     limit: 20,
     order: [['vote_average', 'DESC']]
   });

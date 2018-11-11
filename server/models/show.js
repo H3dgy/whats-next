@@ -18,7 +18,7 @@ module.exports = (sequelize, DataTypes) => {
     {}
   );
   Show.associate = function(models) {
-    Show.hasMany(models.Tracking, { as: 'trackings', foreignKey: 'showId' });
+    Show.hasOne(models.Tracking, { as: 'tracking', foreignKey: 'showId' });
     Show.belongsToMany(models.User, {
       through: models.Tracking,
       as: 'users',
