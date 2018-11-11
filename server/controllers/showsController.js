@@ -26,12 +26,21 @@ showsController.recommended = async (req, res) => {
 
 showsController.get = async (req, res) => {
   const id = +req.params.showId;
-  const show = (await getShow(id)).get({ plain: true });
-  const user = await db.User.findByPk(req.userId, { raw: true });
-  const user_rating = await db.Tracking.findOne({
-    where: { userId: user.id, showId: show.id }
+  await createOrUpdateShow(id);
+  const show = await db.Show.findOne({
+    where: { tmdbId: id },
+    attributes: { exclude: ['tmdbBlob'] },
+    include: [
+      {
+        model: db.Tracking,
+        as: 'tracking',
+        where: { userId: req.userId },
+        required: false,
+        attributes: ['status', 'rating']
+      }
+    ]
   });
-  show.user_rating = (user_rating && user_rating.rating) || 0;
+
   const similar = await db.Show.findAll({
     where: { tmdbId: show.similar, backdrop_path: { [Op.ne]: null } }
   });
@@ -49,12 +58,11 @@ showsController.search = async (req, res) => {
   res.status(200).send(results);
 };
 
-async function getShow(id) {
+async function createOrUpdateShow(id) {
   const localShow = await db.Show.findOne({ where: { tmdbId: id } });
   if (!localShow) return await createShow(id);
-
-  if (completeInfo(localShow)) return localShow;
-  else return await updateShowInfo(id);
+  else if (!completeInfo(localShow)) return await updateShowInfo(id);
+  else return localShow;
 }
 
 function completeInfo(show) {
