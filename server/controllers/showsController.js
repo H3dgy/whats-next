@@ -69,7 +69,7 @@ function completeInfo(show) {
 async function createShow(id) {
   const key = process.env.API_KEY;
   return await fetch(
-    `https://api.themoviedb.org/3/tv/${id}?api_key=${key}&append_to_response=similar`
+    `https://api.themoviedb.org/3/tv/${id}?api_key=${key}&append_to_response=similar,recommendations`
   )
     .then(data => data.json())
     .then(async data => {
