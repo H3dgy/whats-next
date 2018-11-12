@@ -3,7 +3,7 @@ module.exports = (sequelize, DataTypes) => {
   const Show = sequelize.define(
     'Show',
     {
-      tmdbId: DataTypes.INTEGER,
+      id: { type: DataTypes.INTEGER, primaryKey: true },
       name: DataTypes.STRING,
       backdrop_path: DataTypes.STRING,
       poster_path: DataTypes.STRING,

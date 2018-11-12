@@ -9,9 +9,9 @@ usersController.get = async (req, res) => {
 };
 
 usersController.status = async (req, res) => {
-  const tmdbId = +req.params.tmdbId;
+  const id = +req.params.id;
   const userId = +req.userId;
-  const show = await helpers.getShowForUser(tmdbId, userId);
+  let show = await helpers.getShowForUser(id, userId);
 
   await db.Tracking.findOrCreate({
     where: { userId, showId: show.id },
@@ -24,16 +24,17 @@ usersController.status = async (req, res) => {
     .then(tracking => tracking.save());
 
   const similar = await db.Show.findAll({
-    where: { tmdbId: show.similar, backdrop_path: { [Op.ne]: null } }
+    where: { id: show.similar, backdrop_path: { [Op.ne]: null } }
   });
+  show = await helpers.getShowForUser(id, userId);
   show.similar = similar;
   res.status(200).send(show);
 };
 
 usersController.rate = async (req, res) => {
-  const tmdbId = +req.params.tmdbId;
+  const id = +req.params.id;
   const userId = +req.userId;
-  const show = await helpers.getShowForUser(tmdbId, userId);
+  const show = await helpers.getShowForUser(id, userId);
 
   await db.Tracking.findOrCreate({
     where: { userId, showId: show.id },
@@ -46,7 +47,7 @@ usersController.rate = async (req, res) => {
     .then(tracking => tracking.save());
 
   const similar = await db.Show.findAll({
-    where: { tmdbId: show.similar, backdrop_path: { [Op.ne]: null } }
+    where: { id: show.similar, backdrop_path: { [Op.ne]: null } }
   });
   show.similar = similar;
   res.status(200).send(show);

@@ -35,7 +35,7 @@ showsController.recommended = async (req, res) => {
     shows.map(async show => {
       const recommendations = await db.Show.findAll({
         where: {
-          tmdbId: show.recommendations,
+          id: show.recommendations,
           backdrop_path: { [Op.ne]: null }
         },
         attributes: { exclude: ['similar', 'recommendations', 'tmdbBlob'] }
@@ -68,16 +68,16 @@ showsController.recommended2 = async (req, res) => {
 };
 
 showsController.get = async (req, res) => {
-  const tmdbId = +req.params.tmdbId;
-  await helpers.createOrUpdateShow(tmdbId);
-  const show = await helpers.getShowForUser(tmdbId, req.userId);
+  const id = +req.params.id;
+  await helpers.createOrUpdateShow(id);
+  const show = await helpers.getShowForUser(id, req.userId);
 
   const similar = await db.Show.findAll({
-    where: { tmdbId: show.similar, backdrop_path: { [Op.ne]: null } }
+    where: { id: show.similar, backdrop_path: { [Op.ne]: null } }
   });
   show.similar = similar;
   const recommendations = await db.Show.findAll({
-    where: { tmdbId: show.recommendations, backdrop_path: { [Op.ne]: null } }
+    where: { id: show.recommendations, backdrop_path: { [Op.ne]: null } }
   });
   show.recommendations = recommendations;
   res.status(200).send(show);

@@ -12,7 +12,7 @@ describe('testing the shows controller', () => {
     });
     it('returns the needed attrs', async () => {
       const el = response.body[0];
-      expect(el.tmdbId).not.toBeUndefined();
+      expect(el.id).not.toBeUndefined();
       expect(el.name).not.toBeUndefined();
       expect(el.backdrop_path).not.toBeUndefined();
     });

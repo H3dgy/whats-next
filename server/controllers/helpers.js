@@ -6,7 +6,7 @@ const helpers = {};
 
 helpers.getShowForUser = function getShowForUser(id, userId) {
   return db.Show.findOne({
-    where: { tmdbId: id },
+    where: { id },
     attributes: { exclude: ['tmdbBlob'] },
     include: [
       {
@@ -21,7 +21,7 @@ helpers.getShowForUser = function getShowForUser(id, userId) {
 };
 
 helpers.createOrUpdateShow = async function createOrUpdateShow(id) {
-  const localShow = await db.Show.findOne({ where: { tmdbId: id } });
+  const localShow = await db.Show.findOne({ where: { id } });
   if (!localShow) return await this.createShow(id);
   else if (!completeInfo(localShow)) return await this.updateShowInfo(id);
   else return localShow;
@@ -36,10 +36,10 @@ function completeInfo(show) {
   );
 }
 
-helpers.createShow = async function createShow(tmdbId) {
+helpers.createShow = async function createShow(id) {
   const key = process.env.API_KEY;
   return await fetch(
-    `https://api.themoviedb.org/3/tv/${tmdbId}?api_key=${key}&append_to_response=similar,recommendations`
+    `https://api.themoviedb.org/3/tv/${id}?api_key=${key}&append_to_response=similar,recommendations`
   )
     .then(data => data.json())
     .then(async data => {
@@ -47,7 +47,7 @@ helpers.createShow = async function createShow(tmdbId) {
       const recommendations =
         (data.recommendations && data.recommendations.results) || [];
       const attrs = {
-        tmdbId: data.id,
+        id: data.id,
         name: data.name,
         backdrop_path: data.backdrop_path,
         poster_path: data.poster_path,
@@ -66,12 +66,12 @@ helpers.createShow = async function createShow(tmdbId) {
     });
 };
 
-helpers.updateShowInfo = async function updateShowInfo(tmdbId) {
-  const show = await db.Show.findOne({ where: { tmdbId } });
+helpers.updateShowInfo = async function updateShowInfo(id) {
+  const show = await db.Show.findOne({ where: { id } });
   const key = process.env.API_KEY;
 
   return await fetch(
-    `https://api.themoviedb.org/3/tv/${tmdbId}?api_key=${key}&append_to_response=similar,recommendations`
+    `https://api.themoviedb.org/3/tv/${id}?api_key=${key}&append_to_response=similar,recommendations`
   )
     .then(data => data.json())
     .then(async data => {
@@ -85,7 +85,7 @@ helpers.updateShowInfo = async function updateShowInfo(tmdbId) {
         recommendations: recommendations.map(el => el.id),
         tmdbBlob: data
       };
-      await show.update(attrs, { where: { tmdbId } });
+      await show.update(attrs, { where: { id } });
       await createRelatedShows(attrs.similar);
       await createRelatedShows(attrs.recommendations);
       return show;
@@ -95,10 +95,10 @@ helpers.updateShowInfo = async function updateShowInfo(tmdbId) {
 async function createRelatedShows(showsArr) {
   await Promise.all(
     showsArr.map(async show => {
-      const ss = await db.Show.findOne({ where: { tmdbId: show.id } });
+      const ss = await db.Show.findOne({ where: { id: show.id } });
       if (!ss) {
         await db.Show.create({
-          tmdbId: show.id,
+          id: show.id,
           name: show.name,
           backdrop_path: show.backdrop_path,
           poster_path: show.poster_path,

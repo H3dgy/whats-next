@@ -4,13 +4,7 @@ module.exports = {
     return queryInterface.createTable('Shows', {
       id: {
         allowNull: false,
-        autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER
-      },
-      tmdbId: {
-        allowNull: false,
-        unique: true,
         type: Sequelize.INTEGER
       },
       name: {

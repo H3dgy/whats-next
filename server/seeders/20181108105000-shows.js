@@ -4,7 +4,7 @@ const data = require('../data.json');
 module.exports = {
   up: async queryInterface => {
     const shows = data.recommendations.map(show => ({
-      tmdbId: show.id,
+      id: show.id,
       name: show.name,
       backdrop_path: show.backdrop_path,
       poster_path: show.poster_path,
