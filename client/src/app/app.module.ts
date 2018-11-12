@@ -14,6 +14,7 @@ import { RecommendationsComponent } from './components/recommendations/recommend
 import { ShowDetailsComponent } from './components/show-details/show-details.component';
 import { MyShowsComponent } from './components/my-shows/my-shows.component';
 import { TrackSeenComponent } from './components/utils/track-seen/track-seen.component';
+import { TrackToSeeComponent } from './components/utils/track-to-see/track-to-see.component';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { TrackSeenComponent } from './components/utils/track-seen/track-seen.com
     ShowDetailsComponent,
     SimilarShowsComponent,
     TrackSeenComponent,
+    TrackToSeeComponent,
     RatingsComponent,
     SearchComponent
   ],

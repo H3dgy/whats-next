@@ -1,0 +1,16 @@
+<div>
+  <button
+    (click)="statusClicked()"
+    *ngIf="status !== 'TOSEE'"
+    class="off icon-to-see"
+  >
+    To see
+  </button>
+  <button
+    (click)="statusClicked()"
+    *ngIf="status === 'TOSEE'"
+    class="on icon-to-see"
+  >
+    To see
+  </button>
+</div>

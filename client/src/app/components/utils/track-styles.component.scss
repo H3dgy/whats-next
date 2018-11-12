@@ -1,0 +1,21 @@
+@import '../../../css/variables';
+
+button {
+  border: none;
+  font-size: 0.7em;
+  text-transform: uppercase;
+
+  &::before {
+    display: block;
+    font-size: 1.8rem;
+    margin-bottom: 0.5rem;
+  }
+
+  &:hover {
+    cursor: pointer;
+  }
+
+  &.on {
+    color: $medium-orange;
+  }
+}

@@ -5,6 +5,10 @@
   </header>
 
   <div class="social">
+    <app-track-to-see
+      [show]="show"
+      (statusClick)="statusChanged($event)"
+    ></app-track-to-see>
     <app-track-seen
       [show]="show"
       (statusClick)="statusChanged($event)"
