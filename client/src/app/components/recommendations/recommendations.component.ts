@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiClientService } from '../../services/api-client.service';
 import Show from '../../models/show';
-import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-recommendations',
@@ -11,14 +10,10 @@ import { UserService } from 'src/app/services/user.service';
 export class RecommendationsComponent implements OnInit {
   shows: Show[];
 
-  constructor(
-    private apiClient: ApiClientService,
-    private userService: UserService
-  ) {}
+  constructor(private apiClient: ApiClientService) {}
 
   getRecommendations(): void {
     this.apiClient.getRecommendedShows().subscribe(shows => {
-      console.log(shows);
       this.shows = shows;
     });
   }

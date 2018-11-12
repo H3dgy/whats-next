@@ -1,8 +1,16 @@
 @import '../../../css/variables';
 
 .search-component {
+  // background-color: $dark-grey;
+  background-image: url('/assets/wn-logo.svg');
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: center;
+  background-size: 50vw;
+  // opacity: 0.5;
+  height: 100vh;
+
   .search-box-container {
-    background-color: $dark-grey;
     width: 100vw;
     display: flex;
     position: fixed;
@@ -19,6 +27,7 @@
   }
 
   .no-results {
+    background: none;
     display: flex;
     height: 200px;
     justify-content: center;

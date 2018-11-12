@@ -17,6 +17,7 @@ showsController.recommended = async (req, res) => {
       id: trackedShowsIds,
       backdrop_path: { [Op.ne]: null }
     },
+
     attributes: { exclude: ['similar'] },
     include: [
       {
@@ -27,7 +28,6 @@ showsController.recommended = async (req, res) => {
         attributes: ['status', 'rating']
       }
     ],
-    limit: 5,
     order: [['recommendations', 'DESC']]
   });
 

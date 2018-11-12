@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, filter } from 'rxjs/operators';
 
 import Show from '../models/show';
 import User from '../models/user';
@@ -26,14 +26,24 @@ export class ApiClientService {
 
   getRecommendedShows(): Observable<Show[]> {
     return this.http.get<Show[]>(`${this.baseUrl}/recommended`).pipe(
-      map(data =>
-        data.map(show => {
+      map(data => {
+        data = data.filter(show => show.recommendations.length);
+        data = data.sort(() => {
+          return 0.5 - Math.random();
+        });
+        data = data.slice(0, 6);
+        data = data.map(show => {
           show.recommendations = show.recommendations.map(show =>
             Show.from(show)
           );
+          show.recommendations = show.recommendations.sort(() => {
+            return 0.5 - Math.random();
+          });
           return Show.from(show);
-        })
-      )
+        });
+
+        return data;
+      })
     );
   }
 
