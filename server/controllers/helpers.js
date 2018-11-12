@@ -43,6 +43,9 @@ helpers.createShow = async function createShow(tmdbId) {
   )
     .then(data => data.json())
     .then(async data => {
+      const similar = (data.similar && data.similar.results) || [];
+      const recommendations =
+        (data.recommendations && data.recommendations.results) || [];
       const attrs = {
         tmdbId: data.id,
         name: data.name,
@@ -51,14 +54,14 @@ helpers.createShow = async function createShow(tmdbId) {
         number_of_seasons: data.number_of_seasons,
         vote_average: data.vote_average,
         overview: data.overview,
-        similar: data.similar.results.map(el => el.id),
-        recommendations: data.recommendations.results.map(el => el.id),
+        similar: similar.map(el => el.id),
+        recommendations: recommendations.map(el => el.id),
         genre_ids: data.genre_ids,
         tmdbBlob: data
       };
       const show = await db.Show.create(attrs);
-      await createRelatedShows(data.similar.results);
-      await createRelatedShows(data.recommendations.results);
+      await createRelatedShows(attrs.similar);
+      await createRelatedShows(attrs.recommendations);
       return show;
     });
 };
@@ -72,15 +75,19 @@ helpers.updateShowInfo = async function updateShowInfo(tmdbId) {
   )
     .then(data => data.json())
     .then(async data => {
+      const similar = (data.similar && data.similar.results) || [];
+      const recommendations =
+        (data.recommendations && data.recommendations.results) || [];
+
       const attrs = {
         number_of_seasons: data.number_of_seasons,
-        similar: data.similar.results.map(el => el.id),
-        recommendations: data.recommendations.results.map(el => el.id),
+        similar: similar.map(el => el.id),
+        recommendations: recommendations.map(el => el.id),
         tmdbBlob: data
       };
       await show.update(attrs, { where: { tmdbId } });
-      await createRelatedShows(data.similar.results);
-      await createRelatedShows(data.recommendations.results);
+      await createRelatedShows(attrs.similar);
+      await createRelatedShows(attrs.recommendations);
       return show;
     });
 };
