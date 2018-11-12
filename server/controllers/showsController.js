@@ -67,7 +67,7 @@ showsController.recommended2 = async (req, res) => {
 };
 
 showsController.get = async (req, res) => {
-  const id = +req.params.id;
+  const id = req.params.id;
   await helpers.createOrUpdateShow(id);
   const show = await helpers.getShowForUser(id, req.userId);
 

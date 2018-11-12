@@ -34,7 +34,8 @@ function completeInfo(show) {
   );
 }
 
-helpers.createShow = async function createShow(id) {
+helpers.createShow = async function createShow(id, recurse = true) {
+  console.log('creating show', id, 'recurse', recurse);
   const key = process.env.API_KEY;
   return await fetch(
     `https://api.themoviedb.org/3/tv/${id}?api_key=${key}&append_to_response=similar,recommendations`
@@ -57,8 +58,10 @@ helpers.createShow = async function createShow(id) {
         genre_ids: data.genre_ids
       };
       const show = await db.Show.create(attrs);
-      await createRelatedShows(attrs.similar);
-      await createRelatedShows(attrs.recommendations);
+      if (recurse) {
+        await createRelatedShows(attrs.similar);
+        await createRelatedShows(attrs.recommendations);
+      }
       return show;
     });
 };
@@ -88,20 +91,12 @@ helpers.updateShowInfo = async function updateShowInfo(id) {
     });
 };
 
-async function createRelatedShows(showsArr) {
+async function createRelatedShows(showArrIds) {
   await Promise.all(
-    showsArr.map(async show => {
-      const ss = await db.Show.findOne({ where: { id: show.id } });
+    showArrIds.map(async id => {
+      const ss = await db.Show.findOne({ where: { id } });
       if (!ss) {
-        await db.Show.create({
-          id: show.id,
-          name: show.name,
-          backdrop_path: show.backdrop_path,
-          poster_path: show.poster_path,
-          vote_average: show.vote_average,
-          overview: show.overview,
-          genre_ids: show.genre_ids
-        });
+        await helpers.createShow(id, false);
       }
     })
   );
