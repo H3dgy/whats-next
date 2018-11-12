@@ -1,16 +1,16 @@
 <div>
-  <button (click)="statusClicked('toSee')" *ngIf="status !== 'TOSEE'">
-    Add to see
+  <button
+    (click)="statusClicked()"
+    *ngIf="status !== 'SEEN'"
+    class="off icon-seen"
+  >
+    Seen
   </button>
-  <button (click)="statusClicked('noStatus')" *ngIf="status === 'TOSEE'">
-    Remove from to see
-  </button>
-</div>
-<div>
-  <button (click)="statusClicked('seen')" *ngIf="status !== 'SEEN'">
-    Add as seen
-  </button>
-  <button (click)="statusClicked('noStatus')" *ngIf="status === 'SEEN'">
-    Remove as seen
+  <button
+    (click)="statusClicked()"
+    *ngIf="status === 'SEEN'"
+    class="on icon-seen"
+  >
+    Seen
   </button>
 </div>

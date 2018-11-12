@@ -6,6 +6,7 @@ const bdSize = environment.backdropSizes[1];
 const posterSize = environment.posterSizes[4];
 
 export default class Show {
+  id: number;
   tmdbId: number;
   name: string;
   backdrop_path: string;

@@ -45,11 +45,10 @@ export class ShowDetailsComponent implements OnInit {
   }
 
   statusChanged(status: Tracking) {
-    this.apiClient.postStatus(status).subscribe(result => {
-      this.userService.user = result.user;
-      this.show = result.show;
-      if (result.show.tracking.status !== '')
-        this.router.navigateByUrl('my-shows');
+    console.log('asdasd', status);
+    this.apiClient.postStatus(status).subscribe(show => {
+      this.show = show;
+      if (show.tracking.status !== '') this.router.navigateByUrl('my-shows');
     });
   }
 

@@ -62,10 +62,14 @@ export class ApiClientService {
     );
   }
 
-  postStatus(tracking: Tracking): Observable<TrackingResult> {
-    return this.http.post<TrackingResult>(
-      `${this.baseUrl}/user/${tracking.showId}/status`,
-      tracking
-    );
+  postStatus(tracking: Tracking): Observable<Show> {
+    return this.http
+      .post<Show>(`${this.baseUrl}/user/${tracking.showId}/status`, tracking)
+      .pipe(
+        map(show => {
+          show.similar = show.similar.map(show => Show.from(show));
+          return Show.from(show);
+        })
+      );
   }
 }

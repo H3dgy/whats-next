@@ -6,8 +6,7 @@
 
   <div class="social">
     <app-track-show
-      [showId]="show.id"
-      [status]="status"
+      [show]="show"
       (statusClick)="statusChanged($event)"
     ></app-track-show>
     <div *ngIf="isTracking">
