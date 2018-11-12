@@ -18,6 +18,7 @@ export class RecommendationsComponent implements OnInit {
 
   getRecommendations(): void {
     this.apiClient.getRecommendedShows().subscribe(shows => {
+      console.log(shows);
       this.shows = shows;
     });
   }

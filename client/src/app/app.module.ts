@@ -5,7 +5,8 @@ import { FormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { ShowListItemComponent } from './components/show-list/show-list.component';
+import { ShowListComponent } from './components/show-list/show-list.component';
+import { ShowListItemComponent } from './components/show-list/show-list-item/show-list-item.component';
 import { SimilarShowsComponent } from './components/show-details/similar-shows/similar-shows.component';
 import { RatingsComponent } from './components/utils/ratings/ratings.component';
 import { SearchComponent } from './components/search/search.component';
@@ -19,6 +20,7 @@ import { TrackShowComponent } from './components/utils/track-show/track-show.com
     AppComponent,
     RecommendationsComponent,
     MyShowsComponent,
+    ShowListComponent,
     ShowListItemComponent,
     ShowDetailsComponent,
     SimilarShowsComponent,
