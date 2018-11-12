@@ -1,6 +1,7 @@
 const usersController = {};
 const helpers = require('./helpers');
 const db = require('../models/index');
+const Op = db.Sequelize.Op;
 
 usersController.get = async (req, res) => {
   const user = await helpers.getUser(req.userId);
@@ -22,8 +23,11 @@ usersController.status = async (req, res) => {
     .then(tracking => tracking.save());
 
   const show = await helpers.getShowForUser(tmdbId, userId);
-  const user = await helpers.getUser(req.userId);
-  res.status(200).send({ user, show });
+  const similar = await db.Show.findAll({
+    where: { tmdbId: show.similar, backdrop_path: { [Op.ne]: null } }
+  });
+  show.similar = similar;
+  res.status(200).send(show);
 };
 
 usersController.rate = async (req, res) => {
@@ -41,8 +45,11 @@ usersController.rate = async (req, res) => {
     .then(tracking => tracking.save());
 
   const show = await helpers.getShowForUser(tmdbId, userId);
-  const user = await helpers.getUser(req.userId);
-  res.status(200).send({ user, show });
+  const similar = await db.Show.findAll({
+    where: { tmdbId: show.similar, backdrop_path: { [Op.ne]: null } }
+  });
+  show.similar = similar;
+  res.status(200).send(show);
 };
 
 module.exports = usersController;
