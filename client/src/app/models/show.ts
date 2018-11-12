@@ -7,7 +7,6 @@ const posterSize = environment.posterSizes[4];
 
 export default class Show {
   id: number;
-  tmdbId: number;
   name: string;
   backdrop_path: string;
   poster_path: string;
@@ -16,6 +15,9 @@ export default class Show {
   similar: Show[];
   recommendations: Show[];
   tracking?: Tracking;
+  status: string;
+  rating: number;
+  isTracked: boolean;
 
   static from(show: object) {
     return Object.assign(new Show(), show);

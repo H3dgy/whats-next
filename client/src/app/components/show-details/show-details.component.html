@@ -13,10 +13,10 @@
       [show]="show"
       (statusClick)="statusChanged($event)"
     ></app-track-seen>
-    <div *ngIf="isTracking">
+    <div *ngIf="show.isTracked">
       <app-ratings
-        [showId]="show.tmdbId"
-        [rating]="show.tracking.rating"
+        [showId]="show.id"
+        [rating]="show.rating"
         (ratingClick)="movieRated($event)"
       >
       </app-ratings>

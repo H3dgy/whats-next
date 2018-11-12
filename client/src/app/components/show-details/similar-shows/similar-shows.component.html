@@ -2,7 +2,7 @@
   <h2>More like this</h2>
   <ul>
     <li *ngFor="let show of shows">
-      <a routerLink="/shows/{{show.tmdbId}}">
+      <a routerLink="/shows/{{show.id}}">
         <h1>{{ show.name }}</h1>
         <img [src]="show.image" alt="{{show.name}}" />
       </a>

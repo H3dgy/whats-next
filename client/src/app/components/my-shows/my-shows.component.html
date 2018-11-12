@@ -30,7 +30,7 @@
   <div class="shows" *ngIf="shows.length">
     <div *ngFor="let show of shows" class="show-details">
       <header>
-        <a routerLink="/my-shows/{{show.tmdbId}}">
+        <a routerLink="/my-shows/{{show.id}}">
           <h1>{{ show.name }}</h1>
           <img [src]="show.image" alt="" />
         </a>
@@ -38,7 +38,7 @@
       <div class="rating">
         <h2>Rating</h2>
         <app-ratings
-          [showId]="show.tmdbId"
+          [showId]="show.id"
           [rating]="show.tracking.rating"
           (ratingClick)="movieRated($event)"
         >

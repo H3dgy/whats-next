@@ -44,6 +44,9 @@ export class ApiClientService {
         show.recommendations = show.recommendations.map(show =>
           Show.from(show)
         );
+        show.status = (show.tracking && show.tracking.status) || '';
+        show.rating = (show.tracking && show.tracking.rating) || 0;
+        show.isTracked = !!show.status;
         return Show.from(show);
       })
     );
@@ -68,6 +71,9 @@ export class ApiClientService {
       .pipe(
         map(show => {
           show.similar = show.similar.map(show => Show.from(show));
+          show.status = (show.tracking && show.tracking.status) || '';
+          show.rating = (show.tracking && show.tracking.rating) || 0;
+          show.isTracked = !!show.status;
           return Show.from(show);
         })
       );

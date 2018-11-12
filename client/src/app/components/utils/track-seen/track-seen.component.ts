@@ -21,7 +21,7 @@ export class TrackSeenComponent implements OnInit {
 
   statusClicked(): void {
     this.statusClick.emit({
-      showId: this.show.tmdbId,
+      showId: this.show.id,
       status: this.toggle()
     });
   }

@@ -1,14 +1,14 @@
 <div>
   <button
     (click)="statusClicked()"
-    *ngIf="status !== 'SEEN'"
+    *ngIf="show.status !== 'SEEN'"
     class="off icon-seen"
   >
     Seen
   </button>
   <button
     (click)="statusClicked()"
-    *ngIf="status === 'SEEN'"
+    *ngIf="show.status === 'SEEN'"
     class="on icon-seen"
   >
     Seen

@@ -14,14 +14,11 @@ import Tracking from 'src/app/interfaces/tracking';
 })
 export class ShowDetailsComponent implements OnInit {
   show: Show;
-  isTracking: boolean;
   status: string;
 
   constructor(
     private apiClient: ApiClientService,
-    private userService: UserService,
     private route: ActivatedRoute,
-    private router: Router,
     private location: Location
   ) {
     this.route.url.subscribe(() => this.updateDetails());
@@ -35,7 +32,6 @@ export class ShowDetailsComponent implements OnInit {
     const id = +this.route.snapshot.paramMap.get('showId');
     this.apiClient.getTVShowDetails(id).subscribe(show => {
       this.show = show;
-      this.isTracking = this.userService.user.isTracking(this.show.tmdbId);
       this.status = (this.show.tracking && this.show.tracking.status) || '';
     });
   }
@@ -45,10 +41,8 @@ export class ShowDetailsComponent implements OnInit {
   }
 
   statusChanged(status: Tracking) {
-    console.log('asdasd', status);
     this.apiClient.postStatus(status).subscribe(show => {
       this.show = show;
-      // if (show.tracking.status !== '') this.router.navigateByUrl('my-shows');
     });
   }
 

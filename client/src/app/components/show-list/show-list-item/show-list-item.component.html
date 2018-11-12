@@ -1,11 +1,11 @@
 <!--
   <div *ngIf="show" class="show">
-    <a routerLink="/shows/{{show.tmdbId}}">
+    <a routerLink="/shows/{{show.id}}">
       <h1>{{ show.name }}</h1>
       <img [src]="show.image" [alt]="show.name" />
     </a>
     <app-track-seen
-      [showId]="show.tmdbId"
+      [showId]="show.id"
       [status]="status"
       (statusClick)="statusChanged($event)"
     ></app-track-seen>
@@ -14,7 +14,7 @@
   <div class="shows">
     <ul>
       <li *ngFor="let show of shows">
-        <a routerLink="/shows/{{show.tmdbId}}">
+        <a routerLink="/shows/{{show.id}}">
           <h1>{{ show.name }}</h1>
           <img [src]="show.image" alt="{{show.name}}" />
         </a>
@@ -24,7 +24,7 @@
 -->
 
 <div *ngIf="show" class="show">
-  <a routerLink="/shows/{{show.tmdbId}}">
+  <a routerLink="/shows/{{show.id}}">
     <h1>{{ show.name }}</h1>
     <img [src]="show.image" [alt]="show.name" />
   </a>

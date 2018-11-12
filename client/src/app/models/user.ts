@@ -12,8 +12,4 @@ export default class User {
   static from(user: User): User {
     return Object.assign(new User(), user);
   }
-
-  isTracking(showId: number) {
-    return this.shows.map(s => s.tmdbId).includes(showId);
-  }
 }
