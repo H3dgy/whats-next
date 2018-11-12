@@ -1,0 +1,22 @@
+<div *ngIf="show" class="show">
+  <a routerLink="/shows/{{show.tmdbId}}">
+    <h1>{{ show.name }}</h1>
+    <img [src]="show.image" [alt]="show.name" />
+  </a>
+  <app-track-show
+    [showId]="show.id"
+    [status]="status"
+    (statusClick)="statusChanged($event)"
+  ></app-track-show>
+</div>
+
+<div class="recommended-shows">
+  <ul>
+    <li *ngFor="let show of shows">
+      <a routerLink="/shows/{{show.tmdbId}}">
+        <h1>{{ show.name }}</h1>
+        <img [src]="show.image" alt="{{show.name}}" />
+      </a>
+    </li>
+  </ul>
+</div>

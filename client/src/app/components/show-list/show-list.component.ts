@@ -6,9 +6,9 @@ import { UserService } from 'src/app/services/user.service';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-show-list-item',
-  templateUrl: './show-list-item.component.html',
-  styleUrls: ['./show-list-item.component.scss']
+  selector: 'app-show-list',
+  templateUrl: './show-list.component.html',
+  styleUrls: ['./show-list.component.scss']
 })
 export class ShowListItemComponent implements OnInit {
   @Input()

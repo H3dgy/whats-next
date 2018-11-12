@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ShowListItemComponent } from './show-list-item.component';
+import { ShowListItemComponent } from './show-list.component';
 
 describe('ShowListItemComponent', () => {
   let component: ShowListItemComponent;
@@ -8,9 +8,8 @@ describe('ShowListItemComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ShowListItemComponent ]
-    })
-    .compileComponents();
+      declarations: [ShowListItemComponent]
+    }).compileComponents();
   }));
 
   beforeEach(() => {

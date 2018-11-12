@@ -1,7 +1,7 @@
-<h2>Recommendations</h2>
-<div id="rec">
-  <app-show-list-item
-    *ngFor="let show of shows"
-    [show]="show"
-  ></app-show-list-item>
+<div class="recommendation" *ngFor="let show of shows">
+  Because you liked <span>{{ show.name }}</span> you may also like:
+  <app-show-list
+    *ngFor="let recommendation of show.recommendations"
+    [show]="recommendation"
+  ></app-show-list>
 </div>

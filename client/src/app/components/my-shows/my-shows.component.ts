@@ -45,4 +45,8 @@ export class MyShowsComponent implements OnInit {
       show => show.tracking.status.toLowerCase() === this.path
     );
   }
+
+  movieRated(rating) {
+    this.apiClient.postRating(rating).subscribe();
+  }
 }

@@ -55,6 +55,18 @@ $base-padding: 0.5em;
   }
 }
 
+.back-button {
+  position: fixed;
+  top: 0;
+  margin-top: 0.7em;
+  background: none;
+  text-shadow: #000 0 0 5px;
+
+  &:hover {
+    cursor: pointer;
+  }
+}
+
 .loader {
   display: flex;
   flex-direction: column;

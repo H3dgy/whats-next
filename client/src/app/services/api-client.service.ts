@@ -25,9 +25,16 @@ export class ApiClientService {
   }
 
   getRecommendedShows(): Observable<Show[]> {
-    return this.http
-      .get<Show[]>(`${this.baseUrl}/recommended`)
-      .pipe(map(data => data.map(show => Show.from(show))));
+    return this.http.get<Show[]>(`${this.baseUrl}/recommended`).pipe(
+      map(data =>
+        data.map(show => {
+          show.recommendations = show.recommendations.map(show =>
+            Show.from(show)
+          );
+          return Show.from(show);
+        })
+      )
+    );
   }
 
   getTVShowDetails(id: number): Observable<Show> {
