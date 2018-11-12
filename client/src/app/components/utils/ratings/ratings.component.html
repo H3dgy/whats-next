@@ -1,16 +1,26 @@
 <fieldset class="rating">
   <input type="radio" [name]="inputName" value="5" [checked]="rating === 5" />
-  <label title="Rocks!" (click)="ratingClicked(5)">5 stars</label>
+  <label title="Rocks!" class="icon-star" (click)="ratingClicked(5)"
+    >5 stars</label
+  >
 
   <input type="radio" [name]="inputName" value="4" [checked]="rating === 4" />
-  <label title="Pretty good" (click)="ratingClicked(4)">4 stars</label>
+  <label title="Pretty good" class="icon-star" (click)="ratingClicked(4)"
+    >4 stars</label
+  >
 
   <input type="radio" [name]="inputName" value="3" [checked]="rating === 3" />
-  <label title="Meh" (click)="ratingClicked(3)">3 stars</label>
+  <label title="Meh" class="icon-star" (click)="ratingClicked(3)"
+    >3 stars</label
+  >
 
   <input type="radio" [name]="inputName" value="2" [checked]="rating === 2" />
-  <label title="Kinda bad" (click)="ratingClicked(2)">2 stars</label>
+  <label title="Kinda bad" class="icon-star" (click)="ratingClicked(2)"
+    >2 stars</label
+  >
 
   <input type="radio" [name]="inputName" value="1" [checked]="rating === 1" />
-  <label title="Sucks big time" (click)="ratingClicked(1)">1 star</label>
+  <label title="Sucks big time" class="icon-star" (click)="ratingClicked(1)"
+    >1 star</label
+  >
 </fieldset>

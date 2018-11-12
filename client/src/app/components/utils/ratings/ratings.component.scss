@@ -13,8 +13,9 @@
 
 .rating:not(:checked) > label {
   float: right;
-  width: 1em;
+  width: 1.2em;
   padding: 0.1em;
+
   overflow: hidden;
   white-space: nowrap;
   cursor: pointer;
@@ -24,7 +25,7 @@
 }
 
 .rating:not(:checked) > label:before {
-  content: '★ ';
+  font-size: 1.2em;
 }
 
 .rating > input:checked ~ label {

@@ -25,9 +25,14 @@ $base-padding: 0.5em;
 .social {
   display: flex;
   padding: $base-padding 1em;
-  justify-content: space-between;
+  justify-content: flex-start;
+  align-items: center;
+
   .rating {
-    background-color: red;
+    flex-grow: 2;
+  }
+  .item {
+    width: 25vw;
   }
 }
 
