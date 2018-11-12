@@ -41,9 +41,6 @@ module.exports = {
         allowNull: false,
         defaultValue: []
       },
-      tmdbBlob: {
-        type: Sequelize.JSON
-      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

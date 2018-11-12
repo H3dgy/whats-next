@@ -17,7 +17,7 @@ showsController.recommended = async (req, res) => {
       id: trackedShowsIds,
       backdrop_path: { [Op.ne]: null }
     },
-    attributes: { exclude: ['tmdbBlob', 'similar'] },
+    attributes: { exclude: ['similar'] },
     include: [
       {
         model: db.Tracking,
@@ -38,7 +38,7 @@ showsController.recommended = async (req, res) => {
           id: show.recommendations,
           backdrop_path: { [Op.ne]: null }
         },
-        attributes: { exclude: ['similar', 'recommendations', 'tmdbBlob'] }
+        attributes: { exclude: ['similar', 'recommendations'] }
       });
       show.recommendations = recommendations;
       return show;
@@ -51,7 +51,6 @@ showsController.recommended = async (req, res) => {
 showsController.recommended2 = async (req, res) => {
   const results = await db.Show.findAll({
     where: { backdrop_path: { [Op.ne]: null } },
-    attributes: { exclude: ['tmdbBlob'] },
     include: [
       {
         model: db.Tracking,

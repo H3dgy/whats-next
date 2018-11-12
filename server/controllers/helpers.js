@@ -7,7 +7,6 @@ const helpers = {};
 helpers.getShowForUser = function getShowForUser(id, userId) {
   return db.Show.findOne({
     where: { id },
-    attributes: { exclude: ['tmdbBlob'] },
     include: [
       {
         model: db.Tracking,
@@ -21,7 +20,7 @@ helpers.getShowForUser = function getShowForUser(id, userId) {
 };
 
 helpers.createOrUpdateShow = async function createOrUpdateShow(id) {
-  const localShow = await db.Show.findOne({ where: { id } });
+  const localShow = await db.Show.findByPk(id);
   if (!localShow) return await this.createShow(id);
   else if (!completeInfo(localShow)) return await this.updateShowInfo(id);
   else return localShow;
@@ -31,8 +30,7 @@ function completeInfo(show) {
   return (
     !!show.number_of_seasons &&
     !!show.similar.length &&
-    !!show.recommendations.length &&
-    !!show.tmdbBlob
+    !!show.recommendations.length
   );
 }
 
@@ -56,8 +54,7 @@ helpers.createShow = async function createShow(id) {
         overview: data.overview,
         similar: similar.map(el => el.id),
         recommendations: recommendations.map(el => el.id),
-        genre_ids: data.genre_ids,
-        tmdbBlob: data
+        genre_ids: data.genre_ids
       };
       const show = await db.Show.create(attrs);
       await createRelatedShows(attrs.similar);
@@ -67,7 +64,7 @@ helpers.createShow = async function createShow(id) {
 };
 
 helpers.updateShowInfo = async function updateShowInfo(id) {
-  const show = await db.Show.findOne({ where: { id } });
+  const show = await db.Show.findByPk(id);
   const key = process.env.API_KEY;
 
   return await fetch(
@@ -82,8 +79,7 @@ helpers.updateShowInfo = async function updateShowInfo(id) {
       const attrs = {
         number_of_seasons: data.number_of_seasons,
         similar: similar.map(el => el.id),
-        recommendations: recommendations.map(el => el.id),
-        tmdbBlob: data
+        recommendations: recommendations.map(el => el.id)
       };
       await show.update(attrs, { where: { id } });
       await createRelatedShows(attrs.similar);
@@ -127,7 +123,6 @@ helpers.getUser = function getUser(id) {
     include: [
       {
         association: 'shows',
-        attributes: { exclude: ['tmdbBlob'] },
         through: {
           attributes: ['status', 'rating'],
           as: 'tracking',

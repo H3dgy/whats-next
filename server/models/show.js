@@ -12,8 +12,7 @@ module.exports = (sequelize, DataTypes) => {
       overview: DataTypes.TEXT,
       similar: DataTypes.ARRAY(DataTypes.DECIMAL),
       recommendations: DataTypes.ARRAY(DataTypes.DECIMAL),
-      genre_ids: DataTypes.ARRAY(DataTypes.DECIMAL),
-      tmdbBlob: DataTypes.JSON
+      genre_ids: DataTypes.ARRAY(DataTypes.DECIMAL)
     },
     {}
   );
