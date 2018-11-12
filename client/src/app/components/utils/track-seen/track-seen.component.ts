@@ -4,11 +4,11 @@ import Tracking from 'src/app/interfaces/tracking';
 import Show from 'src/app/models/show';
 
 @Component({
-  selector: 'app-track-show',
-  templateUrl: './track-show.component.html',
-  styleUrls: ['./track-show.component.scss']
+  selector: 'app-track-seen',
+  templateUrl: './track-seen.component.html',
+  styleUrls: ['./track-seen.component.scss']
 })
-export class TrackShowComponent implements OnInit {
+export class TrackSeenComponent implements OnInit {
   @Input()
   show: Show;
   @Output()

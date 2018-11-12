@@ -5,10 +5,10 @@
   </header>
 
   <div class="social">
-    <app-track-show
+    <app-track-seen
       [show]="show"
       (statusClick)="statusChanged($event)"
-    ></app-track-show>
+    ></app-track-seen>
     <div *ngIf="isTracking">
       <app-ratings
         [showId]="show.id"

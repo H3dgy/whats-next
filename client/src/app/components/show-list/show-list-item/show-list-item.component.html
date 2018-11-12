@@ -4,11 +4,11 @@
       <h1>{{ show.name }}</h1>
       <img [src]="show.image" [alt]="show.name" />
     </a>
-    <app-track-show
+    <app-track-seen
       [showId]="show.id"
       [status]="status"
       (statusClick)="statusChanged($event)"
-    ></app-track-show>
+    ></app-track-seen>
   </div>
 
   <div class="shows">

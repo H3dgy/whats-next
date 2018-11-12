@@ -1,20 +1,19 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { TrackShowComponent } from './track-show.component';
+import { TrackSeenComponent } from './track-seen.component';
 
-describe('TrackShowComponent', () => {
-  let component: TrackShowComponent;
-  let fixture: ComponentFixture<TrackShowComponent>;
+describe('TrackSeenComponent', () => {
+  let component: TrackSeenComponent;
+  let fixture: ComponentFixture<TrackSeenComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ TrackShowComponent ]
-    })
-    .compileComponents();
+      declarations: [TrackSeenComponent]
+    }).compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(TrackShowComponent);
+    fixture = TestBed.createComponent(TrackSeenComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

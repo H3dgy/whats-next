@@ -13,7 +13,7 @@ import { SearchComponent } from './components/search/search.component';
 import { RecommendationsComponent } from './components/recommendations/recommendations.component';
 import { ShowDetailsComponent } from './components/show-details/show-details.component';
 import { MyShowsComponent } from './components/my-shows/my-shows.component';
-import { TrackShowComponent } from './components/utils/track-show/track-show.component';
+import { TrackSeenComponent } from './components/utils/track-seen/track-seen.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +24,7 @@ import { TrackShowComponent } from './components/utils/track-show/track-show.com
     ShowListItemComponent,
     ShowDetailsComponent,
     SimilarShowsComponent,
-    TrackShowComponent,
+    TrackSeenComponent,
     RatingsComponent,
     SearchComponent
   ],
