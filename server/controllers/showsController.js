@@ -68,9 +68,9 @@ showsController.recommended2 = async (req, res) => {
 };
 
 showsController.get = async (req, res) => {
-  const id = +req.params.showId;
-  await helpers.createOrUpdateShow(id);
-  const show = await helpers.getShowForUser(id, req.userId);
+  const tmdbId = +req.params.tmdbId;
+  await helpers.createOrUpdateShow(tmdbId);
+  const show = await helpers.getShowForUser(tmdbId, req.userId);
 
   const similar = await db.Show.findAll({
     where: { tmdbId: show.similar, backdrop_path: { [Op.ne]: null } }

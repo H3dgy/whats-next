@@ -38,7 +38,7 @@
       <div class="rating">
         <h2>Rating</h2>
         <app-ratings
-          [showId]="show.id"
+          [showId]="show.tmdbId"
           [rating]="show.tracking.rating"
           (ratingClick)="movieRated($event)"
         >

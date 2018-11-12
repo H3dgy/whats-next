@@ -5,7 +5,7 @@
       <img [src]="show.image" [alt]="show.name" />
     </a>
     <app-track-seen
-      [showId]="show.id"
+      [showId]="show.tmdbId"
       [status]="status"
       (statusClick)="statusChanged($event)"
     ></app-track-seen>

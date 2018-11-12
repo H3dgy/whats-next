@@ -48,7 +48,7 @@ export class ShowDetailsComponent implements OnInit {
     console.log('asdasd', status);
     this.apiClient.postStatus(status).subscribe(show => {
       this.show = show;
-      if (show.tracking.status !== '') this.router.navigateByUrl('my-shows');
+      // if (show.tracking.status !== '') this.router.navigateByUrl('my-shows');
     });
   }
 

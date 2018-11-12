@@ -6,9 +6,9 @@ const usersController = require('./controllers/usersController');
 router
   .get('/recommended', showsController.recommended)
   .post('/shows/search', showsController.search)
-  .get('/shows/:showId', showsController.get)
+  .get('/shows/:tmdbId', showsController.get)
   .get('/user', usersController.get)
-  .post('/user/:showId/status', usersController.status)
-  .post('/user/:showId/rate', usersController.rate);
+  .post('/user/:tmdbId/status', usersController.status)
+  .post('/user/:tmdbId/rate', usersController.rate);
 
 module.exports = router;

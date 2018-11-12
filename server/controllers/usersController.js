@@ -9,11 +9,12 @@ usersController.get = async (req, res) => {
 };
 
 usersController.status = async (req, res) => {
-  const tmdbId = +req.params.showId;
+  const tmdbId = +req.params.tmdbId;
   const userId = +req.userId;
-  const showId = +req.body.showId;
+  const show = await helpers.getShowForUser(tmdbId, userId);
+
   await db.Tracking.findOrCreate({
-    where: { userId, showId },
+    where: { userId, showId: show.id },
     defaults: { status: req.body.status }
   })
     .spread(tracking => {
@@ -22,7 +23,6 @@ usersController.status = async (req, res) => {
     })
     .then(tracking => tracking.save());
 
-  const show = await helpers.getShowForUser(tmdbId, userId);
   const similar = await db.Show.findAll({
     where: { tmdbId: show.similar, backdrop_path: { [Op.ne]: null } }
   });
@@ -31,11 +31,12 @@ usersController.status = async (req, res) => {
 };
 
 usersController.rate = async (req, res) => {
-  const tmdbId = +req.params.showId;
+  const tmdbId = +req.params.tmdbId;
   const userId = +req.userId;
-  const showId = +req.body.showId;
+  const show = await helpers.getShowForUser(tmdbId, userId);
+
   await db.Tracking.findOrCreate({
-    where: { userId, showId },
+    where: { userId, showId: show.id },
     defaults: { rating: req.body.rating }
   })
     .spread(tracking => {
@@ -44,7 +45,6 @@ usersController.rate = async (req, res) => {
     })
     .then(tracking => tracking.save());
 
-  const show = await helpers.getShowForUser(tmdbId, userId);
   const similar = await db.Show.findAll({
     where: { tmdbId: show.similar, backdrop_path: { [Op.ne]: null } }
   });
