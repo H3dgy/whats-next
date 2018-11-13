@@ -1,7 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import Show from 'src/app/models/show';
 import { ApiClientService } from 'src/app/services/api-client.service';
-import { UserService } from 'src/app/services/user.service';
 import { Router } from '@angular/router';
 import Tracking from 'src/app/interfaces/tracking';
 
@@ -15,18 +14,12 @@ export class ShowListItemComponent implements OnInit {
   show: Show;
   status: string;
 
-  constructor(
-    private apiClient: ApiClientService,
-    private userService: UserService,
-    private router: Router
-  ) {}
+  constructor(private apiClient: ApiClientService, private router: Router) {}
 
   statusChanged(status: Tracking) {
-    this.apiClient.postStatus(status).subscribe(result => {
-      this.userService.user = result.user;
-      this.show = result.show;
-      if (result.show.tracking.status !== '')
-        this.router.navigateByUrl('my-shows');
+    this.apiClient.postStatus(status).subscribe(show => {
+      this.show = show;
+      if (show.tracking.status !== '') this.router.navigateByUrl('my-shows');
     });
   }
 

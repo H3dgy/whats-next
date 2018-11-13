@@ -12,10 +12,8 @@ import { SearchResultsService } from 'src/app/services/search-results.service';
 })
 export class SearchComponent implements OnInit {
   searchText;
-  results: SearchResult[] = [
-    { id: 1, name: 'Alias' },
-    { id: 2, name: 'Game of thrones' }
-  ];
+  results: SearchResult[] = [];
+  searching = true;
 
   constructor(
     private apiClient: ApiClientService,
@@ -34,6 +32,7 @@ export class SearchComponent implements OnInit {
       )
       .subscribe(() => {
         this.apiClient.searchTerm(this.searchText).subscribe(results => {
+          this.searching = false;
           this.results = results;
           this.resultsService.results = results;
           this.resultsService.searchText = this.searchText;
