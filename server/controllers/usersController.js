@@ -10,7 +10,6 @@ usersController.get = async (req, res) => {
 
 usersController.status = async (req, res) => {
   const id = req.params.id;
-  console.log('setting status for show', id, 'status', req.body.status);
   const userId = +req.userId;
   let show = await helpers.getShowForUser(id, userId);
 

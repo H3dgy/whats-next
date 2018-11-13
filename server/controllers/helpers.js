@@ -35,7 +35,6 @@ function completeInfo(show) {
 }
 
 helpers.createShow = async function createShow(id, recurse = true) {
-  console.log('creating show', id, 'recurse', recurse);
   const key = process.env.API_KEY;
   return await fetch(
     `https://api.themoviedb.org/3/tv/${id}?api_key=${key}&append_to_response=similar,recommendations`
@@ -119,12 +118,13 @@ helpers.getUser = function getUser(id) {
       {
         association: 'shows',
         through: {
-          attributes: ['status', 'rating'],
+          attributes: ['status', 'rating', 'createdAt'],
           as: 'tracking',
           where: { status: { [Op.ne]: '' } }
         }
       }
-    ]
+    ],
+    order: [['shows', 'tracking', 'createdAt', 'DESC']]
   });
 };
 
