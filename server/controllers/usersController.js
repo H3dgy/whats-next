@@ -15,7 +15,7 @@ usersController.status = async (req, res) => {
 
   await db.Tracking.findOrCreate({
     where: { userId, showId: show.id },
-    defaults: { status: req.body.status }
+   // defaults: { status: req.body.status }
   })
     .spread(tracking => {
       tracking.status = req.body.status;
@@ -38,7 +38,7 @@ usersController.rate = async (req, res) => {
 
   await db.Tracking.findOrCreate({
     where: { userId, showId: show.id },
-    defaults: { rating: req.body.rating }
+   // defaults: { rating: req.body.rating }
   })
     .spread(tracking => {
       tracking.rating = req.body.rating;
