@@ -9,7 +9,7 @@
     "format": "prettier --write \"**/*.{js, jsx, css, json}\"",
     "format:check": "prettier --list-different \"**/*.{js, jsx, css, json}\"",
     "recreateDb": "sequelize db:drop && sequelize db:create && sequelize db:migrate && sequelize db:seed:all",
-    "recreateDb-test": "export NODE_ENV=test && sequelize db:drop && sequelize db:create && sequelize db:migrate && sequelize db:seed:all"
+    "recreateDb-test": "export NODE_ENV=test && sequelize db:drop && sequelize db:create && sequelize db:migrate"
   },
   "author": "",
   "license": "ISC",

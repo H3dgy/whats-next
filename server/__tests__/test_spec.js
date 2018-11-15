@@ -16,7 +16,5 @@ describe('testing the shows controller', () => {
       expect(el.name).not.toBeUndefined();
       expect(el.backdrop_path).not.toBeUndefined();
     });
-  });
-
-  describe('GET /shows/:showId', () => {});
+  }); 
 });
