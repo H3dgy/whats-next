@@ -5,12 +5,11 @@ const showsController = {};
 const Op = db.Sequelize.Op;
 
 showsController.recommended = async (req, res) => {
+  console.log("recommended called: ", req.userId);
   const trackedShows = await db.Tracking.findAll({
     where: { userId: req.userId },
     attributes: ['showId']
-    // order: db.Sequelize.fn('RANDOM')
   });
-  // array_length(array[1,2,3], 1)
   const trackedShowsIds = trackedShows.map(el => el.showId);
   const shows = await db.Show.findAll({
     where: {

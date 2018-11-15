@@ -5,9 +5,7 @@ module.exports = (sequelize, DataTypes) => {
     {
       name: DataTypes.STRING,
       email: DataTypes.STRING,
-      avatar: DataTypes.STRING,
-      seen: DataTypes.ARRAY(DataTypes.DECIMAL),
-      toSee: DataTypes.ARRAY(DataTypes.DECIMAL)
+      avatar: DataTypes.STRING
     },
     {}
   );
