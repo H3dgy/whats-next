@@ -5,7 +5,6 @@ const showsController = {};
 const Op = db.Sequelize.Op;
 
 showsController.recommended = async (req, res) => {
-  console.log("recommended called: ", req.userId);
   const trackedShows = await db.Tracking.findAll({
     where: { userId: req.userId },
     attributes: ['showId']
@@ -24,7 +23,7 @@ showsController.recommended = async (req, res) => {
         as: 'tracking',
         where: { userId: req.userId },
         required: false,
-        attributes: ['status', 'rating']
+        attributes: ['status', 'rating', 'review']
       }
     ],
     order: [['recommendations', 'DESC']]
@@ -45,24 +44,6 @@ showsController.recommended = async (req, res) => {
   );
 
   res.status(200).send(fullShows);
-};
-
-showsController.recommended2 = async (req, res) => {
-  const results = await db.Show.findAll({
-    where: { backdrop_path: { [Op.ne]: null } },
-    include: [
-      {
-        model: db.Tracking,
-        as: 'tracking',
-        where: { userId: req.userId },
-        required: false,
-        attributes: ['status', 'rating']
-      }
-    ],
-    limit: 20,
-    order: [['vote_average', 'DESC']]
-  });
-  res.status(200).send(results);
 };
 
 showsController.get = async (req, res) => {

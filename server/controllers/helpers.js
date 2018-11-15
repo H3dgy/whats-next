@@ -13,7 +13,7 @@ helpers.getShowForUser = function getShowForUser(id, userId) {
         as: 'tracking',
         where: { userId: userId },
         required: false,
-        attributes: ['status', 'rating']
+        attributes: ['status', 'rating', 'review']
       }
     ]
   });
@@ -118,7 +118,7 @@ helpers.getUser = function getUser(id) {
       {
         association: 'shows',
         through: {
-          attributes: ['status', 'rating', 'createdAt'],
+          attributes: ['status', 'rating', 'review' , 'createdAt'],
           as: 'tracking',
           where: { status: { [Op.ne]: '' } }
         }

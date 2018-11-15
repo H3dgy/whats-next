@@ -4,7 +4,8 @@ module.exports = (sequelize, DataTypes) => {
     'Tracking',
     {
       rating: DataTypes.INTEGER,
-      status: DataTypes.STRING
+      status: DataTypes.STRING,
+      review: DataTypes.STRING
     },
     {}
   );
