@@ -1,10 +1,21 @@
 const request = require('supertest');
 const app = require('../server');
+const db = require('../models/index');
+const userSeeder = require('../testSeeding/userSeeders');
 
 /**
  * In order to test the creation of the user the database needs to be reset
  */
 describe('testing the user controller: creating user', () => {
+  beforeEach(async () => {
+    await userSeeder.down(db.sequelize.queryInterface);
+    // db.sequelize.queryInterface.bulkDelete('Users', null, {});
+  });
+  afterAll(async () => {
+    await userSeeder.down(db.sequelize.queryInterface);
+    // db.sequelize.queryInterface.bulkDelete('Users', null, {});
+  });
+
   it('respond with the user object', async () => {
     const response = await request(app)
       .post('/user')
@@ -42,18 +53,7 @@ describe('testing the user controller: creating user', () => {
       .set('Content-Type', 'application/json')
       .expect(400, done);
   });
-  it('Duplicate username should return 400', done => {
-    return request(app)
-      .post('/user')
-      .send({
-        name: 'test1',
-        password: 'password01',
-        email: 'test4@hotmail.com',
-        avatar: 'test'
-      })
-      .set('Content-Type', 'application/json')
-      .expect(400, done);
-  });
+
   it('Empty password should return 400', done => {
     return request(app)
       .post('/user')
@@ -90,18 +90,7 @@ describe('testing the user controller: creating user', () => {
       .set('Content-Type', 'application/json')
       .expect(400, done);
   });
-  it('Duplicate email format should return 400', done => {
-    return request(app)
-      .post('/user')
-      .send({
-        name: 'test8',
-        password: 'password01',
-        email: 'test1@hotmail.com',
-        avatar: 'test'
-      })
-      .set('Content-Type', 'application/json')
-      .expect(400, done);
-  });
+
   it('Empty profile picture should return 201 with standard picture', async () => {
     const response = await request(app)
       .post('/user')
@@ -123,30 +112,96 @@ describe('testing the user controller: creating user', () => {
   });
 });
 
+describe('test the user controller: create user duplicate entries', () => {
+  beforeEach(async () => {
+    await db.sequelize.queryInterface.bulkInsert('Users', [
+      {
+        id: 1,
+        name: 'Alice',
+        email: 'alice@example.com',
+        password: 'password01',
+        avatar: 'test',
+        createdAt: new Date(),
+        updatedAt: new Date()
+      }
+    ]);
+  });
+
+  afterEach(async () => {
+    db.sequelize.queryInterface.bulkDelete('Users', null, {});
+  });
+
+  it('Duplicate email format should return 400', async () => {    
+    const response = await request(app)
+      .post('/user')
+      .send({
+        name: 'test8',
+        password: 'password01',
+        email: 'alice@example.com',
+        avatar: 'test'
+      })
+      .set('Content-Type', 'application/json');
+      expect(response.status).toEqual(400);
+  });
+
+  it('Duplicate username should return 400', async () => {
+    const response = await request(app)
+      .post('/user')
+      .send({
+        name: 'Alice',
+        password: 'password01',
+        email: 'test4@hotmail.com',
+        avatar: 'test'
+      })
+      .set('Content-Type', 'application/json');
+      expect(response.status).toEqual(400);
+  });
+});
+
 /**
  * Assumes tests on create user have been run, therefor there should be users in the db
  */
 describe('testing the user controller: get user', () => {
+  beforeEach(async () => {
+    await userSeeder.up(db.sequelize.queryInterface);
+
+    // await db.sequelize.queryInterface.bulkInsert('Users', [
+    //   {
+    //     id: 1,
+    //     name: 'Alice',
+    //     email: 'alice@example.com',
+    //     password: 'password01',
+    //     avatar: 'test',
+    //     createdAt: new Date(),
+    //     updatedAt: new Date()
+    //   }
+    // ]);
+  });
+
+  afterEach(async () => {
+    await userSeeder.down(db.sequelize.queryInterface);
+    //db.sequelize.queryInterface.bulkDelete('Users', null, {});
+  });
+
   it('should return user with id 1', async () => {
-    const response = await request(app)
-      .get('/user/1')
+    const response = await request(app).get('/user/1');
     expect(response.status).toEqual(200);
     expect(response.body).toMatchObject({
-      name: 'test1',
+      name: 'Alice',
       password: 'password01',
-      email: 'test1@hotmail.com',
+      email: 'alice@example.com',
       avatar: 'test'
-    })
+    });
   });
+
   it('Out of bounds id should return 400', async () => {
-    const response = await request(app)
-      .get('/user/1000')
-    console.log(response.body);
+    const response = await request(app).get('/user/1000');
     expect(response.status).toEqual(400);
   });
+
   it('No id should return 400', async () => {
-    const response = await request(app)
-      .get('/user/test')
+    const response = await request(app).get('/user/test');
     expect(response.status).toEqual(400);
   });
+
 });
