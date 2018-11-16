@@ -7,8 +7,8 @@ router
   .get('/recommended', showsController.recommended)
   .post('/shows/search', showsController.search)
   .get('/shows/:id', showsController.get)
-  .get('/user', usersController.get)
   .post('/user', usersController.create)
+  .get('/user/:id', usersController.get)
   .post('/user/:id/status', usersController.status)
   .post('/user/:id/rate', usersController.rate);
 

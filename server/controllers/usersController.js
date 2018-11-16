@@ -4,8 +4,14 @@ const db = require('../models/index');
 const Op = db.Sequelize.Op;
 
 usersController.get = async (req, res) => {
-  const user = await helpers.getUser(req.userId);
-  res.status(200).send(user);
+  const id = req.params.id;
+  try {
+    const user = await helpers.getUser(id);
+    res.status(200).send(user);
+  } catch (error) {
+    console.log(error);
+    res.status(400).send();
+  }
 };
 
 usersController.create = async (req,res) => {
@@ -18,7 +24,6 @@ usersController.create = async (req,res) => {
     const user = await helpers.createUser(name,password,email,avatar);
     res.status(201).send(user);
   } catch (error) {
-    console.log(error)
     res.status(400).send();
   }
 }

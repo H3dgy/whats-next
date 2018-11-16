@@ -122,8 +122,9 @@ helpers.searchShows = async function searchShows(term) {
   return results.map(res => ({ id: res.id, name: res.name }));
 };
 
-helpers.getUser = function getUser(id) {
-  return db.User.findByPk(id, {
+helpers.getUser = async (id) => {
+  const user = await db.User.findOne({
+    where: {id: id},
     include: [
       {
         association: 'shows',
@@ -135,7 +136,8 @@ helpers.getUser = function getUser(id) {
       }
     ],
     order: [['shows', 'tracking', 'createdAt', 'DESC']]
-  });
+  })
+  return user.get({plain: true});
 };
 
 module.exports = helpers;

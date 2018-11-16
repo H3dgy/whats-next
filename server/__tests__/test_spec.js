@@ -1,6 +1,9 @@
 const request = require('supertest');
 const app = require('../server');
 
+/**
+ * In order to test the creation of the user the database needs to be reset
+ */
 describe('testing the user controller: creating user', () => {
   it('respond with the user object', async () => {
     const response = await request(app)
@@ -120,40 +123,33 @@ describe('testing the user controller: creating user', () => {
   });
 });
 
-// describe('testing the user controller: get user', () => {
-//   beforeAll(() => {
-//     return request(app)
-//       .post('/user')
-//       .send({
-//         name: 'get_test_1',
-//         password: 'password01',
-//         email: 'get_test_1@hotmail.com',
-//         avatar: 'test'
-//       })
-//       .set('Content-Type', 'application/json');
-//   });
-//   it('should return user test1', done => {
-//     return request(app)
-//       .get('/user')
-//       .set('id', '1')
-//       .expect(
-//         200,
-//         {
-//           name: 'get_test_1',
-//           password: 'password01',
-//           email: 'get_test_1@hotmail.com',
-//           avatar: 'test'
-//         },
-//         done
-//       );
-//   });
-//   it('should return 400', done => {
-//     return request(app)
-//       .get('/user')
-//       .set('id', '100')
-//       .expect(400, done);
-//   });
-// });
+/**
+ * Assumes tests on create user have been run, therefor there should be users in the db
+ */
+describe('testing the user controller: get user', () => {
+  it('should return user with id 1', async () => {
+    const response = await request(app)
+      .get('/user/1')
+    expect(response.status).toEqual(200);
+    expect(response.body).toMatchObject({
+      name: 'test1',
+      password: 'password01',
+      email: 'test1@hotmail.com',
+      avatar: 'test'
+    })
+  });
+  it('Out of bounds id should return 400', async () => {
+    const response = await request(app)
+      .get('/user/1000')
+    console.log(response.body);
+    expect(response.status).toEqual(400);
+  });
+  it('No id should return 400', async () => {
+    const response = await request(app)
+      .get('/user/test')
+    expect(response.status).toEqual(400);
+  });
+});
 
 // should succeed
 // Send req.userId
