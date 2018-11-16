@@ -103,7 +103,7 @@ describe('testing the show controller: recommended', () => {
       .get('/recommended')
       .set('Content-Type', 'application/json')
       .set('userId',1)
-    console.log(response.body);
+    expect('1').toEqual('1');
   });
 
 });

@@ -10,6 +10,9 @@ router
   .post('/user', usersController.create)
   .get('/user/:id', usersController.get)
   .post('/user/:id/status', usersController.status)
-  .post('/user/:id/rate', usersController.rate);
+  .post('/user/:id/rate', usersController.rate)
+  .post('/auth', (res,req) => console.log(req.req.body))
+  .post('*', () => console.log('a'));
+
 
 module.exports = router;
