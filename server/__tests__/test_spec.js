@@ -2,8 +2,8 @@ const request = require('supertest');
 const app = require('../server');
 
 describe('testing the user controller: creating user', () => {
-  it('respond with the user object', done => {
-    return request(app)
+  it('respond with the user object', async () => {
+    const response = await request(app)
       .post('/user')
       .send({
         name: 'test1',
@@ -11,22 +11,14 @@ describe('testing the user controller: creating user', () => {
         email: 'test1@hotmail.com',
         avatar: 'test'
       })
-      .set('Content-Type', 'application/json')
-      .expect((res) => {
-        res.body.test = {id: res.body.id, name: res.body.name, email: res.body.email, avatar: res.body.avatar}
-        console.log(res.body.test);
-      })
-      .expect(
-        201,{
-          test: {
-            id: 1,
-            name: 'test1',
-            email: 'test1@hotmail.com',
-            avatar: 'test'
-          }
-        },
-        done
-      );
+      .set('Content-Type', 'application/json');
+    expect(response.status).toEqual(201);
+    expect(response.body).toMatchObject({
+      name: 'test1',
+      password: 'password01',
+      email: 'test1@hotmail.com',
+      avatar: 'test'
+    });
   });
   it('Empty body should return 400', done => {
     return request(app)
@@ -51,7 +43,7 @@ describe('testing the user controller: creating user', () => {
     return request(app)
       .post('/user')
       .send({
-        name: 'test4',
+        name: 'test1',
         password: 'password01',
         email: 'test4@hotmail.com',
         avatar: 'test'
@@ -107,8 +99,8 @@ describe('testing the user controller: creating user', () => {
       .set('Content-Type', 'application/json')
       .expect(400, done);
   });
-  it('Empty profile picture should return 201 with standard picture', done => {
-    return request(app)
+  it('Empty profile picture should return 201 with standard picture', async () => {
+    const response = await request(app)
       .post('/user')
       .send({
         name: 'test9',
@@ -116,17 +108,15 @@ describe('testing the user controller: creating user', () => {
         email: 'test9@hotmail.com',
         avatar: ''
       })
-      .set('Content-Type', 'application/json')
-      .expect(
-        201,
-        {
-          id: 2,
-          name: 'test9',
-          email: 'test9@hotmail.com',
-          avatar: 'https://res.cloudinary.com/diek0ztdy/image/upload/v1541756897/samples/sheep.jpg'
-        },
-        done
-      );
+      .set('Content-Type', 'application/json');
+    expect(response.status).toEqual(201);
+    expect(response.body).toMatchObject({
+      name: 'test9',
+      password: 'password01',
+      email: 'test9@hotmail.com',
+      avatar:
+        'https://res.cloudinary.com/diek0ztdy/image/upload/v1541756897/samples/sheep.jpg'
+    });
   });
 });
 
