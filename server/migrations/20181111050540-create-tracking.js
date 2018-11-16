@@ -27,6 +27,9 @@ module.exports = {
       rating: {
         type: Sequelize.INTEGER
       },
+      review: {
+        type: Sequelize.STRING
+      },
       status: {
         type: Sequelize.STRING
       },
