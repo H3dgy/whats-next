@@ -164,25 +164,10 @@ describe('test the user controller: create user duplicate entries', () => {
 describe('testing the user controller: get user', () => {
   beforeEach(async () => {
     await userSeeder.up(db.sequelize.queryInterface);
-
-    // await db.sequelize.queryInterface.bulkInsert('Users', [
-    //   {
-    //     id: 1,
-    //     name: 'Alice',
-    //     email: 'alice@example.com',
-    //     password: 'password01',
-    //     avatar: 'test',
-    //     createdAt: new Date(),
-    //     updatedAt: new Date()
-    //   }
-    // ]);
   });
-
   afterEach(async () => {
     await userSeeder.down(db.sequelize.queryInterface);
-    //db.sequelize.queryInterface.bulkDelete('Users', null, {});
   });
-
   it('should return user with id 1', async () => {
     const response = await request(app).get('/user/1');
     expect(response.status).toEqual(200);
@@ -193,15 +178,30 @@ describe('testing the user controller: get user', () => {
       avatar: 'test'
     });
   });
-
   it('Out of bounds id should return 400', async () => {
     const response = await request(app).get('/user/1000');
     expect(response.status).toEqual(400);
   });
-
   it('No id should return 400', async () => {
     const response = await request(app).get('/user/test');
     expect(response.status).toEqual(400);
   });
-
 });
+
+/**
+ * Test: Check if the interaction is correct and tracking is being called when necessary
+ * Test: Check if the right item gets the review/ status and or rating
+ * Test: Check the output
+ * Test: Check for incorrect input
+ */
+
+ /**
+  * Add tests for the tracking module directly
+  * wrong input, right input and result
+ */
+
+// describe('testing the userController: status', () => {
+//   beforeEach();
+//   afterEach();
+//   it('')
+// })
