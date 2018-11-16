@@ -48,24 +48,38 @@ showsController.recommended = async (req, res) => {
 
 showsController.get = async (req, res) => {
   const id = req.params.id;
-  await helpers.createOrUpdateShow(id);
-  const show = await helpers.getShowForUser(id, req.userId);
+  try {
+    await helpers.createOrUpdateShow(id);
+    const show = await helpers.getShowForUser(id, req.userId);
 
-  const similar = await db.Show.findAll({
-    where: { id: show.similar, backdrop_path: { [Op.ne]: null } }
-  });
-  show.similar = similar;
-  const recommendations = await db.Show.findAll({
-    where: { id: show.recommendations, backdrop_path: { [Op.ne]: null } }
-  });
-  show.recommendations = recommendations;
-  res.status(200).send(show);
+    const similar = await db.Show.findAll({
+      where: { id: show.similar, backdrop_path: { [Op.ne]: null } }
+    });
+    show.similar = similar;
+    const recommendations = await db.Show.findAll({
+      where: { id: show.recommendations, backdrop_path: { [Op.ne]: null } }
+    });
+    show.recommendations = recommendations;
+    res.status(200).send(show);
+  }
+  catch (error) {
+    // console.log(error);
+    res.status(400).end();
+  }
 };
 
 showsController.search = async (req, res) => {
   const { term } = req.body;
-  const results = await helpers.searchShows(term);
-  res.status(200).send(results);
+  if (!term) res.status(400).end();
+  try {
+    const results = await helpers.searchShows(term);
+    res.status(200).send(results);
+  }
+  catch (error) {
+    // console.log(error);
+    res.status(400);
+  }
+
 };
 
 module.exports = showsController;
