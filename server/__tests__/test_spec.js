@@ -150,17 +150,3 @@ describe('testing the user controller: get user', () => {
     expect(response.status).toEqual(400);
   });
 });
-
-// should succeed
-// Send req.userId
-
-// router
-//   .get('/recommended', showsController.recommended)
-/**
- * When send req with userId should give back
- */
-//   .post('/shows/search', showsController.search)
-//   .get('/shows/:id', showsController.get)
-//   .get('/user', usersController.get)
-//   .post('/user/:id/status', usersController.status)
-//   .post('/user/:id/rate', usersController.rate);
