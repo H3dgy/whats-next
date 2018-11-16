@@ -8,6 +8,12 @@ usersController.get = async (req, res) => {
   res.status(200).send(user);
 };
 
+usersController.create = async (req,res) => {
+  const {name, password, email, avatar} = req.body;
+  console.log('nameeeee: ', name);
+  res.status(400).send();
+}
+
 usersController.status = async (req, res) => {
   const id = req.params.id;
   const userId = +req.userId;

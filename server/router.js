@@ -8,6 +8,7 @@ router
   .post('/shows/search', showsController.search)
   .get('/shows/:id', showsController.get)
   .get('/user', usersController.get)
+  .post('/user', usersController.create)
   .post('/user/:id/status', usersController.status)
   .post('/user/:id/rate', usersController.rate);
 

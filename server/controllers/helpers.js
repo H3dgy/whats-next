@@ -19,6 +19,14 @@ helpers.getShowForUser = function getShowForUser(id, userId) {
   });
 };
 
+let banana  = 0;
+
+helpers.test = () => {
+  banana++;
+  console.log("banana: ", banana);
+  return banana;
+}
+
 helpers.createOrUpdateShow = async function createOrUpdateShow(id) {
   const localShow = await db.Show.findByPk(id);
   if (!localShow) return await this.createShow(id);
