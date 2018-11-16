@@ -16,6 +16,9 @@ module.exports = {
         },
         allowNull: false
       },
+      review: {
+        type: Sequelize.STRING
+      },
       showId: {
         type: Sequelize.INTEGER,
         references: {
