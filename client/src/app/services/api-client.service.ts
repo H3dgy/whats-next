@@ -8,13 +8,14 @@ import User from '../models/user';
 import SearchResult from '../models/search-result';
 import { environment } from 'src/environments/environment';
 import Tracking from '../interfaces/tracking';
+import AuthInfo from '../interfaces/authinfo';
 import TrackingResult from '../interfaces/tracking-result';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ApiClientService {
-  baseUrl = environment.serverUrl;
+  baseUrl = 'http://localhost:4000'
 
   constructor(private http: HttpClient) {}
 
@@ -87,5 +88,11 @@ export class ApiClientService {
           return Show.from(show);
         })
       );
+  }
+
+  auth(info: AuthInfo): Observable<string> {
+    console.log('a');
+    return this.http
+      .post<string>(`${this.baseUrl}/auth`, info);
   }
 }
