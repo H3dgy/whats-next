@@ -10,27 +10,24 @@ module.exports = {
       },
       name: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: false,
+        unique: true
       },
       email: {
         type: Sequelize.STRING,
         allowNull: false,
-        unique: true
+        unique: true,
+        validate: {
+          isEmail: true
+        },
+      },
+      password: {
+        type: Sequelize.STRING,
+        allowNull: false,
       },
       avatar: {
         type: Sequelize.STRING,
         allowNull: false,
-        unique: true
-      },
-      seen: {
-        type: Sequelize.ARRAY(Sequelize.INTEGER),
-        allowNull: false,
-        defaultValue: []
-      },
-      toSee: {
-        type: Sequelize.ARRAY(Sequelize.INTEGER),
-        allowNull: false,
-        defaultValue: []
       },
       createdAt: {
         allowNull: false,

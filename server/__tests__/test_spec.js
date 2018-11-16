@@ -2,23 +2,28 @@ const request = require('supertest');
 const app = require('../server');
 
 describe('testing the user controller: creating user', () => {
-  it('responds with json', done => {
+  it('respond with the user object', done => {
     return request(app)
       .post('/user')
       .send({
-        name: 'test',
+        name: 'test1',
         password: 'password01',
-        email: 'test@hotmail.com',
+        email: 'test1@hotmail.com',
         avatar: 'test'
       })
       .set('Content-Type', 'application/json')
+      .expect((res) => {
+        res.body.test = {id: res.body.id, name: res.body.name, email: res.body.email, avatar: res.body.avatar}
+        console.log(res.body.test);
+      })
       .expect(
-        201,
-        {
-          id: 1,
-          name: 'test',
-          email: 'test@hotmail.com',
-          avatar: 'test'
+        201,{
+          test: {
+            id: 1,
+            name: 'test1',
+            email: 'test1@hotmail.com',
+            avatar: 'test'
+          }
         },
         done
       );
@@ -36,7 +41,19 @@ describe('testing the user controller: creating user', () => {
       .send({
         name: '',
         password: 'password01',
-        email: 'test@hotmail.com',
+        email: 'test3@hotmail.com',
+        avatar: 'test'
+      })
+      .set('Content-Type', 'application/json')
+      .expect(400, done);
+  });
+  it('Duplicate username should return 400', done => {
+    return request(app)
+      .post('/user')
+      .send({
+        name: 'test4',
+        password: 'password01',
+        email: 'test4@hotmail.com',
         avatar: 'test'
       })
       .set('Content-Type', 'application/json')
@@ -46,9 +63,9 @@ describe('testing the user controller: creating user', () => {
     return request(app)
       .post('/user')
       .send({
-        name: 'test2',
+        name: 'test5',
         password: '',
-        email: 'test@hotmail.com',
+        email: 'test5@hotmail.com',
         avatar: 'test'
       })
       .set('Content-Type', 'application/json')
@@ -58,7 +75,7 @@ describe('testing the user controller: creating user', () => {
     return request(app)
       .post('/user')
       .send({
-        name: 'test3',
+        name: 'test6',
         password: 'password01',
         email: '',
         avatar: 'test'
@@ -66,13 +83,37 @@ describe('testing the user controller: creating user', () => {
       .set('Content-Type', 'application/json')
       .expect(400, done);
   });
+  it('Wrong email format should return 400', done => {
+    return request(app)
+      .post('/user')
+      .send({
+        name: 'test7',
+        password: 'password01',
+        email: 'testtest',
+        avatar: 'test'
+      })
+      .set('Content-Type', 'application/json')
+      .expect(400, done);
+  });
+  it('Duplicate email format should return 400', done => {
+    return request(app)
+      .post('/user')
+      .send({
+        name: 'test8',
+        password: 'password01',
+        email: 'test1@hotmail.com',
+        avatar: 'test'
+      })
+      .set('Content-Type', 'application/json')
+      .expect(400, done);
+  });
   it('Empty profile picture should return 201 with standard picture', done => {
     return request(app)
       .post('/user')
       .send({
-        name: 'test4',
+        name: 'test9',
         password: 'password01',
-        email: 'test@hotmail.com',
+        email: 'test9@hotmail.com',
         avatar: ''
       })
       .set('Content-Type', 'application/json')
@@ -80,61 +121,49 @@ describe('testing the user controller: creating user', () => {
         201,
         {
           id: 2,
-          name: 'test5',
-          email: 'test@hotmail.com',
-          avatar: 'standard'
+          name: 'test9',
+          email: 'test9@hotmail.com',
+          avatar: 'https://res.cloudinary.com/diek0ztdy/image/upload/v1541756897/samples/sheep.jpg'
         },
         done
       );
-  });
-  it('Empty profile picture should return 201 with standard picture', done => {
-    return request(app)
-      .post('/user')
-      .send({
-        name: 'test1',
-        password: 'password01',
-        email: 'test@hotmail.com',
-        avatar: 'test'
-      })
-      .set('Content-Type', 'application/json')
-      .expect(400, done);
   });
 });
 
-describe('testing the user controller: get user', () => {
-  beforeAll(() => {
-    return request(app)
-      .post('/user')
-      .send({
-        name: 'test1',
-        password: 'password01',
-        email: 'test@hotmail.com',
-        avatar: 'test'
-      })
-      .set('Content-Type', 'application/json');
-  });
-  it('should return user test1', done => {
-    return request(app)
-      .get('/user')
-      .set('id', '1')
-      .expect(
-        200,
-        {
-          name: 'test1',
-          password: 'password01',
-          email: 'test@hotmail.com',
-          avatar: 'test'
-        },
-        done
-      );
-  });
-  it('should return 400', done => {
-    return request(app)
-      .get('/user')
-      .set('id', '10')
-      .expect(400, done);
-  });
-});
+// describe('testing the user controller: get user', () => {
+//   beforeAll(() => {
+//     return request(app)
+//       .post('/user')
+//       .send({
+//         name: 'get_test_1',
+//         password: 'password01',
+//         email: 'get_test_1@hotmail.com',
+//         avatar: 'test'
+//       })
+//       .set('Content-Type', 'application/json');
+//   });
+//   it('should return user test1', done => {
+//     return request(app)
+//       .get('/user')
+//       .set('id', '1')
+//       .expect(
+//         200,
+//         {
+//           name: 'get_test_1',
+//           password: 'password01',
+//           email: 'get_test_1@hotmail.com',
+//           avatar: 'test'
+//         },
+//         done
+//       );
+//   });
+//   it('should return 400', done => {
+//     return request(app)
+//       .get('/user')
+//       .set('id', '100')
+//       .expect(400, done);
+//   });
+// });
 
 // should succeed
 // Send req.userId

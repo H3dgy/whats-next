@@ -1,11 +1,31 @@
 'use strict';
+const md5 = require('md5');
+
 module.exports = (sequelize, DataTypes) => {
   const User = sequelize.define(
     'User',
     {
-      name: DataTypes.STRING,
-      email: DataTypes.STRING,
-      avatar: DataTypes.STRING
+      name: {
+        allowNull: false,
+        type: DataTypes.STRING,
+        unique: true
+      },
+      password: {
+        allowNull: false,
+        type: DataTypes.STRING,
+      },
+      email: {
+        allowNull: false,
+        type: DataTypes.STRING,
+        validate: {
+          isEmail: true
+        },
+        unique: true
+      },
+      avatar: {
+        allowNull: true,
+        type: DataTypes.STRING,
+      },
     },
     {}
   );

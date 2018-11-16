@@ -10,8 +10,17 @@ usersController.get = async (req, res) => {
 
 usersController.create = async (req,res) => {
   const {name, password, email, avatar} = req.body;
-  console.log('nameeeee: ', name);
-  res.status(400).send();
+  if(!name || !password || !email) {
+    res.status(400).send();
+    return;
+  }
+  try {
+    const user = await helpers.createUser(name,password,email,avatar);
+    res.status(201).send(user);
+  } catch (error) {
+    console.log(error)
+    res.status(400).send();
+  }
 }
 
 usersController.status = async (req, res) => {
@@ -21,7 +30,6 @@ usersController.status = async (req, res) => {
 
   await db.Tracking.findOrCreate({
     where: { userId, showId: show.id },
-   // defaults: { status: req.body.status }
   })
     .spread(tracking => {
       tracking.status = req.body.status;
@@ -44,7 +52,6 @@ usersController.rate = async (req, res) => {
 
   await db.Tracking.findOrCreate({
     where: { userId, showId: show.id },
-   // defaults: { rating: req.body.rating }
   })
     .spread(tracking => {
       tracking.rating = req.body.rating;
