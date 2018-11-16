@@ -11,7 +11,7 @@ app
   .use(cors())
   .use(bodyParser)
   .use(cookieParser())
-  .use(userMiddleware)
+  // .use(userMiddleware)
   .use(router)
   .use((req, res) => {
     res.status(404).send(`Nothing to see here. ${req.path} not found!`);
