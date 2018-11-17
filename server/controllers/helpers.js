@@ -20,15 +20,6 @@ helpers.getShowForUser = async (id, userId) => {
   return result.get({plain: true});
 };
 
-helpers.createUser = function createUser (name,password,email,avatar) {
-  if (!avatar) avatar = 'https://res.cloudinary.com/diek0ztdy/image/upload/v1541756897/samples/sheep.jpg';
-  return db.User.create({
-    name: name,
-    password: password,
-    email: email,
-    avatar: avatar,
-  })
-}
 
 helpers.createOrUpdateShow = async function createOrUpdateShow(id) {
   const localShow = await db.Show.findByPk(id);

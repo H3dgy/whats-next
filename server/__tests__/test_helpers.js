@@ -1,5 +1,3 @@
-const request = require('supertest');
-const app = require('../server');
 const db = require('../models');
 const trackingSeeder = require('../testSeeding/trackingSeeders');
 const trackingController = require('../controllers/trackingController');
