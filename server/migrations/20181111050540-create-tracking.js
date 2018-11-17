@@ -28,13 +28,15 @@ module.exports = {
         allowNull: false
       },
       rating: {
-        type: Sequelize.INTEGER
-      },
-      review: {
-        type: Sequelize.STRING
+        type: Sequelize.INTEGER,
+        validate: {
+          min: 0,
+          max: 10
+        }
       },
       status: {
-        type: Sequelize.STRING
+        type: Sequelize.ENUM('seen','toSee','seeing', 'none'),
+        defaultValue: 'none'
       },
       createdAt: {
         allowNull: false,

@@ -29,10 +29,14 @@ trackingModule.findOrCreateReview = async (userId, showId, review) => {
     where: { userId, showId: showId },
   })
     .spread(tracking => {
-      tracking.status = review;
+      tracking.review = review;
       return tracking;
     })
     .then(tracking => tracking.save());
+}
+
+trackingModule.findAll = () => {
+  return db.Tracking.findAll({});
 }
 
 module.exports = trackingModule;
