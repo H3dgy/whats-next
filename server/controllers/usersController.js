@@ -1,17 +1,13 @@
 const usersController = {};
-const helpers = require('./helpers');
-const db = require('../models/index');
-const Op = db.Sequelize.Op;
-const trackingModule = require('./trackingModule');
+const userModule = require('../modules/userModule');
 
 
 usersController.get = async (req, res) => {
   const id = req.params.id;
   try {
-    const user = await helpers.getUser(id);
+    const user = await userModule.getUser(id);
     res.status(200).send(user);
   } catch (error) {
-    //console.log(error);
     res.status(400).send();
   }
 };
@@ -23,41 +19,11 @@ usersController.create = async (req,res) => {
     return;
   }
   try {
-    const user = await helpers.createUser(name,password,email,avatar);
+    const user = await userModule.createUser(name,password,email,avatar);
     res.status(201).send(user);
   } catch (error) {
     res.status(400).send();
   }
 }
-
-// usersController.rate = async (req, res) => {
-//   const id = +req.params.id;
-//   const userId = +req.userId;
-//   const show = await helpers.getShowForUser(id, userId);
-
-//   await trackingModule.findOrCreateRating(userId, show.id,req.body.rating);
-
-//   const similar = await db.Show.findAll({
-//     where: { id: show.similar, backdrop_path: { [Op.ne]: null } }
-//   });
-//   show.similar = similar;
-//   res.status(200).send(show);
-// };
-
-// // check in detail
-
-// usersController.review = async (req, res) => {
-//   const id = +req.params.id;
-//   const userId = +req.userId;
-//   const show = await helpers.getShowForUser(id, userId);
-
-//   await trackingModule.findOrCreateReview(userId, show.id,req.body.review);
-
-//   const similar = await db.Show.findAll({
-//     where: { id: show.similar, backdrop_path: { [Op.ne]: null } }
-//   });
-//   show.similar = similar;
-//   res.status(200).send(show);
-// };
 
 module.exports = usersController;
