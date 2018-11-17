@@ -1,9 +1,20 @@
 const request = require('supertest');
 const app = require('../server');
+const db = require('../models/index');
+const showSeeder = require('../testSeeding/showSeeders');
+const userSeeder = require('../testSeeding/userSeeders');
 
 describe('testing the show controller: search', () => {
-  it('responds with json when given show name', done => {
-    return request(app)
+  beforeEach(async () => {
+    await showSeeder.down(db.sequelize.queryInterface);
+    // db.sequelize.queryInterface.bulkDelete('Users', null, {});
+  });
+  afterAll(async () => {
+    await showSeeder.down(db.sequelize.queryInterface);
+    // db.sequelize.queryInterface.bulkDelete('Users', null, {});
+  });
+  it('recommended - to be implementeded', async () => {
+    return await request(app)
       .post('/shows/search')
       .send({
         term: 'peep show'
@@ -16,8 +27,7 @@ describe('testing the show controller: search', () => {
           {
           id: 12063,
           name: 'Peep Show'
-        }],
-        done
+        }]
       );
   });
   it('should be case insensitive', done => {
@@ -64,7 +74,28 @@ describe('testing the show controller: search', () => {
 });
 
 describe('testing the show controller: id', () => {
+  beforeEach(async () => {
+    await showSeeder.up(db.sequelize.queryInterface);
+    await userSeeder.up(db.sequelize.queryInterface);
+  });
+  afterEach(async () => {
+    await userSeeder.down(db.sequelize.queryInterface);
+    await showSeeder.down(db.sequelize.queryInterface);
+  });
+  afterAll(async () => {
+    await showSeeder.down(db.sequelize.queryInterface);
+  });
   it('responds with json containing recommended tv shows when given show name', async () => {
+    const response = await request(app)
+      .get('/shows/815')
+      .set('Content-Type', 'application/json')
+      .set('userId',1)
+      .expect(200);
+    expect(response.body.id.toString()).toMatch('815')
+    const listOfRecommendedIds = response.body.recommendations.map(obj => obj.id).every( number => number > 0);
+    expect(listOfRecommendedIds).toEqual(true);
+  });
+  it('responds with json containing recommended tv shows when given show name -2 ', async () => {
     const response = await request(app)
       .get('/shows/815')
       .set('Content-Type', 'application/json')
@@ -97,14 +128,5 @@ describe('testing the show controller: id', () => {
   });
 });
 
-describe('testing the show controller: recommended', () => {
-  it('responds with json containing recommended tv shows when given show name', async () => {
-    const response = await request(app)
-      .get('/recommended')
-      .set('Content-Type', 'application/json')
-      .set('userId',1)
-    expect('1').toEqual('1');
-  });
 
-});
 

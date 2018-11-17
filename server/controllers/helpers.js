@@ -113,14 +113,19 @@ async function createRelatedShows(showArrIds) {
 
 helpers.searchShows = async function searchShows(term) {
   const key = process.env.API_KEY;
-  const results = await fetch(
+  const results = await helpers.searchShowsFetch(key,term);
+  return results.map(res => ({ id: res.id, name: res.name }));
+};
+
+helpers.searchShowsFetch = async (key,term) => {
+  const result = await fetch(
     `https://api.themoviedb.org/3/search/tv?api_key=${key}&query=${term}`
   )
     .then(data => data.json())
     .then(data => data.results);
 
-  return results.map(res => ({ id: res.id, name: res.name }));
-};
+  return result;
+}
 
 helpers.getUser = async (id) => {
   const user = await db.User.findOne({

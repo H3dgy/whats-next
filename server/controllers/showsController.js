@@ -1,6 +1,5 @@
-const helpers = require('./helpers');
+const helpersShows = require('./helpersShows');
 const db = require('../models/index');
-
 const showsController = {};
 const Op = db.Sequelize.Op;
 
@@ -49,9 +48,8 @@ showsController.recommended = async (req, res) => {
 showsController.get = async (req, res) => {
   const id = req.params.id;
   try {
-    await helpers.createOrUpdateShow(id);
-    const show = await helpers.getShowForUser(id, req.userId);
-
+    await helpersShows.createOrUpdateShow(id);
+    const show = await helpersShows.getShowForUser(id, req.headers.userid);
     const similar = await db.Show.findAll({
       where: { id: show.similar, backdrop_path: { [Op.ne]: null } }
     });
@@ -63,7 +61,7 @@ showsController.get = async (req, res) => {
     res.status(200).send(show);
   }
   catch (error) {
-    // console.log(error);
+    console.log('error', error);
     res.status(400).end();
   }
 };
@@ -72,7 +70,7 @@ showsController.search = async (req, res) => {
   const { term } = req.body;
   if (!term) res.status(400).end();
   try {
-    const results = await helpers.searchShows(term);
+    const results = await helpersShows.searchShows(term);
     res.status(200).send(results);
   }
   catch (error) {
