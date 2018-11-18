@@ -29,10 +29,11 @@ usersController.create = async (req,res) => {
 }
 
 usersController.status = async (req, res) => {
+  console.log('@@@');
   const id = req.params.id;
-  const userId = +req.userId;
+  const userId = req.body.userId;
   let show = await helpers.getShowForUser(id, userId);
-
+  console.log(show);
   await db.Tracking.findOrCreate({
     where: { userId, showId: show.id },
   })

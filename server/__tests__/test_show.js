@@ -5,15 +5,19 @@ const showSeeder = require('../testSeeding/showSeeders');
 const userSeeder = require('../testSeeding/userSeeders');
 
 describe('testing the show controller: search', () => {
-  beforeEach(async () => {
+  // beforeEach(async () => {
+  //   await showSeeder.up(db.sequelize.queryInterface);
+  //   await userSeeder.up(db.sequelize.queryInterface);
+  //   const k = await db.Show.findAll();
+  //   console.log(k);
+  // });
+  afterEach(async () => {
+    const k = await db.Show.findAll();
+    console.log(k);
+    await userSeeder.down(db.sequelize.queryInterface);
     await showSeeder.down(db.sequelize.queryInterface);
-    // db.sequelize.queryInterface.bulkDelete('Users', null, {});
   });
-  afterAll(async () => {
-    await showSeeder.down(db.sequelize.queryInterface);
-    // db.sequelize.queryInterface.bulkDelete('Users', null, {});
-  });
-  it('recommended - to be implementeded', async () => {
+  it('return with tv shows when provided correct id', async () => {
     return await request(app)
       .post('/shows/search')
       .send({
@@ -74,15 +78,16 @@ describe('testing the show controller: search', () => {
 });
 
 describe('testing the show controller: id', () => {
+  beforeAll(async () => {
+    await userSeeder.down(db.sequelize.queryInterface);
+    await showSeeder.down(db.sequelize.queryInterface);
+  })
   beforeEach(async () => {
     await showSeeder.up(db.sequelize.queryInterface);
     await userSeeder.up(db.sequelize.queryInterface);
   });
   afterEach(async () => {
     await userSeeder.down(db.sequelize.queryInterface);
-    await showSeeder.down(db.sequelize.queryInterface);
-  });
-  afterAll(async () => {
     await showSeeder.down(db.sequelize.queryInterface);
   });
   it('responds with json containing recommended tv shows when given show name', async () => {
@@ -99,7 +104,7 @@ describe('testing the show controller: id', () => {
     const response = await request(app)
       .get('/shows/815')
       .set('Content-Type', 'application/json')
-      .set('userId',1)
+      .set('userId',2)
       .expect(200);
     expect(response.body.id.toString()).toMatch('815')
     const listOfRecommendedIds = response.body.recommendations.map(obj => obj.id).every( number => number > 0);
