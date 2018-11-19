@@ -34,7 +34,7 @@ helperShows.createOrUpdateShow = async function createOrUpdateShow(id, findShowB
   else return localShow;
 };
 
-_findShowById = async (id) => {
+const _findShowById = async (id) => {
   return await db.Show.findByPk(id);
 }
 

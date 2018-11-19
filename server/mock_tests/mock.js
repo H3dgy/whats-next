@@ -1,48 +1,39 @@
 const mock = {};
 
 mock.getShowForUserCorrect = {
-  id: 1,
-  name: 'Test show',
-  backdrop_path: 'backdrop_test',
-  poster_path: 'poster_test',
-  number_of_seasons: 5,
-  vote_average: 8,
-  overview: 'Great show',
-  similar: [],
-  recommendations: [],
-  genre_ids: [ 1, 2, 3 ],
-  tracking: null
-};
-
+  id: 100,
+  name: "I Am Not an Animal",
+ };
+ 
 mock.findShowByIdComplete = () => {
   return {
-    id: 1,
-    name: 'Test show',
-    backdrop_path: 'backdrop_test',
-    poster_path: 'poster_test',
-    number_of_seasons: 5,
-    vote_average: 8,
-    overview: 'Great show',
-    genre_ids: [1,2,3],
-    similar: [1,2,3,4],
-    recommendations: [4,3,2,1],
+    id: 100,
+    name: "I Am Not an Animal",
+    backdrop_path: "/o8Site0BMZ8xhknKJ0m52iLfqHg.jpg",
+    poster_path: "/nMhv6jG5dtLdW7rgguYWvpbk0YN.jpg",
+    number_of_seasons: 1,
+    vote_average: 9.7,
+    overview: "I Am Not An Animal is an animated comedy series about the only six talking animals in the world, whose cosseted existence in a vivisection unit is turned upside down when they are liberated by animal rights activists.",
+    similar: [125, 135],
+    recommendations: [145, 155],
+    genre_ids: [16, 35],
   };
 };
 
+
+
 mock.findShowByIdIncomplete = () => {
   return {
-    id: 2,
-    name: 'Test show 2',
-    backdrop_path: 'backdrop_test 2',
-    poster_path: 'poster_test 2',
-    number_of_seasons: 6,
-    vote_average: 9,
-    overview: 'Great show 1234',
+    id: 100,
+    name: "I Am Not an Animal",
+    backdrop_path: "/o8Site0BMZ8xhknKJ0m52iLfqHg.jpg",
+    poster_path: "/nMhv6jG5dtLdW7rgguYWvpbk0YN.jpg",
+    number_of_seasons: 1,
+    vote_average: 9.7,
+    overview: "I Am Not An Animal is an animated comedy series about the only six talking animals in the world, whose cosseted existence in a vivisection unit is turned upside down when they are liberated by animal rights activists.",
     similar: [],
     recommendations: [],
-    genre_ids: [1,2,3,4],
-    createdAt: new Date(),
-    updatedAt: new Date()
+    genre_ids: [16, 35],
   };
 };
 
@@ -60,8 +51,8 @@ mock.fetchCallback = (id) => {
         genre_ids: [1,2,3,4,5],
         createdAt: new Date(),
         updatedAt: new Date(),
-        similar: {results:[{id:2*id},{id:4*id}]},
-        recommendations: {results:[{id:3*id},{id:6*id}]}
+        similar: {results:[{id:125},{id:135}]},
+        recommendations: {results:[{id:145},{id:155}]}
       }
     }
   }
