@@ -657,8 +657,6 @@ describe('testing the show controller: id', () => {
       .get('/shows/test')
       .set('Content-Type', 'application/json')
       .set('userId',1);
-
-    console.log("heeey: ", response.status);
     expect(response.status).toEqual(400);
   });
 
@@ -667,8 +665,6 @@ describe('testing the show controller: id', () => {
       .get('/shows/222222222')
       .set('Content-Type', 'application/json')
       .set('userId',1);
-
-      console.log("heeey: ", response.status);
       expect(response.status).toEqual(400);
   });
 
@@ -677,8 +673,17 @@ describe('testing the show controller: id', () => {
       .get('/shows/2-2')
       .set('Content-Type', 'application/json')
       .set('userId',1);
-
-      console.log("heeey: ", response.status);
       expect(response.status).toEqual(400);
   });
 });
+
+// describe('testing the follower module: follow user', () => {
+//   beforeAll(async () => {
+//     await trackingSeeder.downShows(db.sequelize.queryInterface);
+//     await trackingSeeder.downUsers(db.sequelize.queryInterface);
+//   });
+//   afterAll(async () => {
+//     await trackingSeeder.downShows(db.sequelize.queryInterface);
+//     await trackingSeeder.downUsers(db.sequelize.queryInterface);
+//   });
+// })

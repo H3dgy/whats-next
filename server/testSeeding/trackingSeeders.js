@@ -55,6 +55,15 @@ module.exports = {
         avatar: 'test',
         createdAt: new Date(),
         updatedAt: new Date()
+      }, 
+      {
+        id: 2,
+        name: 'Arturo',
+        email: 'arturo@example.com',
+        password: 'password01',
+        avatar: 'test',
+        createdAt: new Date(),
+        updatedAt: new Date()
       }])
   },
   downShows: queryInterface => {
