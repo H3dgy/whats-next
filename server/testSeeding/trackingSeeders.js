@@ -74,6 +74,9 @@ module.exports = {
   },
   downTracking: queryInterface => {
     return queryInterface.bulkDelete('Trackings',null, {} )
+  },
+  downFollowing: queryInterface => {
+    return queryInterface.bulkDelete('Friends', null, {})
   }
 };
 

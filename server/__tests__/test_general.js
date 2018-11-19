@@ -6,6 +6,7 @@ const trackingController = require('../controllers/trackingController');
 const helpersShows = require('../controllers/helpersShows');
 const showSeeder = require('../testSeeding/showSeeders');
 const mock = require('../mock_tests/mock');
+const followModule = require('../modules/followModule');
 
 /**
  * In order to test the creation of the user the database needs to be reset
@@ -677,13 +678,88 @@ describe('testing the show controller: id', () => {
   });
 });
 
-// describe('testing the follower module: follow user', () => {
-//   beforeAll(async () => {
-//     await trackingSeeder.downShows(db.sequelize.queryInterface);
-//     await trackingSeeder.downUsers(db.sequelize.queryInterface);
-//   });
-//   afterAll(async () => {
-//     await trackingSeeder.downShows(db.sequelize.queryInterface);
-//     await trackingSeeder.downUsers(db.sequelize.queryInterface);
-//   });
-// })
+describe('testing the follower module: toggle follow', () => {
+  beforeAll(async () => {
+    await trackingSeeder.downShows(db.sequelize.queryInterface);
+    await trackingSeeder.downUsers(db.sequelize.queryInterface);
+    await trackingSeeder.upUsers(db.sequelize.queryInterface);
+  });
+  afterEach(async () => {
+    await trackingSeeder.downFollowing(db.sequelize.queryInterface);
+  });
+
+  afterAll(async () => {
+    await trackingSeeder.downFollowing(db.sequelize.queryInterface);
+    await trackingSeeder.downShows(db.sequelize.queryInterface);
+    await trackingSeeder.downUsers(db.sequelize.queryInterface);
+  });
+
+  it('userId 1 should follow userId 2', async () => {
+    await followModule.toggleFollow(1,2);
+    const all = await followModule.findAll();
+    expect(all).toMatchObject([{
+      follower_id: 1,
+      following_id: 2
+    }]);
+  });
+
+  it('userId 1 should follow userId 2 nad vice versa', async () => {
+    await followModule.toggleFollow(1,2);
+    await followModule.toggleFollow(2,1);
+    const all = await followModule.findAll();
+    expect(all).toMatchObject([{
+      follower_id: 1,
+      following_id: 2
+    }, {
+      follower_id: 2,
+      following_id: 1
+    }]);
+  });
+
+  it('userId 1 should follow and unfollow userId 2', async () => {
+    await followModule.toggleFollow(1,2);
+    await followModule.toggleFollow(1,2);
+    const all = await followModule.findAll();
+    expect(all).toMatchObject([]);
+  });
+
+  it('Find following for user 1 should return 2', async () => {
+    await followModule.toggleFollow(1,2);
+    const all = await followModule.findFollowingForUser(1);
+    expect(all).toMatchObject([{
+      follower_id: 1,
+      following_id: 2
+    }]);
+  });
+
+  it('Find followers for user 2 should return 1', async () => {
+    await followModule.toggleFollow(1,2);
+    const all = await followModule.findFollowersForUser(2);
+    expect(all).toMatchObject([{
+      follower_id: 1,
+      following_id: 2
+    }]);
+  });
+
+  it('Incorrect follower_id should return and error', async () => {
+    let message = false;
+    try {
+      await followModule.toggleFollow(100,2);
+    }
+    catch (err) {
+      message = err.message;
+    }
+    expect(message).toBeTruthy();
+  });
+
+  it('Incorrect following_id should return and error', async () => {
+    let message = false;
+    try {
+      await followModule.toggleFollow(1,200);
+    }
+    catch (err) {
+      message = err.message;
+    }
+    expect(message).toBeTruthy();
+  });
+})

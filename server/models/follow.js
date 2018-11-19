@@ -1,6 +1,6 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
-  const Following = sequelize.define('Following', {
+  const Friend = sequelize.define('Friend', {
     follower_id: {
       allowNull: false,
       unique: true,
@@ -20,9 +20,9 @@ module.exports = (sequelize, DataTypes) => {
       }
     },
   }, {});
-  Following.associate = function(models) {
-    Following.belongsTo(models.User, { as: 'following', foreignKey: 'following_id' });
-    Following.belongsTo(models.User, { as: 'follower', foreignKey: 'follower_id' });
+  Friend.associate = function(models) {
+    Friend.belongsTo(models.User, { as: 'following', foreignKey: 'following_id' });
+    Friend.belongsTo(models.User, { as: 'follower', foreignKey: 'follower_id' });
   };
-  return Following;
+  return Friend;
 };
