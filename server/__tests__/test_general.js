@@ -195,3 +195,145 @@ describe('testing the user controller: get user', () => {
     expect(response.status).toEqual(400);
   });
 });
+
+/**
+ * Test: Check if the interaction is correct and tracking is being called when necessary
+ * Test: Check if the right item gets the review/ status and or rating
+ * Test: Check the output
+ * Test: Check for incorrect input
+ */
+
+describe('testing the tracking Controller: create status', () => {
+  beforeAll(async () => {
+    await trackingSeeder.downTracking(db.sequelize.queryInterface);
+    await trackingSeeder.downUsers(db.sequelize.queryInterface);
+    await trackingSeeder.downShows(db.sequelize.queryInterface);
+  });
+
+  beforeEach( async () => {
+    await trackingSeeder.upShows(db.sequelize.queryInterface);
+    await trackingSeeder.upUsers(db.sequelize.queryInterface);
+  })
+
+  afterEach( async () => {
+    await trackingSeeder.downTracking(db.sequelize.queryInterface);
+    await trackingSeeder.downShows(db.sequelize.queryInterface);
+    await trackingSeeder.downUsers(db.sequelize.queryInterface);
+  })
+
+  afterAll(async () => {
+    await trackingSeeder.downTracking(db.sequelize.queryInterface);
+    await trackingSeeder.downUsers(db.sequelize.queryInterface);
+    await trackingSeeder.downShows(db.sequelize.queryInterface);
+  });
+
+  it('respond with the movie object which includes the tracking', async () => {
+    const response = await request(app)
+      .post('/user/100/status')
+      .send({
+        status: 'seen',
+        userId: 1
+      })
+      .set('Content-Type', 'application/json');
+    expect(response.status).toEqual(201);
+    expect(response.body).toMatchObject({
+      name: "I Am Not an Animal",
+      tracking: {rating: null, review: null, status: 'seen'}
+    });
+  });
+  it('respond with status 400 if given incorrect userId', async () => {
+    const response = await request(app)
+      .post('/user/100/status')
+      .send({
+        status: 'test',
+        userId: 200
+      })
+      .set('Content-Type', 'application/json');
+    expect(response.status).toEqual(400);
+  });
+  it('respond with status 400 if given incorrect movieId', async () => {
+    const response = await request(app)
+      .post('/user/20003030303/status')
+      .send({
+        status: 'test',
+        userId: 1
+      })
+    expect(response.status).toEqual(400);
+  });
+  it('respond with status 400 if given incorrect status', async () => {
+    const response = await request(app)
+      .post('/user/100/status')
+      .send({
+        status: 'test',
+        userId: 1
+      })
+    expect(response.status).toEqual(400);
+  });
+});
+
+
+/**
+ * Test: Check if the interaction is correct and tracking is being called when necessary
+ * Test: Check if the right item gets the review/ status and or rating
+ * Test: Check the output
+ * Test: Check for incorrect input
+ */
+
+describe('testing the tracking Controller: create review', () => {
+  beforeAll(async () => {
+    await trackingSeeder.downTracking(db.sequelize.queryInterface);
+    await trackingSeeder.downUsers(db.sequelize.queryInterface);
+    await trackingSeeder.downShows(db.sequelize.queryInterface);
+  });
+
+  beforeEach( async () => {
+    await trackingSeeder.upShows(db.sequelize.queryInterface);
+    await trackingSeeder.upUsers(db.sequelize.queryInterface);
+  })
+
+  afterEach( async () => {
+    await trackingSeeder.downTracking(db.sequelize.queryInterface);
+    await trackingSeeder.downShows(db.sequelize.queryInterface);
+    await trackingSeeder.downUsers(db.sequelize.queryInterface);
+  })
+
+  afterAll(async () => {
+    await trackingSeeder.downTracking(db.sequelize.queryInterface);
+    await trackingSeeder.downUsers(db.sequelize.queryInterface);
+    await trackingSeeder.downShows(db.sequelize.queryInterface);
+  });
+  
+  it('respond with the movie object which includes the tracking', async () => {
+    const response = await request(app)
+      .post('/user/100/review')
+      .send({
+        review: 'Great',
+        userId: 1
+      })
+      .set('Content-Type', 'application/json');
+    expect(response.status).toEqual(201);
+    expect(response.body).toMatchObject({
+      name: "I Am Not an Animal",
+      tracking: {rating: null, review: 'Great', status: 'none'}
+    });
+  });
+  it('respond with status 400 if given incorrect userId', async () => {
+    const response = await request(app)
+      .post('/user/100/review')
+      .send({
+        status: 'test',
+        userId: 200
+      })
+      .set('Content-Type', 'application/json');
+    expect(response.status).toEqual(400);
+  });
+  it('respond with status 400 if given incorrect movieId', async () => {
+    const response = await request(app)
+      .post('/user/20003030303/review')
+      .send({
+        review: 'Great',
+        userId: 1
+      })
+    expect(response.status).toEqual(400);
+  });
+});
