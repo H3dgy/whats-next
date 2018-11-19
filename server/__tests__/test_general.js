@@ -557,3 +557,128 @@ describe('testing the helper shows: createOrUpdateShow', () => {
     expect(response).toMatchObject(mock.findShowByIdComplete());
   });
 });
+
+describe('testing the show controller: search', () => {
+
+  beforeAll(async () => {
+    await trackingSeeder.downShows(db.sequelize.queryInterface);
+    await trackingSeeder.downUsers(db.sequelize.queryInterface);
+  });
+  afterAll(async () => {
+    await trackingSeeder.downShows(db.sequelize.queryInterface);
+    await trackingSeeder.downUsers(db.sequelize.queryInterface);
+  });
+
+  it('return tv shows when provided correct movie search term', async () => {
+    return await request(app)
+      .post('/shows/search')
+      .send({
+        term: 'peep show'
+      })
+      .set('Content-Type', 'application/json')
+      .expect(
+        200,
+        [{ id: 815,
+          name: 'Peep Show'},
+          {
+          id: 12063,
+          name: 'Peep Show'
+        }]
+      );
+  });
+
+  it('search term should be case insensitive', done => {
+    return request(app)
+      .post('/shows/search')
+      .send({
+        term: 'peEp sHow'
+      })
+      .set('Content-Type', 'application/json')
+      .expect(
+        200,
+        [{ id: 815,
+          name: 'Peep Show'},
+          {
+          id: 12063,
+          name: 'Peep Show'
+        }],
+        done
+      );
+  });
+  it('should return 400 for empty requests', done => {
+    return request(app)
+      .post('/shows/search')
+      .send({
+        term: ''
+      })
+      .set('Content-Type', 'application/json')
+      .expect(
+        400,
+        done
+      );
+  });
+  it('should only return the first 20 results', async () => {
+    const response = await request(app)
+      .post('/shows/search')
+      .send({
+        term: 'a'
+      })
+      .set('Content-Type', 'application/json')
+      expect(response.body).toHaveLength(20)
+  });
+});
+
+describe('testing the show controller: id', () => {
+
+  beforeAll(async () => {
+    await trackingSeeder.downShows(db.sequelize.queryInterface);
+    await trackingSeeder.downUsers(db.sequelize.queryInterface);
+    await trackingSeeder.upUsers(db.sequelize.queryInterface);
+  });
+  afterAll(async () => {
+    await trackingSeeder.downShows(db.sequelize.queryInterface);
+    await trackingSeeder.downUsers(db.sequelize.queryInterface);
+  });
+
+  it('responds with json containing recommended tv shows when given show name', async () => {
+    const response = await request(app)
+      .get('/shows/815')
+      .set('Content-Type', 'application/json')
+      .set('userId',1);
+
+    expect(response.status).toEqual(200);
+    expect(response.body.id.toString()).toMatch('815')
+    const listOfRecommendedIds = response.body.recommendations.map(obj => obj.id).every( number => number > 0);
+    expect(listOfRecommendedIds).toEqual(true);
+  });
+
+  it('responds with 400 when given incorrect type show id', async () => {
+    const response = await request(app)
+      .get('/shows/test')
+      .set('Content-Type', 'application/json')
+      .set('userId',1);
+
+    console.log("heeey: ", response.status);
+    expect(response.status).toEqual(400);
+  });
+
+  it('responds with 400 when given incorrect number show id', async () => {
+    const response = await request(app)
+      .get('/shows/222222222')
+      .set('Content-Type', 'application/json')
+      .set('userId',1);
+
+      console.log("heeey: ", response.status);
+      expect(response.status).toEqual(400);
+  });
+
+  it('responds with 400 when given incorrect input', async () => {
+    const response = await request(app)
+      .get('/shows/2-2')
+      .set('Content-Type', 'application/json')
+      .set('userId',1);
+
+      console.log("heeey: ", response.status);
+      expect(response.status).toEqual(400);
+  });
+});

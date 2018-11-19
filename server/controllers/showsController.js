@@ -11,14 +11,14 @@ showsController.recommended = async (req, res) => {
   res.status(200).send(fullShows);
 };
 
-_findTrackedShows = async (userId) => {
+const _findTrackedShows = async (userId) => {
   return await db.Tracking.findAll({
     where: { userId: userId },
     attributes: ['showId']
   })
 };
 
-_findShows = async(trackedShowsIds,userId) => {
+const _findShows = async(trackedShowsIds,userId) => {
   return await db.Show.findAll({
     where: {
       id: trackedShowsIds,
@@ -38,7 +38,7 @@ _findShows = async(trackedShowsIds,userId) => {
   });
 };
 
-_findFullShows = async (shows) => {
+const _findFullShows = async (shows) => {
   return await Promise.all(
     shows.map(async show => {
       const recommendations = await db.Show.findAll({
@@ -56,30 +56,27 @@ _findFullShows = async (shows) => {
 
 showsController.get = async (req, res) => {
   const id = req.params.id;
-  try {
-    await helpersShows.createOrUpdateShow(id);
-    const show = await helpersShows.getShowForUser(id, req.headers.userid);
-    if (id === '815') {const k = await db.Show.findAll();
-    console.log(k);}
-    const similar = await _findSimilar(show);
-    show.similar = similar;
-    const recommendations = await _findRecommendations(show);
-    show.recommendations = recommendations;
-    res.status(200).send(show);
-  }
-  catch (error) {
-    // console.log('error', error);
-    res.status(400).end();
-  }
+    try {
+      await helpersShows.createOrUpdateShow(id);
+      const show = await helpersShows.getShowForUser(id, req.headers.userid);
+      const similar = await _findSimilar(show);
+      show.similar = similar;
+      const recommendations = await _findRecommendations(show);
+      show.recommendations = recommendations;
+      res.status(200).send(show);
+    }
+    catch (error) {
+      res.status(400).send();
+    }
 };
 
-_findSimilar = async (show) => {
+const _findSimilar = async (show) => {
   return await db.Show.findAll({
     where: { id: show.similar, backdrop_path: { [Op.ne]: null } }
   });
 };
 
-_findRecommendations = async (show) => {
+const _findRecommendations = async (show) => {
   return await db.Show.findAll({
     where: { id: show.recommendations, backdrop_path: { [Op.ne]: null } }
   });
@@ -93,10 +90,8 @@ showsController.search = async (req, res) => {
     res.status(200).send(results);
   }
   catch (error) {
-    // console.log(error);
     res.status(400).end();
   }
-
 };
 
 module.exports = showsController;

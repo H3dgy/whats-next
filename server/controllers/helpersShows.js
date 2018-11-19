@@ -1,7 +1,5 @@
 const fetch = require('node-fetch');
 const db = require('../models');
-const Op = db.Sequelize.Op;
-
 const helperShows = {};
 
 
@@ -50,7 +48,6 @@ helperShows.completeInfo = function completeInfo(show) {
 helperShows.createShow = async function createShow(id, recurse = false, fetchCallback = _fetchCallback, createShow = _createShow) {
   const key = '7ade3fee80ba277b71dfc6bc8b08cc50'
   const data = await fetchCallback(id, key);
-  // console.log('data',data, 'id', id);
   if (data && data.status_code !== 34) {
     const similar = (data.similar && data.similar.results) || [];
     const recommendations =
@@ -77,36 +74,30 @@ helperShows.createShow = async function createShow(id, recurse = false, fetchCal
   else return [];
 };
 
-_createShow = async (attrs) => {
+const _createShow = async (attrs) => {
   return await db.Show.create(attrs);
 }
 
 
 helperShows.updateShowInfo = async function updateShowInfo(id, fetchCallback = _fetchCallback, findShowById = _findShowById, updateShow = _updateShow) {
   const show = await findShowById(id);
-  // console.log('id', id, 'show',show);
   const key = '7ade3fee80ba277b71dfc6bc8b08cc50';
   const data = await fetchCallback(id,key);
-  // console.log(data);
   const similar = (data.similar && data.similar.results) || [];
   const recommendations = (data.recommendations && data.recommendations.results) || [];
-  // console.log(similar);
-  // console.log(recommendations);
   const attrs = {
     number_of_seasons: data.number_of_seasons,
     similar: similar.map(el => el.id),
     recommendations: recommendations.map(el => el.id)
   };
-  // console.log(attrs);
   await updateShow(show, id, attrs)
   await createRelatedShows(attrs.similar, fetchCallback);
   await createRelatedShows(attrs.recommendations, fetchCallback);
   const showUpdated = await findShowById(id);
-  // console.log(showUpdated);
   return showUpdated;
 };
 
-_updateShow = async (show,id,attrs) => {
+const _updateShow = async (show,id,attrs) => {
   await show.update(attrs, {where: {id}});
 }
 
@@ -135,10 +126,8 @@ helperShows.searchShows = async function searchShows(term, searchShowsFetch = _s
   return results.map(res => ({ id: res.id, name: res.name }));
 };
 
-_searchShowsFetch = async (key, term) => {
-  const result = await fetch(
-    `https://api.themoviedb.org/3/search/tv?api_key=${key}&query=${term}`
-  )
+const _searchShowsFetch = async (key, term) => {
+  const result = await fetch(`https://api.themoviedb.org/3/search/tv?api_key=${key}&query=${term}`)
     .then(data => data.json())
     .then(data => data.results);
   return result;

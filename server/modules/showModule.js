@@ -106,18 +106,18 @@ showModule.searchShows = async function searchShows(term, searchShowsFetch = _se
   return results.map(res => ({ id: res.id, name: res.name }));
 };
 
-_updateShow = async (show,id,attrs) => {
+const _updateShow = async (show,id,attrs) => {
   await show.update(attrs, {where: {id}});
 }
 
-_fetchCallback = async (id, key) => {
+const _fetchCallback = async (id, key) => {
   return fetch(
     `https://api.themoviedb.org/3/tv/${id}?api_key=${key}&append_to_response=similar,recommendations`
   )
     .then(data => data.json())
 };
 
-_searchShowsFetch = async (key, term) => {
+const _searchShowsFetch = async (key, term) => {
   const result = await fetch(
     `https://api.themoviedb.org/3/search/tv?api_key=${key}&query=${term}`
   )
@@ -126,11 +126,11 @@ _searchShowsFetch = async (key, term) => {
   return result;
 }
 
-_findShowById = async (id) => {
+const _findShowById = async (id) => {
   return await db.Show.findByPk(id);
 }
 
-_createShow = async (attrs) => {
+const _createShow = async (attrs) => {
   return await db.Show.create(attrs);
 }
 
