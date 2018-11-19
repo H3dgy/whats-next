@@ -1,4 +1,3 @@
-const helpersShows = require('./helpersShows');
 const showModule = require('../modules/showModule');
 const showsController = {};
 
@@ -13,8 +12,8 @@ showsController.recommended = async (req, res) => {
 showsController.get = async (req, res) => {
   const id = req.params.id;
     try {
-      await helpersShows.createOrUpdateShow(id);
-      const show = await helpersShows.getShowForUser(id, req.headers.userid);
+      await showModule.createOrUpdateShow(id);
+      const show = await showModule.getShowForUser(id, req.headers.userid);
       const similar = await showModule.findSimilar(show);
       show.similar = similar;
       const recommendations = await showModule.findRecommendations(show);
@@ -30,7 +29,7 @@ showsController.search = async (req, res) => {
   const { term } = req.body;
   if (!term) res.status(400).end();
   try {
-    const results = await helpersShows.searchShows(term);
+    const results = await showModule.searchShows(term);
     res.status(200).send(results);
   }
   catch (error) {

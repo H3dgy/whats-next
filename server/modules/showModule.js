@@ -1,6 +1,7 @@
 const showModule = {};
 const db = require('../models/index');
 const Op = db.Sequelize.Op;
+const fetch = require('node-fetch');
 
 showModule.findTrackedShows = async (userId) => {
   return await db.Tracking.findAll({
@@ -65,21 +66,29 @@ showModule.findRecommendations = async (show) => {
   });
 }
 
-showModule.getShowForUser = async (id, userId) => {
-  const result = await db.Show.findOne({
-    where: { id },
-    include: [
-      {
-        model: db.Tracking,
-        as: 'tracking',
-        where: { userId: userId },
-        required: false,
-        attributes: ['status', 'rating', 'review']
-      }
-    ]
-  });
-  return result.get({plain: true});
+showModule.getShowForUser = function getShowForUser(id, userId) {
+    return db.Show.findOne({
+      where: { id },
+      include: [
+        {
+          model: db.Tracking,
+          as: 'tracking',
+          where: { userId: userId },
+          required: false,
+          attributes: ['status', 'rating', 'review']
+        }
+      ]
+    });
 };
+
+
+showModule.completeInfo = function completeInfo(show) {
+  return (
+    !!show.number_of_seasons &&
+    !!show.similar.length &&
+    !!show.recommendations.length
+  );
+}
 
 showModule.createOrUpdateShow = async function createOrUpdateShow(id, findShowById = _findShowById, fetchCallback = _fetchCallback) {
   const localShow = await findShowById(id)
@@ -87,6 +96,10 @@ showModule.createOrUpdateShow = async function createOrUpdateShow(id, findShowBy
   else if (!showModule.completeInfo(localShow)) return showModule.updateShowInfo(id,fetchCallback);
   else return localShow;
 };
+
+const _findShowById = async (id) => {
+  return await db.Show.findByPk(id);
+}
 
 showModule.completeInfo = function completeInfo(show) {
   return (
@@ -125,6 +138,11 @@ showModule.createShow = async function createShow(id, recurse = false, fetchCall
   else return [];
 };
 
+const _createShow = async (attrs) => {
+  return await db.Show.create(attrs);
+}
+
+
 showModule.updateShowInfo = async function updateShowInfo(id, fetchCallback = _fetchCallback, findShowById = _findShowById, updateShow = _updateShow) {
   const show = await findShowById(id);
   const key = '7ade3fee80ba277b71dfc6bc8b08cc50';
@@ -143,7 +161,19 @@ showModule.updateShowInfo = async function updateShowInfo(id, fetchCallback = _f
   return showUpdated;
 };
 
-showModule.createRelatedShow = async (showArrIds, fetchCallback) => {
+const _updateShow = async (show,id,attrs) => {
+  await show.update(attrs, {where: {id}});
+}
+
+const _fetchCallback = async (id, key) => {
+  return fetch (
+    `https://api.themoviedb.org/3/tv/${id}?api_key=${key}&append_to_response=similar,recommendations`
+  )
+    .then(data => data.json())
+};
+
+
+async function createRelatedShows(showArrIds, fetchCallback) {
   await Promise.all(
     showArrIds.map(async id => {
       const ss = await db.Show.findOne({ where: { id } });
@@ -152,7 +182,11 @@ showModule.createRelatedShow = async (showArrIds, fetchCallback) => {
       }
     })
   );
-};
+}
+
+/**
+ *  Checked
+ */
 
 showModule.searchShows = async function searchShows(term, searchShowsFetch = _searchShowsFetch) {
   const key = '7ade3fee80ba277b71dfc6bc8b08cc50'
@@ -160,32 +194,11 @@ showModule.searchShows = async function searchShows(term, searchShowsFetch = _se
   return results.map(res => ({ id: res.id, name: res.name }));
 };
 
-const _updateShow = async (show,id,attrs) => {
-  await show.update(attrs, {where: {id}});
-}
-
-const _fetchCallback = async (id, key) => {
-  return fetch(
-    `https://api.themoviedb.org/3/tv/${id}?api_key=${key}&append_to_response=similar,recommendations`
-  )
-    .then(data => data.json())
-};
-
 const _searchShowsFetch = async (key, term) => {
-  const result = await fetch(
-    `https://api.themoviedb.org/3/search/tv?api_key=${key}&query=${term}`
-  )
+  const result = await fetch(`https://api.themoviedb.org/3/search/tv?api_key=${key}&query=${term}`)
     .then(data => data.json())
     .then(data => data.results);
   return result;
-}
-
-const _findShowById = async (id) => {
-  return await db.Show.findByPk(id);
-}
-
-const _createShow = async (attrs) => {
-  return await db.Show.create(attrs);
 }
 
 module.exports = showModule;

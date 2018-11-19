@@ -3,8 +3,7 @@ const app = require('../server');
 const db = require('../models');
 const trackingSeeder = require('../testSeeding/trackingSeeders');
 const trackingController = require('../controllers/trackingController');
-const helpersShows = require('../controllers/helpersShows');
-const showSeeder = require('../testSeeding/showSeeders');
+const showModule = require('../modules/showModule');
 const mock = require('../mock_tests/mock');
 const followModule = require('../modules/followModule');
 
@@ -493,14 +492,14 @@ describe('testing the helper shows: getShowForUser', () => {
   });
 
   it('gets show when provided correct inputs', async () => {
-    const response = await helpersShows.getShowForUser(100,1);
+    const response = await showModule.getShowForUser(100,1);
     expect(response.dataValues).toMatchObject(mock.getShowForUserCorrect)
   });
 
   it('throw error when given incorrect inputs - 1', async () => {
     let message = false;
     try {
-      await await helpersShows.getShowForUser(100,'test')
+      await await showModule.getShowForUser(100,'test')
     }
     catch (err) {
       message = err.message;
@@ -511,7 +510,7 @@ describe('testing the helper shows: getShowForUser', () => {
   it('throw error when given incorrect inputs - 2', async () => {
     let message = false;
     try {
-      await helpersShows.getShowForUser('test',1)
+      await showModule.getShowForUser('test',1)
     }
     catch (err) {
       message = err.message;
@@ -540,21 +539,21 @@ describe('testing the helper shows: createOrUpdateShow', () => {
   });
 
   it('gets show when provided correct and complete inputs - third condition', async () => {
-    const response = await helpersShows.createOrUpdateShow(100,mock.findShowByIdComplete);
+    const response = await showModule.createOrUpdateShow(100,mock.findShowByIdComplete);
     expect(response).toMatchObject(mock.findShowByIdComplete());
   });
   it('gets show when provided incomplete show - second condition', async () => {
-    const response = await helpersShows.createOrUpdateShow(100,
+    const response = await showModule.createOrUpdateShow(100,
     mock.findShowByIdIncomplete,mock.fetchCallback(100));
     expect(response).toMatchObject({similar:[125,135],recommendations:[145,155]});
   });
   it('gets show when provided show not on database - first condition', async () => {
-    const response = await helpersShows.createOrUpdateShow(2000,
+    const response = await showModule.createOrUpdateShow(2000,
     undefined,mock.fetchCallback(2000));
     expect(response).toMatchObject({id:2000,name:'Test show 2000', similar:[125,135]});
   });
   it('gets show when provided correct and complete inputs - third condition', async () => {
-    const response = await helpersShows.createOrUpdateShow(1,mock.findShowByIdComplete);
+    const response = await showModule.createOrUpdateShow(1,mock.findShowByIdComplete);
     expect(response).toMatchObject(mock.findShowByIdComplete());
   });
 });

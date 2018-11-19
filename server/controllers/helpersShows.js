@@ -2,29 +2,6 @@ const fetch = require('node-fetch');
 const db = require('../models');
 const helperShows = {};
 
-
-helperShows.getShowForUser = function getShowForUser(id, userId) {
-  try {
-    return db.Show.findOne({
-      where: { id },
-      include: [
-        {
-          model: db.Tracking,
-          as: 'tracking',
-          where: { userId: userId },
-          required: false,
-          attributes: ['status', 'rating', 'review']
-        }
-      ]
-    });
-  }
-  catch (err) {
-    if (err) throw err;
-
-  }
-};
-
-
 helperShows.createOrUpdateShow = async function createOrUpdateShow(id, findShowById = _findShowById, fetchCallback = _fetchCallback) {
   const localShow = await findShowById(id)
   if (!localShow) return helperShows.createShow(id,false,fetchCallback);
@@ -35,7 +12,6 @@ helperShows.createOrUpdateShow = async function createOrUpdateShow(id, findShowB
 const _findShowById = async (id) => {
   return await db.Show.findByPk(id);
 }
-
 
 helperShows.completeInfo = function completeInfo(show) {
   return (
@@ -119,6 +95,10 @@ async function createRelatedShows(showArrIds, fetchCallback) {
     })
   );
 }
+
+/**
+ *  Checked
+ */
 
 helperShows.searchShows = async function searchShows(term, searchShowsFetch = _searchShowsFetch) {
   const key = '7ade3fee80ba277b71dfc6bc8b08cc50'
