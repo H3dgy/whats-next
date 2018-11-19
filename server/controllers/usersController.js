@@ -1,15 +1,13 @@
 const usersController = {};
-const helpers = require('./helpers');
-const db = require('../models/index');
-const Op = db.Sequelize.Op;
+const userModule = require('../modules/userModule');
+
 
 usersController.get = async (req, res) => {
   const id = req.params.id;
   try {
-    const user = await helpers.getUser(id);
+    const user = await userModule.getUser(id);
     res.status(200).send(user);
   } catch (error) {
-    console.log(error);
     res.status(400).send();
   }
 };
@@ -21,7 +19,7 @@ usersController.create = async (req,res) => {
     return;
   }
   try {
-    const user = await helpers.createUser(name,password,email,avatar);
+    const user = await userModule.createUser(name,password,email,avatar);
     res.status(201).send(user);
   } catch (error) {
     res.status(400).send();
@@ -29,7 +27,6 @@ usersController.create = async (req,res) => {
 }
 
 usersController.status = async (req, res) => {
-  console.log('@@@');
   const id = req.params.id;
   const userId = req.body.userId;
   let show = await helpers.getShowForUser(id, userId);

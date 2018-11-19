@@ -38,7 +38,7 @@ describe('testing the helper shows: getShowForUser', () => {
   it('throw error when given incorrect inputs - 2', async () => {
     let message = false;
     try {
-      await await helpersShows.getShowForUser('test',1)
+      await helpersShows.getShowForUser('test',1)
     }
     catch (err) {
       message = err.message;

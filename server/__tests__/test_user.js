@@ -1,6 +1,6 @@
 const request = require('supertest');
 const app = require('../server');
-const db = require('../models/index');
+const db = require('../models');
 const userSeeder = require('../testSeeding/userSeeders');
 
 /**
@@ -9,11 +9,9 @@ const userSeeder = require('../testSeeding/userSeeders');
 describe('testing the user controller: creating user', () => {
   beforeEach(async () => {
     await userSeeder.down(db.sequelize.queryInterface);
-    // db.sequelize.queryInterface.bulkDelete('Users', null, {});
   });
   afterAll(async () => {
     await userSeeder.down(db.sequelize.queryInterface);
-    // db.sequelize.queryInterface.bulkDelete('Users', null, {});
   });
 
   xit('respond with the user object', async () => {
@@ -164,26 +162,11 @@ describe('test the user controller: create user duplicate entries', () => {
 describe('testing the user controller: get user', () => {
   beforeEach(async () => {
     await userSeeder.up(db.sequelize.queryInterface);
-
-    // await db.sequelize.queryInterface.bulkInsert('Users', [
-    //   {
-    //     id: 1,
-    //     name: 'Alice',
-    //     email: 'alice@example.com',
-    //     password: 'password01',
-    //     avatar: 'test',
-    //     createdAt: new Date(),
-    //     updatedAt: new Date()
-    //   }
-    // ]);
   });
-
   afterEach(async () => {
     await userSeeder.down(db.sequelize.queryInterface);
-    //db.sequelize.queryInterface.bulkDelete('Users', null, {});
   });
-
-  xit('should return user with id 1', async () => {
+  it('should return user with id 1', async () => {
     const response = await request(app).get('/user/1');
     expect(response.status).toEqual(200);
     expect(response.body).toMatchObject({
@@ -193,15 +176,13 @@ describe('testing the user controller: get user', () => {
       avatar: 'test'
     });
   });
-
-  xit('Out of bounds id should return 400', async () => {
+  it('Out of bounds id should return 400', async () => {
     const response = await request(app).get('/user/1000');
     expect(response.status).toEqual(400);
   });
-
-  xit('No id should return 400', async () => {
+  it('No id should return 400', async () => {
     const response = await request(app).get('/user/test');
     expect(response.status).toEqual(400);
   });
-
 });
+

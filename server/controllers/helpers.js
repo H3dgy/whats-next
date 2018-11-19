@@ -4,8 +4,8 @@ const Op = db.Sequelize.Op;
 
 const helpers = {};
 
-helpers.getShowForUser = function getShowForUser(id, userId) {
-  return db.Show.findOne({
+helpers.getShowForUser = async (id, userId) => {
+  const result = await db.Show.findOne({
     where: { id },
     include: [
       {
@@ -17,17 +17,9 @@ helpers.getShowForUser = function getShowForUser(id, userId) {
       }
     ]
   });
+  return result.get({plain: true});
 };
 
-helpers.createUser = function createUser (name,password,email,avatar) {
-  if (!avatar) avatar = 'https://res.cloudinary.com/diek0ztdy/image/upload/v1541756897/samples/sheep.jpg';
-  return db.User.create({
-    name: name,
-    password: password,
-    email: email,
-    avatar: avatar,
-  })
-}
 
 helpers.createOrUpdateShow = async function createOrUpdateShow(id) {
   const localShow = await db.Show.findByPk(id);
@@ -136,7 +128,7 @@ helpers.getUser = async (id) => {
         through: {
           attributes: ['status', 'rating', 'review' , 'createdAt'],
           as: 'tracking',
-          where: { status: { [Op.ne]: '' } }
+          where: { status: { [Op.ne]: 'none' } }
         }
       }
     ],
