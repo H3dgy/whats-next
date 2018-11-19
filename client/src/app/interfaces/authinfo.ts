@@ -1,6 +1,10 @@
 
 
 export default interface AuthInfo {
-  username: string;
-  password: string;
+  email: string;
+  id: string;
+  image: string;
+  name: string,
+  provider: string,
+  token?: string
 }

@@ -41,10 +41,6 @@
     </h1>
   </div>
   <div class="login__box">
-    <h1>Username</h1>
-    <input (keyup)="onKeyUsername($event)"/>
-    <h1>Password</h1>
-    <input (keyup)="onKeyPassword($event)" type="password" />
-    <button (click)="onClick()" class="login__box__button">Log in</button>
+    <button (click)="socialSignIn('facebook')" class="login__box__button">Facebook Log In</button>
   </div>
 </div>

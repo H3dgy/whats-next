@@ -4,6 +4,7 @@ import { ApiClientService } from './api-client.service';
 import { Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import Show from '../models/show';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -27,6 +28,10 @@ export class UserService {
       this.userSubject.next(newValue);
     }
     this._user = newValue;
+  }
+
+  isLoggedIn(user: User): boolean {
+    return true;
   }
 
   constructor(private apiClient: ApiClientService) {

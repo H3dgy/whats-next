@@ -17,6 +17,19 @@ import { TrackSeenComponent } from './components/utils/track-seen/track-seen.com
 import { TrackToSeeComponent } from './components/utils/track-to-see/track-to-see.component';
 import { MainComponent } from './components/main/main.component';
 import { LoginComponent } from './components/login/login.component';
+import { SocialLoginModule, AuthServiceConfig, FacebookLoginProvider } from 'angular-6-social-login';
+
+export function getAuthServiceConfigs() {
+  let config = new AuthServiceConfig(
+      [
+        {
+          id: FacebookLoginProvider.PROVIDER_ID,
+          provider: new FacebookLoginProvider("295087824459443")
+        }
+      ]
+  );
+  return config;
+}
 
 @NgModule({
   declarations: [
@@ -34,8 +47,9 @@ import { LoginComponent } from './components/login/login.component';
     MainComponent,
     LoginComponent
   ],
-  imports: [AppRoutingModule, BrowserModule, FormsModule, HttpClientModule],
-  providers: [],
+  imports: [AppRoutingModule, BrowserModule, FormsModule, HttpClientModule, SocialLoginModule],
+  providers: [{provide: AuthServiceConfig,
+    useFactory: getAuthServiceConfigs}],
   bootstrap: [AppComponent]
 })
 export class AppModule {}
