@@ -2,6 +2,12 @@ const showModule = {};
 const db = require('../models/index');
 const Op = db.Sequelize.Op;
 
+showModule.findTrackedShows = async (userId) => {
+  return await db.Tracking.findAll({
+    where: { userId: userId },
+    attributes: ['showId']
+  })
+};
 
 showModule.findAll = async (ids) => {
   const result = await db.Show.findAll({
@@ -9,6 +15,54 @@ showModule.findAll = async (ids) => {
   });
   return result
   .map(el => el.get({plain: true}));
+}
+
+showModule.findShows = async(trackedShowsIds,userId) => {
+  return await db.Show.findAll({
+    where: {
+      id: trackedShowsIds,
+      backdrop_path: { [Op.ne]: null }
+    },
+    attributes: { exclude: ['similar'] },
+    include: [
+      {
+        model: db.Tracking,
+        as: 'tracking',
+        where: { userId: userId },
+        required: false,
+        attributes: ['status', 'rating', 'review']
+      }
+    ],
+    order: [['recommendations', 'DESC']]
+  });
+};
+
+showModule.findFullShows = async (shows) => {
+  return await Promise.all(
+    shows.map(async show => {
+      const recommendations = await db.Show.findAll({
+        where: {
+          id: show.recommendations,
+          backdrop_path: { [Op.ne]: null }
+        },
+        attributes: { exclude: ['similar', 'recommendations'] }
+      });
+      show.recommendations = recommendations;
+      return show;
+    })
+  );
+}
+
+showModule.findSimilar = async (show) => {
+  return await db.Show.findAll({
+    where: { id: show.similar, backdrop_path: { [Op.ne]: null } }
+  });
+};
+
+showModule.findRecommendations = async (show) => {
+  return await db.Show.findAll({
+    where: { id: show.recommendations, backdrop_path: { [Op.ne]: null } }
+  });
 }
 
 showModule.getShowForUser = async (id, userId) => {

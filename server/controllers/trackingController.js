@@ -1,5 +1,5 @@
 const trackingController = {};
-const trackingModule = require('./trackingModule');
+const trackingModule = require('../modules/trackingModule');
 const showModule = require('../modules/showModule')
 
 trackingController.status = async (req, res) => {
@@ -10,7 +10,6 @@ trackingController.status = async (req, res) => {
     const show = await trackingController._unwrapSimilar(id, userId);
     res.status(201).send(show);
   } catch (error) {
-    //console.log("userId: ",userId, '  ', error);
     res.status(400).send();
   }
 };
