@@ -1,40 +1,45 @@
-const showModule = {};
-const db = require('../models/index');
+const fetch = require('node-fetch');
+const db = require('../models');
 const Op = db.Sequelize.Op;
 
+const helperShows = {};
 
-showModule.findAll = async (ids) => {
-  const result = await db.Show.findAll({
-    where: { id: ids, backdrop_path: { [Op.ne]: null } }
-  });
-  return result
-  .map(el => el.get({plain: true}));
-}
 
-showModule.getShowForUser = async (id, userId) => {
-  const result = await db.Show.findOne({
-    where: { id },
-    include: [
-      {
-        model: db.Tracking,
-        as: 'tracking',
-        where: { userId: userId },
-        required: false,
-        attributes: ['status', 'rating', 'review']
-      }
-    ]
-  });
-  return result.get({plain: true});
+helperShows.getShowForUser = function getShowForUser(id, userId) {
+  try {
+    return db.Show.findOne({
+      where: { id },
+      include: [
+        {
+          model: db.Tracking,
+          as: 'tracking',
+          where: { userId: userId },
+          required: false,
+          attributes: ['status', 'rating', 'review']
+        }
+      ]
+    });
+  }
+  catch (err) {
+    if (err) throw err;
+
+  }
 };
 
-showModule.createOrUpdateShow = async function createOrUpdateShow(id, findShowById = _findShowById, fetchCallback = _fetchCallback) {
+
+helperShows.createOrUpdateShow = async function createOrUpdateShow(id, findShowById = _findShowById, fetchCallback = _fetchCallback) {
   const localShow = await findShowById(id)
-  if (!localShow) return showModule.createShow(id,false,fetchCallback);
-  else if (!showModule.completeInfo(localShow)) return showModule.updateShowInfo(id,fetchCallback);
+  if (!localShow) return helperShows.createShow(id,false,fetchCallback);
+  else if (!helperShows.completeInfo(localShow)) return helperShows.updateShowInfo(id,fetchCallback);
   else return localShow;
 };
 
-showModule.completeInfo = function completeInfo(show) {
+_findShowById = async (id) => {
+  return await db.Show.findByPk(id);
+}
+
+
+helperShows.completeInfo = function completeInfo(show) {
   return (
     !!show.number_of_seasons &&
     !!show.similar.length &&
@@ -42,9 +47,10 @@ showModule.completeInfo = function completeInfo(show) {
   );
 }
 
-showModule.createShow = async function createShow(id, recurse = false, fetchCallback = _fetchCallback, createShow = _createShow) {
+helperShows.createShow = async function createShow(id, recurse = false, fetchCallback = _fetchCallback, createShow = _createShow) {
   const key = '7ade3fee80ba277b71dfc6bc8b08cc50'
   const data = await fetchCallback(id, key);
+  // console.log('data',data, 'id', id);
   if (data && data.status_code !== 34) {
     const similar = (data.similar && data.similar.results) || [];
     const recommendations =
@@ -71,50 +77,62 @@ showModule.createShow = async function createShow(id, recurse = false, fetchCall
   else return [];
 };
 
-showModule.updateShowInfo = async function updateShowInfo(id, fetchCallback = _fetchCallback, findShowById = _findShowById, updateShow = _updateShow) {
+_createShow = async (attrs) => {
+  return await db.Show.create(attrs);
+}
+
+
+helperShows.updateShowInfo = async function updateShowInfo(id, fetchCallback = _fetchCallback, findShowById = _findShowById, updateShow = _updateShow) {
   const show = await findShowById(id);
+  // console.log('id', id, 'show',show);
   const key = '7ade3fee80ba277b71dfc6bc8b08cc50';
   const data = await fetchCallback(id,key);
+  // console.log(data);
   const similar = (data.similar && data.similar.results) || [];
   const recommendations = (data.recommendations && data.recommendations.results) || [];
+  // console.log(similar);
+  // console.log(recommendations);
   const attrs = {
     number_of_seasons: data.number_of_seasons,
     similar: similar.map(el => el.id),
     recommendations: recommendations.map(el => el.id)
   };
+  // console.log(attrs);
   await updateShow(show, id, attrs)
   await createRelatedShows(attrs.similar, fetchCallback);
   await createRelatedShows(attrs.recommendations, fetchCallback);
   const showUpdated = await findShowById(id);
+  // console.log(showUpdated);
   return showUpdated;
-};
-
-showModule.createRelatedShow = async (showArrIds, fetchCallback) => {
-  await Promise.all(
-    showArrIds.map(async id => {
-      const ss = await db.Show.findOne({ where: { id } });
-      if (!ss) {
-        await showModule.createShow(id, false, fetchCallback);
-      }
-    })
-  );
-};
-
-showModule.searchShows = async function searchShows(term, searchShowsFetch = _searchShowsFetch) {
-  const key = '7ade3fee80ba277b71dfc6bc8b08cc50'
-  const results = await searchShowsFetch(key, term);
-  return results.map(res => ({ id: res.id, name: res.name }));
 };
 
 _updateShow = async (show,id,attrs) => {
   await show.update(attrs, {where: {id}});
 }
 
-_fetchCallback = async (id, key) => {
+const _fetchCallback = async (id, key) => {
   return fetch(
     `https://api.themoviedb.org/3/tv/${id}?api_key=${key}&append_to_response=similar,recommendations`
   )
     .then(data => data.json())
+};
+
+
+async function createRelatedShows(showArrIds, fetchCallback) {
+  await Promise.all(
+    showArrIds.map(async id => {
+      const ss = await db.Show.findOne({ where: { id } });
+      if (!ss) {
+        await helperShows.createShow(id, false, fetchCallback);
+      }
+    })
+  );
+}
+
+helperShows.searchShows = async function searchShows(term, searchShowsFetch = _searchShowsFetch) {
+  const key = '7ade3fee80ba277b71dfc6bc8b08cc50'
+  const results = await searchShowsFetch(key, term);
+  return results.map(res => ({ id: res.id, name: res.name }));
 };
 
 _searchShowsFetch = async (key, term) => {
@@ -126,12 +144,4 @@ _searchShowsFetch = async (key, term) => {
   return result;
 }
 
-_findShowById = async (id) => {
-  return await db.Show.findByPk(id);
-}
-
-_createShow = async (attrs) => {
-  return await db.Show.create(attrs);
-}
-
-module.exports = showModule;
+module.exports = helperShows;

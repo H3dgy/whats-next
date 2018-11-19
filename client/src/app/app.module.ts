@@ -15,6 +15,8 @@ import { ShowDetailsComponent } from './components/show-details/show-details.com
 import { MyShowsComponent } from './components/my-shows/my-shows.component';
 import { TrackSeenComponent } from './components/utils/track-seen/track-seen.component';
 import { TrackToSeeComponent } from './components/utils/track-to-see/track-to-see.component';
+import { MainComponent } from './components/main/main.component';
+import { LoginComponent } from './components/login/login.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +30,9 @@ import { TrackToSeeComponent } from './components/utils/track-to-see/track-to-se
     TrackSeenComponent,
     TrackToSeeComponent,
     RatingsComponent,
-    SearchComponent
+    SearchComponent,
+    MainComponent,
+    LoginComponent
   ],
   imports: [AppRoutingModule, BrowserModule, FormsModule, HttpClientModule],
   providers: [],

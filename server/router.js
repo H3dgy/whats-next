@@ -13,5 +13,6 @@ router
   .post('/user/:id/status', trackingController.status)
   .post('/user/:id/rate', trackingController.rate)
   .post('/user/:id/review', trackingController.review)
+  .post('/auth', () => console.log('auth'));
 
 module.exports = router;
