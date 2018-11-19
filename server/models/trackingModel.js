@@ -1,5 +1,5 @@
 const trackingModule = {};
-const db = require('../models');
+const db = require('../schemas');
 
 
 trackingModule.findOrCreateRating = async (userId, showId, rating) => {

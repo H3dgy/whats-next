@@ -1,4 +1,4 @@
-const showModule = require('../modules/showModule');
+const showModule = require('../models/showModel');
 const showsController = {};
 
 showsController.recommended = async (req, res) => {

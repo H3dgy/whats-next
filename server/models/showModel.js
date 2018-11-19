@@ -1,5 +1,5 @@
 const showModule = {};
-const db = require('../models/index');
+const db = require('../schemas');
 const Op = db.Sequelize.Op;
 const fetch = require('node-fetch');
 
@@ -110,8 +110,7 @@ showModule.completeInfo = function completeInfo(show) {
 }
 
 showModule.createShow = async function createShow(id, recurse = false, fetchCallback = _fetchCallback, createShow = _createShow) {
-  const key = '7ade3fee80ba277b71dfc6bc8b08cc50'
-  const data = await fetchCallback(id, key);
+  const data = await fetchCallback(id);
   if (data && data.status_code !== 34) {
     const similar = (data.similar && data.similar.results) || [];
     const recommendations =
@@ -145,8 +144,7 @@ const _createShow = async (attrs) => {
 
 showModule.updateShowInfo = async function updateShowInfo(id, fetchCallback = _fetchCallback, findShowById = _findShowById, updateShow = _updateShow) {
   const show = await findShowById(id);
-  const key = '7ade3fee80ba277b71dfc6bc8b08cc50';
-  const data = await fetchCallback(id,key);
+  const data = await fetchCallback(id);
   const similar = (data.similar && data.similar.results) || [];
   const recommendations = (data.recommendations && data.recommendations.results) || [];
   const attrs = {
@@ -165,7 +163,8 @@ const _updateShow = async (show,id,attrs) => {
   await show.update(attrs, {where: {id}});
 }
 
-const _fetchCallback = async (id, key) => {
+const _fetchCallback = async (id) => {
+  const key = process.env.API_KEY;
   return fetch (
     `https://api.themoviedb.org/3/tv/${id}?api_key=${key}&append_to_response=similar,recommendations`
   )
@@ -189,7 +188,7 @@ async function createRelatedShows(showArrIds, fetchCallback) {
  */
 
 showModule.searchShows = async function searchShows(term, searchShowsFetch = _searchShowsFetch) {
-  const key = '7ade3fee80ba277b71dfc6bc8b08cc50'
+  const key = process.env.API_KEY;
   const results = await searchShowsFetch(key, term);
   return results.map(res => ({ id: res.id, name: res.name }));
 };

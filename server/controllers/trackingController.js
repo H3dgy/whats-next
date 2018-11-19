@@ -1,6 +1,6 @@
 const trackingController = {};
-const trackingModule = require('../modules/trackingModule');
-const showModule = require('../modules/showModule')
+const trackingModule = require('../models/trackingModel');
+const showModule = require('../models/showModel')
 
 trackingController.status = async (req, res) => {
   const id = req.params.id;

@@ -1,11 +1,11 @@
 const request = require('supertest');
 const app = require('../server');
-const db = require('../models');
+const db = require('../schemas');
 const trackingSeeder = require('../testSeeding/trackingSeeders');
 const trackingController = require('../controllers/trackingController');
-const showModule = require('../modules/showModule');
+const showModule = require('../models/showModel');
 const mock = require('../mock_tests/mock');
-const followModule = require('../modules/followModule');
+const followModule = require('../models/followModel');
 
 /**
  * In order to test the creation of the user the database needs to be reset

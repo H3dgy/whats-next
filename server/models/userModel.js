@@ -1,5 +1,5 @@
 const userModule = {};
-const db = require('../models/index');
+const db = require('../schemas');
 const Op = db.Sequelize.Op;
 
 userModule.getUser = async (id) => {

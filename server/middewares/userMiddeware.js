@@ -1,4 +1,4 @@
-const db = require('../models/index');
+const db = require('../schemas/index');
 
 module.exports = async function(req, res, next) {
   if (!req.cookies.userId) {

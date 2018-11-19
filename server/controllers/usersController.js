@@ -1,5 +1,5 @@
 const usersController = {};
-const userModule = require('../modules/userModule');
+const userModule = require('../models/userModel');
 
 
 usersController.get = async (req, res) => {

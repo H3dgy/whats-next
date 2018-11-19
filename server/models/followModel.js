@@ -1,6 +1,5 @@
 const followModule = {};
-const db = require('../models/index');
-const Op = db.Sequelize.Op;
+const db = require('../schemas');
 
 followModule.toggleFollow = async (follower_id, following_id) => {
   const retrieve = await db.Friend.findOne({
