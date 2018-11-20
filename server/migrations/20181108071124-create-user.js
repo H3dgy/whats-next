@@ -29,11 +29,11 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false,
       },
-      facebookID: {
-        allowNull: true,
-        type: Sequelize.INTEGER
+      authToken: {
+        allowNull: false,
+        type: Sequelize.STRING
       },
-      facebookToken: {
+      facebookId: {
         allowNull: true,
         type: Sequelize.STRING
       },

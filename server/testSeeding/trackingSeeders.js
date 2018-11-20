@@ -53,6 +53,7 @@ module.exports = {
         email: 'alice@example.com',
         password: 'password01',
         avatar: 'test',
+        authToken: '1',
         createdAt: new Date(),
         updatedAt: new Date()
       }, 
@@ -62,6 +63,7 @@ module.exports = {
         email: 'arturo@example.com',
         password: 'password01',
         avatar: 'test',
+        authToken: '2',
         createdAt: new Date(),
         updatedAt: new Date()
       }])

@@ -26,11 +26,11 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: true,
         type: DataTypes.STRING,
       },
-      facebookID: {
-        allowNull: true,
-        type: DataTypes.INTEGER
+      authToken: {
+        allowNull: false,
+        type: DataTypes.STRING
       },
-      facebookToken: {
+      facebookId: {
         allowNull: true,
         type: DataTypes.STRING
       },

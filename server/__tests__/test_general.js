@@ -3,6 +3,7 @@ const app = require('../server');
 const db = require('../schemas');
 const trackingSeeder = require('../testSeeding/trackingSeeders');
 const trackingController = require('../controllers/trackingController');
+const usersController = require('../controllers/usersController');
 const showModule = require('../models/showModel');
 const mock = require('../mock_tests/mock');
 const followModule = require('../models/followModel');
@@ -40,7 +41,7 @@ describe('testing the user controller: creating user', () => {
       email: 'test1@hotmail.com',
       avatar: 'test'
     });
-    expect(await bcrypt.compare('password01', response.body.password)).toBe(true);
+    expect(response.body.authToken).toBeTruthy();
   });
   it('Empty body should return 400', done => {
     return request(app)
@@ -116,7 +117,7 @@ describe('testing the user controller: creating user', () => {
       avatar:
         'https://res.cloudinary.com/diek0ztdy/image/upload/v1541756897/samples/sheep.jpg'
     });
-    expect(await bcrypt.compare('password01', response.body.password)).toBe(true);
+    expect(response.body.authToken).toBeTruthy();
   });
 });
 
@@ -164,7 +165,82 @@ describe('test the user controller: create user duplicate entries', () => {
 });
 
 /**
- * Assumes tests on create user have been run, therefor there should be users in the db
+ *  Test facebook login
+ */
+
+describe('test the user controller: create user duplicate entries', () => {
+
+  beforeAll(async () => {
+    await trackingSeeder.downUsers(db.sequelize.queryInterface);
+  });
+  afterAll(async () => {
+    await trackingSeeder.downUsers(db.sequelize.queryInterface);
+  });
+
+  const verification = {isValid: true, userId: 200};
+  const mockVerification = jest.fn(() =>  verification);
+  const req = {
+    body: {
+      email: 'test@gmail.com',
+      name: 'arturo test',
+      id: '898329',
+      provider: 'facebook',
+      token: 'test1test2',
+      image: 'yes'
+    }
+  }
+  const res = {
+    body: '',
+    status: jest.fn(() => res),
+    send: jest.fn(text => {
+      res.body = text;
+      return res;
+    })
+  };
+  const next = jest.fn();
+
+  const thirdParty = jest.fn();
+
+  it('Given the body of the front end the user should be created using the FB data', async () => {
+    await usersController._facebookLogIn(req,res,next,mockVerification);
+    expect(next).toHaveBeenCalledTimes(0);
+    expect(mockVerification).toHaveBeenCalledWith(req.body.token);
+    expect(res.body).toMatchObject({
+        email: 'test@gmail.com'
+    });
+  });
+
+  it('Given the body resulting from facebook login facebooklogin should be called', async () => {
+    await usersController.create(req,res,next,thirdParty);
+    expect(thirdParty).toHaveBeenCalledTimes(1);
+  });
+
+  it('Given a call to the sign in, the correct password and email should return a user object', async () => {
+
+    await request(app)
+    .post('/user')
+    .send({
+      name: 'test1',
+      password: 'password01',
+      email: 'test1@hotmail.com',
+      avatar: 'test'
+    })
+    .set('Content-Type', 'application/json');
+
+    const response = await request(app)
+      .get('/user/signin')
+      .auth('arturo@gmail.com', 'password01');
+    
+    expect(response.status).toBe(200);
+
+
+  });
+
+});
+
+
+/**
+ *  Test user Get
  */
 
 describe('testing the user controller: get user', () => {
@@ -187,10 +263,10 @@ describe('testing the user controller: get user', () => {
     expect(response.status).toEqual(200);
     expect(response.body).toMatchObject({
       name: 'Alice',
-      password: 'password01',
       email: 'alice@example.com',
       avatar: 'test'
     });
+    expect(response.body.authToken).toBeTruthy();
   });
   it('Out of bounds id should return 400', async () => {
     const response = await request(app).get('/user/1000');

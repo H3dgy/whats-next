@@ -29,14 +29,38 @@ userModule.getUserByEmail = async (email) => {
   return user;
 };
 
-userModule.createUser = function createUser (name,password,email,avatar) {
+userModule.createUser = (name,password,email,avatar, authToken) => {
   if (!avatar) avatar = 'https://res.cloudinary.com/diek0ztdy/image/upload/v1541756897/samples/sheep.jpg';
   return db.User.create({
     name: name,
     password: password,
     email: email,
     avatar: avatar,
+    authToken: authToken
   })
 }
+
+userModule.findOrCreateUser = async (name,password,email,avatar, authToken, facebookId) => {
+  if (!avatar) avatar = 'https://res.cloudinary.com/diek0ztdy/image/upload/v1541756897/samples/sheep.jpg';
+  return db.User.findOrCreate({
+    where: {
+      name: name,
+      password: password,
+      avatar: avatar,
+      authToken: authToken,
+      facebookId: facebookId,
+      email: email
+    }
+  })
+  .spread(user => {
+    user.name = name;
+    user.password = password;
+    user.avatar = avatar;
+    user.authToken = authToken;
+    user.facebookId = facebookId
+    return user;
+  })
+  .then(user => user.save());
+};
 
 module.exports = userModule;
