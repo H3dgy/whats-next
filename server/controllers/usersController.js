@@ -70,8 +70,11 @@ usersController._facebookLogIn = async (
   next,
   verifyFacebook = thirdPartyAuthentication.verifyFacebook
 ) => {
+
   const { id, image, name, token, email } = req.body;
-  const verification = verifyFacebook(token);
+
+  const verification = await verifyFacebook(token);
+  console.log('verification: ', verification)
   const password = uuid();
 
   if (verification.isValid) {

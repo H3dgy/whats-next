@@ -10,7 +10,6 @@ const followModule = require('../models/followModel');
 
 const thirdPartyAuthentication = require('../middlewares/thirdPartyAuthentication');
 
-
 /**
  * In order to test the creation of the user the database needs to be reset
  */
@@ -169,8 +168,6 @@ describe('test the user controller: create user duplicate entries', () => {
  *  Test facebook login
  */
 
-
-
 describe('test the facebook signup functionality unit tests: ', () => {
   beforeAll(async () => {
     await trackingSeeder.downUsers(db.sequelize.queryInterface);
@@ -218,7 +215,6 @@ describe('test the facebook signup functionality unit tests: ', () => {
 });
 
 describe('Test the sign-in functionality: ', () => {
-
   it('Given a request without authorization header it should return error 400', async () => {
     const response = await request(app).get('/signin');
     expect(response.status).toBe(400);
@@ -233,14 +229,14 @@ describe('Test the sign-in functionality: ', () => {
 
   it('Given a request with authorization header but incorrect password it should return error', async () => {
     await request(app)
-    .post('/signup')
-    .send({
-      name: 'test1',
-      password: 'password01',
-      email: 'test1@hotmail.com',
-      avatar: 'test'
-    })
-    .set('Content-Type', 'application/json');
+      .post('/signup')
+      .send({
+        name: 'test1',
+        password: 'password01',
+        email: 'test1@hotmail.com',
+        avatar: 'test'
+      })
+      .set('Content-Type', 'application/json');
 
     const response = await request(app)
       .get('/signin')
@@ -289,8 +285,12 @@ describe('testing the user controller: get user', () => {
     await trackingSeeder.downUsers(db.sequelize.queryInterface);
   });
   it('should return user with id 1', async () => {
-    const response = await request(app).get('/user/')
-    .set({'Content-Type': 'application/json', 'Authorization': 'Bearer ' + '1'});
+    const response = await request(app)
+      .get('/user/')
+      .set({
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + '1'
+      });
     expect(response.status).toEqual(200);
     expect(response.body).toMatchObject({
       name: 'Alice',
@@ -300,8 +300,12 @@ describe('testing the user controller: get user', () => {
     expect(response.body.authToken).toBeTruthy();
   });
   it('Out of bounds token should return 400', async () => {
-    const response = await request(app).get('/user/')
-    .set({'Content-Type': 'application/json', 'Authorization': 'Bearer ' + '2000'});
+    const response = await request(app)
+      .get('/user/')
+      .set({
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + '2000'
+      });
     expect(response.status).toEqual(400);
   });
   it('No token should return 400', async () => {
@@ -345,9 +349,12 @@ describe('testing the tracking Controller: create status', () => {
     const response = await request(app)
       .post('/user/100/status')
       .send({
-        status: 'seen',
+        status: 'seen'
       })
-      .set({'Content-Type': 'application/json', 'Authorization': 'Bearer ' + '2'});
+      .set({
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + '2'
+      });
     expect(response.status).toEqual(201);
     expect(response.body).toMatchObject({
       name: 'I Am Not an Animal',
@@ -361,25 +368,34 @@ describe('testing the tracking Controller: create status', () => {
         status: 'test',
         userId: 200
       })
-      .set({'Content-Type': 'application/json', 'Authorization': 'Bearer ' + '100'});
+      .set({
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + '100'
+      });
     expect(response.status).toEqual(400);
   });
   it('respond with status 400 if given incorrect movieId', async () => {
     const response = await request(app)
       .post('/user/20003030303/status')
       .send({
-        status: 'test',
+        status: 'test'
       })
-      .set({'Content-Type': 'application/json', 'Authorization': 'Bearer ' + '2'});
+      .set({
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + '2'
+      });
     expect(response.status).toEqual(400);
   });
   it('respond with status 400 if given incorrect status', async () => {
     const response = await request(app)
       .post('/user/100/status')
       .send({
-        status: 'test',
+        status: 'test'
       })
-      .set({'Content-Type': 'application/json', 'Authorization': 'Bearer ' + '2'});
+      .set({
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + '2'
+      });
     expect(response.status).toEqual(400);
   });
 });
@@ -419,9 +435,12 @@ describe('testing the tracking Controller: create review', () => {
     const response = await request(app)
       .post('/user/100/review')
       .send({
-        review: 'Great',
+        review: 'Great'
       })
-      .set({'Content-Type': 'application/json', 'Authorization': 'Bearer ' + '2'});
+      .set({
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + '2'
+      });
     expect(response.status).toEqual(201);
     expect(response.body).toMatchObject({
       name: 'I Am Not an Animal',
@@ -432,18 +451,24 @@ describe('testing the tracking Controller: create review', () => {
     const response = await request(app)
       .post('/user/100/review')
       .send({
-        review: 'test',
+        review: 'test'
       })
-      .set({'Content-Type': 'application/json', 'Authorization': 'Bearer ' + '2090'});
+      .set({
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + '2090'
+      });
     expect(response.status).toEqual(400);
   });
   it('respond with status 400 if given incorrect movieId', async () => {
     const response = await request(app)
       .post('/user/20003030303/review')
       .send({
-        review: 'Great',
+        review: 'Great'
       })
-      .set({'Content-Type': 'application/json', 'Authorization': 'Bearer ' + '2'});
+      .set({
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + '2'
+      });
     expect(response.status).toEqual(400);
   });
 });
@@ -483,9 +508,12 @@ describe('testing the tracking Controller: create rating', () => {
     const response = await request(app)
       .post('/user/100/rate')
       .send({
-        rating: 5,
+        rating: 5
       })
-      .set({'Content-Type': 'application/json', 'Authorization': 'Bearer ' + '2'});
+      .set({
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + '2'
+      });
     expect(response.status).toEqual(201);
     expect(response.body).toMatchObject({
       name: 'I Am Not an Animal',
@@ -496,45 +524,60 @@ describe('testing the tracking Controller: create rating', () => {
     const response = await request(app)
       .post('/user/100/rate')
       .send({
-        rating: 10,
+        rating: 10
       })
-      .set({'Content-Type': 'application/json', 'Authorization': 'Bearer ' + '2000'});
+      .set({
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + '2000'
+      });
     expect(response.status).toEqual(400);
   });
   it('respond with status 400 if given incorrect movieId', async () => {
     const response = await request(app)
       .post('/user/20003030303/rate')
       .send({
-        rating: 10,
+        rating: 10
       })
-      .set({'Content-Type': 'application/json', 'Authorization': 'Bearer ' + '2'});
+      .set({
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + '2'
+      });
     expect(response.status).toEqual(400);
   });
   it('respond with status 400 if rating is NaN', async () => {
     const response = await request(app)
       .post('/user/20003030303/rate')
       .send({
-        rating: 'seven',
+        rating: 'seven'
       })
-      .set({'Content-Type': 'application/json', 'Authorization': 'Bearer ' + '2'});
+      .set({
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + '2'
+      });
     expect(response.status).toEqual(400);
   });
   it('respond with status 400 if rating is undefined', async () => {
     const response = await request(app)
       .post('/user/20003030303/rate')
       .send({
-        rating: 10,
+        rating: 10
       })
-      .set({'Content-Type': 'application/json', 'Authorization': 'Bearer ' + '2'});
+      .set({
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + '2'
+      });
     expect(response.status).toEqual(400);
   });
   it('respond with status 400 if rating is out of bounds', async () => {
     const response = await request(app)
       .post('/user/20003030303/rate')
       .send({
-        rating: 100,
+        rating: 100
       })
-      .set({'Content-Type': 'application/json', 'Authorization': 'Bearer ' + '2'});
+      .set({
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + '2'
+      });
     expect(response.status).toEqual(400);
   });
 });
@@ -748,7 +791,10 @@ describe('testing the show controller: id', () => {
   it('responds with json containing recommended tv shows when given show name', async () => {
     const response = await request(app)
       .get('/shows/815')
-      .set({'Content-Type': 'application/json', 'Authorization': 'Bearer ' + '1'})
+      .set({
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + '1'
+      });
 
     expect(response.status).toEqual(200);
     expect(response.body.id.toString()).toMatch('815');
@@ -761,21 +807,30 @@ describe('testing the show controller: id', () => {
   it('responds with 400 when given incorrect type show id', async () => {
     const response = await request(app)
       .get('/shows/test')
-      .set({'Content-Type': 'application/json', 'Authorization': 'Bearer ' + '1'})
+      .set({
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + '1'
+      });
     expect(response.status).toEqual(400);
   });
 
   it('responds with 400 when given incorrect number show id', async () => {
     const response = await request(app)
       .get('/shows/222222222')
-      .set({'Content-Type': 'application/json', 'Authorization': 'Bearer ' + '1'})
+      .set({
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + '1'
+      });
     expect(response.status).toEqual(400);
   });
 
   it('responds with 400 when given incorrect input', async () => {
     const response = await request(app)
       .get('/shows/2-2')
-      .set({'Content-Type': 'application/json', 'Authorization': 'Bearer ' + '1'})
+      .set({
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + '1'
+      });
     expect(response.status).toEqual(400);
   });
 });
@@ -873,16 +928,13 @@ describe('testing the follower module: toggle follow', () => {
   });
 });
 
-
-/** 
+/**
  * Test middleware
  */
 
-
-
 describe('Test authentication middleware: ', () => {
-
-  const token = "EAAEMYXz0VrMBAOBQpiZCTvr4rKljBb6fsdpzoiHEsCbnYGAy2ei9szVx8Dr2zQPDkn3vLJsKendD7JR55CYjvo3yZBTn2u7Jg1nOI2pC8GPilJBSagv9CihbFLxajtP3xGjBiYqZAs14rIzAlyU1bQITiT835ZA5Fx4awLdFDXkyy6dt8rtUC0aQK4BqQrQf8c0jRdWZAdgZDZD";
+  const token =
+    'EAAEMYXz0VrMBAOIay4UinPTVKSzLiVUsyf879VZBxwLcNI9EYTyCtvkQBwXz9YpajIXSSZAiY0ZAmSlPOZBz6XReuOb31CqVn9wZCvauxn2mgqeccjR7ERL5yHsLFQuBhNJPtb4BB19e38PvJKtpimv8l3EauqZArN90jlZCZBLOJEktTAxAPTFTNZCBBduNCEOTqLso7iEAAGwZDZD';
   const testToken = 2;
 
   beforeAll(async () => {
@@ -902,20 +954,60 @@ describe('Test authentication middleware: ', () => {
 
   xit('Given a valid user token verifyFacebook should return boolean true', async () => {
     expect(await thirdPartyAuthentication.verifyFacebook(token)).toMatchObject({
-      isValid: true,
-    })
-  })
+      isValid: true
+    });
+  });
 
+  xit('Given a manually optained fb object the method should return a created user', async () => {
+    const response = await request(app)
+      .post('/signup')
+      .send({
+        email: 'test@gmail.com',
+        name: 'arturo test',
+        id: '898329',
+        provider: 'facebook',
+        token: token,
+        image: 'yes'
+      })
+      .set('Content-Type', 'application/json');
+
+    expect(response.body).toMatchObject({
+      email: 'test@gmail.com',
+      name: 'arturo test',
+      authToken: token
+    });
+  });
+
+  xit('Given a manually optained fb object the method should return an updated user', async () => {
+    const response = await request(app)
+      .post('/signup')
+      .send({
+        email: 'test@gmail.com',
+        name: 'bernardo',
+        id: '898329',
+        provider: 'facebook',
+        token: token,
+        image: 'yes'
+      })
+      .set('Content-Type', 'application/json');
+
+    expect(response.body).toMatchObject({
+      email: 'test@gmail.com',
+      name: 'bernardo',
+      authToken: token
+    });
+  });
   it('test authentication middleware: ', async () => {
-    const response = await 
-    request(app)
-    .get('/test')
-    .set({'Content-Type': 'application/json', 'Authorization': 'Bearer ' + testToken})
-    .send({test: true})
+    const response = await request(app)
+      .get('/test')
+      .set({
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + testToken
+      })
+      .send({ test: true });
     expect(response.status).toBe(200);
     expect(response.body).toMatchObject({
       test: true
-    })
-
-  })
+    });
+  });
 });

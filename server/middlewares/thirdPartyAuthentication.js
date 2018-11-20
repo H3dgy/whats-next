@@ -4,7 +4,6 @@ var dotenv = require('dotenv');
 dotenv.load();
 
 thirdPartyAuth.verifyFacebook = async (clientToken) => {
-  
   const accessToken = process.env.APP_FB_ACCESS_TOKEN;
   const uri = `https://graph.facebook.com/debug_token?input_token=${clientToken}&access_token=${accessToken}`;
 

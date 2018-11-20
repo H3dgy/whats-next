@@ -16,7 +16,7 @@ const authorize = async (req,res,next) => {
       const user = await userModule.getUserByToken(token);
         req.user = user
     } catch (error) {
-      console.log(error)
+      //console.log(error)
       res.status(400).send({
         errors: ['Invalid token']
       })

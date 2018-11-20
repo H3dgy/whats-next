@@ -29,7 +29,6 @@ showsController.get = async (req, res) => {
 
 showsController.search = async (req, res) => {
   const { term } = req.body;
-  console.log(term);
   if (!term) res.status(400).end();
   try {
     const results = await showModule.searchShows(term);
