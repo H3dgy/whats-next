@@ -6,18 +6,12 @@ const uuid = require('uuid/v4');
 const thirdPartyAuthentication = require('../middlewares/thirdPartyAuthentication');
 
 usersController.get = async (req, res) => {
-  const id = req.params.id;
-  try {
-    const userDb = await userModule.getUser(id);
-    res.status(200).send({
-      name: userDb.name,
-      email: userDb.email,
-      authToken: userDb.authToken,
-      avatar: userDb.avatar
+  return res.status(200).send({
+      name: req.user.name,
+      email: req.user.email,
+      authToken: req.user.authToken,
+      avatar: req.user.avatar
     });
-  } catch (error) {
-    res.status(400).send();
-  }
 };
 
 usersController.create = async (

@@ -27,7 +27,7 @@ describe('testing the user controller: creating user', () => {
   });
   it('respond with the user object', async () => {
     const response = await request(app)
-      .post('/user')
+      .post('/signup')
       .send({
         name: 'test1',
         password: 'password01',
@@ -46,14 +46,14 @@ describe('testing the user controller: creating user', () => {
   });
   it('Empty body should return 400', done => {
     return request(app)
-      .post('/user')
+      .post('/signup')
       .send({})
       .set('Content-Type', 'application/json')
       .expect(400, done);
   });
   it('Empty name should return 400', done => {
     return request(app)
-      .post('/user')
+      .post('/signup')
       .send({
         name: '',
         password: 'password01',
@@ -66,7 +66,7 @@ describe('testing the user controller: creating user', () => {
 
   it('Empty password should return 400', done => {
     return request(app)
-      .post('/user')
+      .post('/signup')
       .send({
         name: 'test5',
         password: '',
@@ -78,7 +78,7 @@ describe('testing the user controller: creating user', () => {
   });
   it('Empty email should return 400', done => {
     return request(app)
-      .post('/user')
+      .post('/signup')
       .send({
         name: 'test6',
         password: 'password01',
@@ -90,7 +90,7 @@ describe('testing the user controller: creating user', () => {
   });
   it('Wrong email format should return 400', done => {
     return request(app)
-      .post('/user')
+      .post('/signup')
       .send({
         name: 'test7',
         password: 'password01',
@@ -103,7 +103,7 @@ describe('testing the user controller: creating user', () => {
 
   it('Empty profile picture should return 201 with standard picture', async () => {
     const response = await request(app)
-      .post('/user')
+      .post('/signup')
       .send({
         name: 'test9',
         password: 'password01',
@@ -140,7 +140,7 @@ describe('test the user controller: create user duplicate entries', () => {
 
   it('Duplicate email format should return 400', async () => {
     const response = await request(app)
-      .post('/user')
+      .post('/signup')
       .send({
         name: 'test8',
         password: 'password01',
@@ -153,7 +153,7 @@ describe('test the user controller: create user duplicate entries', () => {
 
   it('Duplicate username should return 400', async () => {
     const response = await request(app)
-      .post('/user')
+      .post('/signup')
       .send({
         name: 'Alice',
         password: 'password01',
@@ -169,14 +169,15 @@ describe('test the user controller: create user duplicate entries', () => {
  *  Test facebook login
  */
 
-describe('test the user controller: using facebook log in and signup', () => {
+
+
+describe('test the facebook signup functionality unit tests: ', () => {
   beforeAll(async () => {
     await trackingSeeder.downUsers(db.sequelize.queryInterface);
   });
   afterAll(async () => {
     await trackingSeeder.downUsers(db.sequelize.queryInterface);
   });
-
   const verification = { isValid: true, userId: 200 };
   const mockVerification = jest.fn(() => verification);
   const req = {
@@ -214,6 +215,9 @@ describe('test the user controller: using facebook log in and signup', () => {
     await usersController.create(req, res, next, thirdParty);
     expect(thirdParty).toHaveBeenCalledTimes(1);
   });
+});
+
+describe('Test the sign-in functionality: ', () => {
 
   it('Given a request without authorization header it should return error 400', async () => {
     const response = await request(app).get('/signin');
@@ -229,24 +233,24 @@ describe('test the user controller: using facebook log in and signup', () => {
 
   it('Given a request with authorization header but incorrect password it should return error', async () => {
     await request(app)
-      .post('/user')
-      .send({
-        name: 'test1',
-        password: 'password01',
-        email: 'test1@hotmail.com',
-        avatar: 'test'
-      })
-      .set('Content-Type', 'application/json');
+    .post('/signup')
+    .send({
+      name: 'test1',
+      password: 'password01',
+      email: 'test1@hotmail.com',
+      avatar: 'test'
+    })
+    .set('Content-Type', 'application/json');
 
     const response = await request(app)
       .get('/signin')
-      .auth('test1@hotmail.com', 'blueberry');
+      .auth('arturo@example.com', 'blueberry');
     expect(response.status).toBe(400);
   });
 
   it('Given a call to the sign in, the correct password and email should return a user object', async () => {
     await request(app)
-      .post('/user')
+      .post('/signup')
       .send({
         name: 'test1',
         password: 'password01',
@@ -285,7 +289,8 @@ describe('testing the user controller: get user', () => {
     await trackingSeeder.downUsers(db.sequelize.queryInterface);
   });
   it('should return user with id 1', async () => {
-    const response = await request(app).get('/user/1');
+    const response = await request(app).get('/user/')
+    .set({'Content-Type': 'application/json', 'Authorization': 'Bearer ' + '1'});
     expect(response.status).toEqual(200);
     expect(response.body).toMatchObject({
       name: 'Alice',
@@ -294,12 +299,13 @@ describe('testing the user controller: get user', () => {
     });
     expect(response.body.authToken).toBeTruthy();
   });
-  it('Out of bounds id should return 400', async () => {
-    const response = await request(app).get('/user/1000');
+  it('Out of bounds token should return 400', async () => {
+    const response = await request(app).get('/user/')
+    .set({'Content-Type': 'application/json', 'Authorization': 'Bearer ' + '2000'});
     expect(response.status).toEqual(400);
   });
-  it('No id should return 400', async () => {
-    const response = await request(app).get('/user/test');
+  it('No token should return 400', async () => {
+    const response = await request(app).get('/user/');
     expect(response.status).toEqual(400);
   });
 });

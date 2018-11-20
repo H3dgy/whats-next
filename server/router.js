@@ -14,9 +14,10 @@ router
   .get('/recommended', showsController.recommended)
   .post('/shows/search', showsController.search)
   .get('/shows/:id', showsController.get)
-  .post('/user', usersController.create)
-  .get('/user/:id', usersController.get)
-  //oke
+
+  .post('/signup', usersController.create)
+
+  .get('/user/', authMiddleware ,usersController.get)
   .post('/user/:id/status', authMiddleware,trackingController.status)
   .post('/user/:id/rate', authMiddleware,trackingController.rate)
   .post('/user/:id/review', authMiddleware,trackingController.review)
