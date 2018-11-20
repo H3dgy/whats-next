@@ -3,11 +3,12 @@ const trackingModule = require('../models/trackingModel');
 const showModule = require('../models/showModel')
 
 trackingController.status = async (req, res) => {
-  const id = req.params.id;
-  const {userId, status} = req.body;
+  const movieId = req.params.id;
+  const userId = req.user.id;
+  const status = req.body.status;
   try {
-    await trackingModule.findOrCreateStatus(userId, id, status);
-    const show = await trackingController._unwrapSimilar(id, userId);
+    await trackingModule.findOrCreateStatus(userId, movieId, status);
+    const show = await trackingController._unwrapSimilar(movieId, userId);
     res.status(201).send(show);
   } catch (error) {
     res.status(400).send();
@@ -24,11 +25,12 @@ trackingController._unwrapSimilar = async (movieId, userId) => {
 
 
 trackingController.rate = async (req, res) => {
-  const id = req.params.id;
-  const {userId, rating} = req.body;
+  const movieId = req.params.id;
+  const userId = req.user.id;
+  const rating = req.body.rating;
   try {
-    await trackingModule.findOrCreateRating(userId, id, rating);
-    const show = await trackingController._unwrapSimilar(id, userId);
+    await trackingModule.findOrCreateRating(userId, movieId, rating);
+    const show = await trackingController._unwrapSimilar(movieId, userId);
     res.status(201).send(show);
   } catch (error) {
     //console.log(error);
@@ -39,12 +41,13 @@ trackingController.rate = async (req, res) => {
 // check in detail
 
 trackingController.review = async (req, res) => {
-  const id = req.params.id;
-  const {userId, review} = req.body;
+  const movieId = req.params.id;
+  const userId = req.user.id;
+  const review = req.body.review;
   
   try {
-    await trackingModule.findOrCreateReview(userId, id, review);
-    const show = await trackingController._unwrapSimilar(id, userId);
+    await trackingModule.findOrCreateReview(userId, movieId, review);
+    const show = await trackingController._unwrapSimilar(movieId, userId);
     res.status(201).send(show);
   } catch (error) {
     //console.log(error);
