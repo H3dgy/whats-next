@@ -215,7 +215,6 @@ describe('test the user controller: using facebook log in and signup', () => {
 
   it('Given a request without authorization header it should return error 400', async () => {
     const response = await request(app).get('/signin');
-    console.log('response: ', response.body);
     expect(response.status).toBe(400);
   });
 
