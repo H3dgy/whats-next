@@ -13,6 +13,7 @@ router
   .post('/user/:id/status', trackingController.status)
   .post('/user/:id/rate', trackingController.rate)
   .post('/user/:id/review', trackingController.review)
-  .post('/auth', () => console.log('auth'));
+  .post('/auth', (req,res) => {console.log(req.body);res.status(200).send('true')})
+
 
 module.exports = router;
