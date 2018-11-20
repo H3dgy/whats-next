@@ -62,7 +62,7 @@ export class UserService {
   isLoggedIn(): Observable<boolean> {
     const tokenNumber: string = localStorage.getItem('token');
     return this.http
-    .post<boolean>(`${this.baseUrl}/isloggedin`,{token: tokenNumber} );
+      .post<boolean>(`${this.baseUrl}/isloggedin`,  {token : tokenNumber} );
   }
 
   setUser() {

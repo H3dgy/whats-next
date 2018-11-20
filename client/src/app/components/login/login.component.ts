@@ -78,6 +78,8 @@ export class LoginComponent implements OnInit {
         this.userService.auth(userData).subscribe(boo => {
           if (boo === true) {
             this.userService.setUser();
+            localStorage.setItem('router', '');
+            this.router.navigateByUrl('recommendations');
           }
         });
       }
