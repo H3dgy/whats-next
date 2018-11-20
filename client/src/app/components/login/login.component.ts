@@ -1,33 +1,96 @@
 import { Component, OnInit } from '@angular/core';
-import { ApiClientService } from 'src/app/services/api-client.service';
+import { UserService } from 'src/app/services/user.service';
+import { AuthService, FacebookLoginProvider } from 'angular-6-social-login';
+import { Router } from '@angular/router';
+import LogInInfo from '../../interfaces/logininfo';
+import SignInInfo from '../../interfaces/signininfo';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+  styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent implements OnInit {
-
-  valueUsername = '';
-  valuePassword = '';
+  login: boolean;
+  signin: boolean;
+  logInInfo: LogInInfo;
+  signInInfo: SignInInfo;
 
   constructor(
-    private apiClient: ApiClientService
+    private userService: UserService,
+    private socialAuthService: AuthService,
+    private router: Router
   ) {}
 
-  onClick() {
-    this.apiClient.auth({username: this.valueUsername, password: this.valuePassword}).subscribe();
+  private loginclick() {
+    this.signin = false;
+    this.login = !this.login;
   }
 
-  onKeyUsername(event: any) {
-    this.valueUsername = event.target.value;
+  private signinclick() {
+    this.login = false;
+    this.signin = !this.signin;
   }
 
-  onKeyPassword(event: any) {
-    this.valuePassword = event.target.value;
+  private sign_send () {
+    this.userService.signin(this.signInInfo).subscribe( boo => {
+      if (boo === true) {
+        this.userService.setUser();
+      }
+      else {
+
+      }
+    });
   }
+
+  private login_send () {
+    this.userService.login(this.logInInfo).subscribe( boo => {
+      if (boo === true) {
+        this.userService.setUser();
+      }
+      else {
+      }
+    });
+  }
+
+  onKeyLogin (event: any) {
+    if (!this.logInInfo) this.logInInfo = {email: '', password: ''};
+    this.logInInfo[event.target.placeholder] = event.target.value;
+  }
+
+  onKeySignIn (event: any) {
+    this.router.navigateByUrl('/recommendations');
+    if (!this.signInInfo) this.signInInfo = {email: '', password: '', name: ''};
+    this.signInInfo[event.target.placeholder] = event.target.value;
+  }
+
+
+  public socialSignIn(socialPlatform : string) {
+    this.login = false;
+    this.signin = false;
+    let socialPlatformProvider;
+    if ( socialPlatform === "facebook" ){
+      socialPlatformProvider = FacebookLoginProvider.PROVIDER_ID;
+    }
+    this.socialAuthService.signIn(socialPlatformProvider).then(
+      (userData) => {
+        console.log( socialPlatform + " sign in data : " , userData );
+        this.userService.auth(userData).subscribe(boo => {
+          if (boo === true) {
+            this.userService.setUser();
+            localStorage.setItem('router', '');
+            this.router.navigateByUrl('recommendations');
+          }
+        });
+      }
+    )
+  }
+
 
   ngOnInit() {
+  }
+
+  ngOnChange() {
   }
 
 }

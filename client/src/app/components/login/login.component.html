@@ -41,10 +41,19 @@
     </h1>
   </div>
   <div class="login__box">
-    <h1>Username</h1>
-    <input (keyup)="onKeyUsername($event)"/>
-    <h1>Password</h1>
-    <input (keyup)="onKeyPassword($event)" type="password" />
-    <button (click)="onClick()" class="login__box__button">Log in</button>
+    <button (click)="loginclick()">Log In</button>
+    <div *ngIf="login" class="login__box__login">
+      <input placeholder="email" (keyup)="onKeyLogin($event)">
+      <input placeholder="password" type="password" (keyup)="onKeyLogin($event)">
+      <button (click)="login_send()" class="btn__send">Send</button>
+    </div>
+    <button (click)="signinclick()">Sign In</button>
+    <div *ngIf="signin" class="login__box__signin">
+        <input placeholder="email" (keyup)="onKeySignIn($event)">
+        <input placeholder="name" (keyup)="onKeySignIn($event)">
+        <input placeholder="password" type="password" (keyup)="onKeySignIn($event)">
+        <button (click)="sign_send()" class="btn__send">Send</button>
+    </div>
+    <button (click)="socialSignIn('facebook')" class="FBbutton">Facebook Sign In</button>
   </div>
 </div>
