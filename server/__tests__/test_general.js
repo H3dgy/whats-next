@@ -748,8 +748,7 @@ describe('testing the show controller: id', () => {
   it('responds with json containing recommended tv shows when given show name', async () => {
     const response = await request(app)
       .get('/shows/815')
-      .set('Content-Type', 'application/json')
-      .set('userId', 1);
+      .set({'Content-Type': 'application/json', 'Authorization': 'Bearer ' + '1'})
 
     expect(response.status).toEqual(200);
     expect(response.body.id.toString()).toMatch('815');
@@ -762,24 +761,21 @@ describe('testing the show controller: id', () => {
   it('responds with 400 when given incorrect type show id', async () => {
     const response = await request(app)
       .get('/shows/test')
-      .set('Content-Type', 'application/json')
-      .set('userId', 1);
+      .set({'Content-Type': 'application/json', 'Authorization': 'Bearer ' + '1'})
     expect(response.status).toEqual(400);
   });
 
   it('responds with 400 when given incorrect number show id', async () => {
     const response = await request(app)
       .get('/shows/222222222')
-      .set('Content-Type', 'application/json')
-      .set('userId', 1);
+      .set({'Content-Type': 'application/json', 'Authorization': 'Bearer ' + '1'})
     expect(response.status).toEqual(400);
   });
 
   it('responds with 400 when given incorrect input', async () => {
     const response = await request(app)
       .get('/shows/2-2')
-      .set('Content-Type', 'application/json')
-      .set('userId', 1);
+      .set({'Content-Type': 'application/json', 'Authorization': 'Bearer ' + '1'})
     expect(response.status).toEqual(400);
   });
 });

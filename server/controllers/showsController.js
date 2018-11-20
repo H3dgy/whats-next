@@ -2,18 +2,20 @@ const showModule = require('../models/showModel');
 const showsController = {};
 
 showsController.recommended = async (req, res) => {
-  const trackedShows = await showModule.findTrackedShows(req.userId);
+  const userId = req.user.id;
+  const trackedShows = await showModule.findTrackedShows(userId);
   const trackedShowsIds = trackedShows.map(el => el.showId);
-  const shows = await showModule.findShows(trackedShowsIds,req.userId);
+  const shows = await showModule.findShows(trackedShowsIds,userId);
   const fullShows = await showModule.findFullShows(shows);
   res.status(200).send(fullShows);
 };
 
 showsController.get = async (req, res) => {
+  const userId = req.user.id;
   const id = req.params.id;
     try {
       await showModule.createOrUpdateShow(id);
-      const show = await showModule.getShowForUser(id, req.headers.userid);
+      const show = await showModule.getShowForUser(id, userId);
       const similar = await showModule.findSimilar(show);
       show.similar = similar;
       const recommendations = await showModule.findRecommendations(show);
@@ -27,6 +29,7 @@ showsController.get = async (req, res) => {
 
 showsController.search = async (req, res) => {
   const { term } = req.body;
+  console.log(term);
   if (!term) res.status(400).end();
   try {
     const results = await showModule.searchShows(term);

@@ -1,4 +1,4 @@
-const followModule = require('../models/followModel');
+
 const followController = {};
 
 
