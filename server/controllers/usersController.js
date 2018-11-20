@@ -107,8 +107,15 @@ usersController._facebookLogIn = async (
   }
 };
 
-usersController.signIn = async (req, res) => {
+usersController.signIn = async (
+  req,
+  res,
+  next,
+  thirdPartyLogin = usersController._facebookLogIn
+) => {
   let basic;
+
+  if (req.body.provider === 'facebook') return thirdPartyLogin(req, res);
 
   if (!req.headers.authorization) {
     res.status(400).send({
