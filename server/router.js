@@ -5,6 +5,7 @@ const usersController = require('./controllers/usersController');
 const trackingController = require('./controllers/trackingController');
 const followController = require('./controllers/followController');
 
+
 router
   .get('/recommended', showsController.recommended)
   .post('/shows/search', showsController.search)

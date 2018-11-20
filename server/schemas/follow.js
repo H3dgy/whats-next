@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
     following_id: {
       allowNull: false,
       unique: true,
-      type: DataTypes.INTEGER,
+      type: DataTypes.INTEGER, 
       references: {
         model: 'Users',
         key: 'id',

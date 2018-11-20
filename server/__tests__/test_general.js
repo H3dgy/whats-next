@@ -6,6 +6,7 @@ const trackingController = require('../controllers/trackingController');
 const showModule = require('../models/showModel');
 const mock = require('../mock_tests/mock');
 const followModule = require('../models/followModel');
+const bcrypt = require('bcrypt');
 
 /**
  * In order to test the creation of the user the database needs to be reset
@@ -22,6 +23,7 @@ describe('testing the user controller: creating user', () => {
     await trackingSeeder.downUsers(db.sequelize.queryInterface);
   });
   it('respond with the user object', async () => {
+    
     const response = await request(app)
       .post('/user')
       .send({
@@ -31,13 +33,14 @@ describe('testing the user controller: creating user', () => {
         avatar: 'test'
       })
       .set('Content-Type', 'application/json');
+      
     expect(response.status).toEqual(201);
     expect(response.body).toMatchObject({
       name: 'test1',
-      password: 'password01',
       email: 'test1@hotmail.com',
       avatar: 'test'
     });
+    expect(await bcrypt.compare('password01', response.body.password)).toBe(true);
   });
   it('Empty body should return 400', done => {
     return request(app)
@@ -109,11 +112,11 @@ describe('testing the user controller: creating user', () => {
     expect(response.status).toEqual(201);
     expect(response.body).toMatchObject({
       name: 'test9',
-      password: 'password01',
       email: 'test9@hotmail.com',
       avatar:
         'https://res.cloudinary.com/diek0ztdy/image/upload/v1541756897/samples/sheep.jpg'
     });
+    expect(await bcrypt.compare('password01', response.body.password)).toBe(true);
   });
 });
 

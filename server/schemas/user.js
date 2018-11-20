@@ -26,6 +26,14 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: true,
         type: DataTypes.STRING,
       },
+      facebookID: {
+        allowNull: true,
+        type: DataTypes.INTEGER
+      },
+      facebookToken: {
+        allowNull: true,
+        type: DataTypes.STRING
+      },
     },
     {}
   );

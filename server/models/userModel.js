@@ -20,6 +20,15 @@ userModule.getUser = async (id) => {
   return user.get({plain: true});
 };
 
+userModule.getUserByEmail = async (email) => {
+  const user = await db.User.findOne({
+    where: {
+      email: email
+    }
+  });
+  return user;
+};
+
 userModule.createUser = function createUser (name,password,email,avatar) {
   if (!avatar) avatar = 'https://res.cloudinary.com/diek0ztdy/image/upload/v1541756897/samples/sheep.jpg';
   return db.User.create({
