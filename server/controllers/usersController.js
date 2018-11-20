@@ -20,14 +20,18 @@ usersController.get = async (req, res) => {
   }
 };
 
-usersController.create = async (req,res, next, thirdPartyLogin = usersController._facebookLogIn) => {
+usersController.create = async (
+  req,
+  res,
+  next,
+  thirdPartyLogin = usersController._facebookLogIn
+) => {
+  if (req.body.provider === 'facebook') return thirdPartyLogin(req, res);
 
-  if(req.body.provider === "facebook") return thirdPartyLogin(req,res);
-
-  const {name, password, email, avatar} = req.body;
+  const { name, password, email, avatar } = req.body;
   let hash;
 
-  if(!name || !password || !email) {
+  if (!name || !password || !email) {
     res.status(400).send({
       errors: ['name, password or email missing']
     });
@@ -43,11 +47,17 @@ usersController.create = async (req,res, next, thirdPartyLogin = usersController
     try {
       hash = await bcrypt.hash(password, +process.env.PASSWORD_HASH);
     } catch (error) {
-      throw new Error('Problem in hash function')
+      throw new Error('Problem in hash function');
     }
     try {
       const authToken = uuid();
-      const userDb = await userModule.createUser(name,hash,email,avatar, authToken);
+      const userDb = await userModule.createUser(
+        name,
+        hash,
+        email,
+        avatar,
+        authToken
+      );
       res.status(201).send({
         name: userDb.name,
         email: userDb.email,
@@ -60,14 +70,26 @@ usersController.create = async (req,res, next, thirdPartyLogin = usersController
   }
 };
 
-usersController._facebookLogIn = async (req,res,next, verifyFacebook = thirdPartyAuthentication.verifyFacebook) => {
-  const {id, image, name, token, email} = req.body;
+usersController._facebookLogIn = async (
+  req,
+  res,
+  next,
+  verifyFacebook = thirdPartyAuthentication.verifyFacebook
+) => {
+  const { id, image, name, token, email } = req.body;
   const verification = verifyFacebook(token);
   const password = uuid();
 
-  if(verification.isValid) {
+  if (verification.isValid) {
     try {
-      const userDb = await userModule.findOrCreateUser(name, password, email, image, token, id);
+      const userDb = await userModule.findOrCreateUser(
+        name,
+        password,
+        email,
+        image,
+        token,
+        id
+      );
       res.status(201).send({
         name: userDb.name,
         email: userDb.email,
@@ -85,28 +107,53 @@ usersController._facebookLogIn = async (req,res,next, verifyFacebook = thirdPart
   }
 };
 
-usersController.signIn = async (req,res) => {
- console.log('called');
- console.log(req);
- const basic = req.headers.authorization.split(' ');
- if(basic.length < 2 && basic[0]!='Basic') {
-  res.status(400).send({error: ['Missing basic authentication header']});
- }
- const [email, password] = btoa(basic[1].split(':'));
- const userDb = await userModule.getUserByEmail(email);
- const match = await bcrypt.compare(password, userDb.password);
- if (match) {
-   res.status(200).send({
-    name: userDb.name,
-    email: userDb.email,
-    authToken: userDb.authToken,
-    avatar: userDb.avatar
-   });
- } else {
-   res.status(400).send({
-     errors: ['incorrect password']
-   })
- }
+usersController.signIn = async (req, res) => {
+  let basic;
+
+  if (!req.headers.authorization) {
+    res.status(400).send({
+      errors: ['Missing authentication header']
+    });
+    return;
+  }
+
+  basic = req.headers.authorization.split(' ');
+  if (basic.length < 2 && basic[0] != 'Basic') {
+    res.status(400).send({ error: ['Missing basic authentication header'] });
+    return;
+  }
+
+  const [username, password] = btoa(basic[1]).split(':');
+  const userDb = await userModule.getUserByEmail(username);
+
+  if (!userDb) {
+    res.status(400).send({
+      errors: ['Incorrect email']
+    });
+    return;
+  }
+  try {
+    const match = await bcrypt.compare(password, userDb.password);
+    if (match) {
+      res.status(200).send({
+        name: userDb.name,
+        email: userDb.email,
+        authToken: userDb.authToken,
+        avatar: userDb.avatar
+      });
+    } else {
+      res.status(400).send({
+        errors: ['Incorrect password']
+      });
+    }
+    return;
+  } catch (error) {
+    console.log(error);
+    res.status(400).send({
+      errors: ['Incorrect password']
+    });
+    return;
+  }
 };
 
 usersController.status = async (req, res) => {
@@ -115,7 +162,7 @@ usersController.status = async (req, res) => {
   let show = await helpers.getShowForUser(id, userId);
   console.log(show);
   await db.Tracking.findOrCreate({
-    where: { userId, showId: show.id },
+    where: { userId, showId: show.id }
   })
     .spread(tracking => {
       tracking.status = req.body.status;
@@ -137,7 +184,7 @@ usersController.rate = async (req, res) => {
   const show = await helpers.getShowForUser(id, userId);
 
   await db.Tracking.findOrCreate({
-    where: { userId, showId: show.id },
+    where: { userId, showId: show.id }
   })
     .spread(tracking => {
       tracking.rating = req.body.rating;

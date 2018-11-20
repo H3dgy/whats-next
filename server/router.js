@@ -16,7 +16,7 @@ router
   .post('/user/:id/rate', trackingController.rate)
   .post('/user/:id/review', trackingController.review)
   .post('/user/:id/follow', followController.toggleFollow)
-  .get('/user/signin', usersController.signIn)
+  .get('/signin', usersController.signIn)
   .get('/user/:id/following', followController.findFollowingForUser)
   .get('/user/:id/followers', followController.findFollowersForUser)
   .post('/auth', () => console.log('auth'));
