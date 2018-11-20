@@ -91,7 +91,6 @@ export class ApiClientService {
   }
 
   auth(info: AuthInfo): Observable<string> {
-    console.log('a');
     return this.http
       .post<string>(`${this.baseUrl}/auth`, info);
   }
