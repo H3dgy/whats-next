@@ -37,11 +37,7 @@ export class UserService {
     this._user = newValue;
   }
 
-  constructor(private apiClient: ApiClientService, private http: HttpClient) {
-    // this.apiClient.getUser().subscribe(user => {
-    //   this.user = user;
-    // });
-  }
+  constructor(private apiClient: ApiClientService, private http: HttpClient) {}
 
   login(info: LogInInfo): Observable<boolean> {
     return this.http.post<boolean>(`${this.baseUrl}/login`, info);
@@ -64,9 +60,6 @@ export class UserService {
   }
 
   setUser(token: string) {
-    console.log('a');
-    // Send info to the backend
-
     this.userLoggedIn.next();
   }
 }

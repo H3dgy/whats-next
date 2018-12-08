@@ -18,7 +18,7 @@ export class MainComponent implements OnInit {
   }
 
   ngOnChange() {
-    this.userService.isLoggedIn().subscribe(res => (this.isLoggedIn = res));
-    console.log('hello', this.isLoggedIn);
+    const res = this.userService.isLoggedIn();
+    this.isLoggedIn = res;
   }
 }
