@@ -10,12 +10,11 @@ import { Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import Show from '../models/show';
 
-
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
-  baseUrl = 'http://localhost:4000'
+  baseUrl = 'http://localhost:4000';
   private _user: User;
   private userSubject = new Subject<User>();
   public user$ = this.userSubject.asObservable().pipe(
@@ -25,6 +24,7 @@ export class UserService {
     })
   );
   public userLoggedIn: Subject<boolean> = new Subject<boolean>();
+  public userInfo: Subject<any> = new Subject<any>();
 
   get user() {
     return this._user;
@@ -38,36 +38,35 @@ export class UserService {
   }
 
   constructor(private apiClient: ApiClientService, private http: HttpClient) {
-    this.apiClient.getUser().subscribe(user => {
-      this.user = user;
-    });
+    // this.apiClient.getUser().subscribe(user => {
+    //   this.user = user;
+    // });
   }
 
-
   login(info: LogInInfo): Observable<boolean> {
-    return this.http
-      .post<boolean>(`${this.baseUrl}/login`, info);
+    return this.http.post<boolean>(`${this.baseUrl}/login`, info);
   }
 
   signin(info: SignInInfo): Observable<boolean> {
-    return this.http
-      .post<boolean>(`${this.baseUrl}/signin`, info);
+    return this.http.post<boolean>(`${this.baseUrl}/signin`, info);
   }
 
-  auth(info: AuthInfo): Observable<boolean> {
-    return this.http
-      .post<boolean>(`${this.baseUrl}/auth`, info);
+  auth(info: AuthInfo): void {
+    this.http.post<any>(`${this.baseUrl}/signup`, info).subscribe(el => {
+      this.userInfo = el;
+      localStorage.setItem('token', el.authToken);
+    });
   }
 
-  isLoggedIn(): Observable<boolean> {
+  isLoggedIn(): boolean {
     const tokenNumber: string = localStorage.getItem('token');
-    return this.http
-      .post<boolean>(`${this.baseUrl}/isloggedin`,  {token : tokenNumber} );
+    return !!tokenNumber;
   }
 
-  setUser() {
+  setUser(token: string) {
+    console.log('a');
     // Send info to the backend
-    localStorage.setItem('token', '12345');
-    this.userLoggedIn.next(true);
+
+    this.userLoggedIn.next();
   }
 }

@@ -10,8 +10,11 @@ module.exports = {
       },
       name: {
         type: Sequelize.STRING,
-        allowNull: false,
-        unique: true
+        allowNull: false
+      },
+      password: {
+        type: Sequelize.STRING,
+        allowNull: false
       },
       email: {
         type: Sequelize.STRING,
@@ -19,15 +22,15 @@ module.exports = {
         unique: true,
         validate: {
           isEmail: true
-        },
+        }
       },
       password: {
         type: Sequelize.STRING,
-        allowNull: false,
+        allowNull: false
       },
       avatar: {
         type: Sequelize.STRING,
-        allowNull: false,
+        allowNull: false
       },
       authToken: {
         allowNull: false,

@@ -18,7 +18,7 @@ const routes: Routes = [
   { path: 'my-shows/:showId', component: ShowDetailsComponent, canActivate: [AuthGuard] },
   { path: 'search', component: SearchComponent, canActivate: [AuthGuard] },
   { path: 'shows/:showId', component: ShowDetailsComponent, canActivate: [AuthGuard] },
-  { path: '', redirectTo: '/recommendations', pathMatch: 'full', canActivate: [AuthGuard] }
+  { path: '', redirectTo: '/login', pathMatch: 'full', canActivate: [AuthGuard] }
 ];
 
 @NgModule({

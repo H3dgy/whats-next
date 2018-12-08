@@ -75,9 +75,10 @@ export class LoginComponent implements OnInit {
     this.socialAuthService.signIn(socialPlatformProvider).then(
       (userData) => {
         console.log( socialPlatform + " sign in data : " , userData );
-        this.userService.auth(userData).subscribe(boo => {
+        this.userService.auth(userData);
+        this.userService.userInfo.subscribe(boo => {
           if (boo === true) {
-            this.userService.setUser();
+            this.userService.auth(userData)
             localStorage.setItem('router', '');
             this.router.navigateByUrl('recommendations');
           }

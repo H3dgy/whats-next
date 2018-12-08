@@ -952,13 +952,13 @@ describe('Test authentication middleware: ', () => {
     await trackingSeeder.downUsers(db.sequelize.queryInterface);
   });
 
-  xit('Given a valid user token verifyFacebook should return boolean true', async () => {
+  it('Given a valid user token verifyFacebook should return boolean true', async () => {
     expect(await thirdPartyAuthentication.verifyFacebook(token)).toMatchObject({
       isValid: true
     });
   });
 
-  xit('Given a manually optained fb object the method should return a created user', async () => {
+  it('Given a manually optained fb object the method should return a created user', async () => {
     const response = await request(app)
       .post('/signup')
       .send({
@@ -978,7 +978,7 @@ describe('Test authentication middleware: ', () => {
     });
   });
 
-  xit('Given a manually optained fb object the method should return an updated user', async () => {
+  it('Given a manually optained fb object the method should return an updated user', async () => {
     const response = await request(app)
       .post('/signup')
       .send({

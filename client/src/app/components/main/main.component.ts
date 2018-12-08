@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { UserService } from 'src/app/services/user.service';
 
 @Component({
@@ -6,19 +6,19 @@ import { UserService } from 'src/app/services/user.service';
   templateUrl: './main.component.html',
   styleUrls: ['./main.component.scss']
 })
-export class MainComponent {
+export class MainComponent implements OnInit {
   isLoggedIn: boolean;
   title = "what's next";
-  constructor(
-    private userService: UserService,
-  ) {}
+  constructor(private userService: UserService) {}
+
   ngOnInit() {
-    this.userService.userLoggedIn.subscribe(isLoggedIn => this.isLoggedIn = isLoggedIn);
-    this.userService.isLoggedIn().subscribe(res => this.isLoggedIn = res);
+    this.userService.userLoggedIn.subscribe(
+      isLoggedIn => (this.isLoggedIn = isLoggedIn)
+    );
   }
 
-  // ngOnChange() {
-  //   this.userService.isLoggedIn().subscribe(res => this.isLoggedIn = res);
-  //   console.log('hello', this.isLoggedIn);
-  // }
+  ngOnChange() {
+    this.userService.isLoggedIn().subscribe(res => (this.isLoggedIn = res));
+    console.log('hello', this.isLoggedIn);
+  }
 }
