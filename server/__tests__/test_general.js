@@ -7,6 +7,8 @@ const usersController = require('../controllers/usersController');
 const showModule = require('../models/showModel');
 const mock = require('../mock_tests/mock');
 const followModule = require('../models/followModel');
+var dotenv = require('dotenv');
+dotenv.load();
 
 const thirdPartyAuthentication = require('../middlewares/thirdPartyAuthentication');
 
@@ -933,8 +935,7 @@ describe('testing the follower module: toggle follow', () => {
  */
 
 describe('Test authentication middleware: ', () => {
-  const token =
-    'EAAEMYXz0VrMBAOIay4UinPTVKSzLiVUsyf879VZBxwLcNI9EYTyCtvkQBwXz9YpajIXSSZAiY0ZAmSlPOZBz6XReuOb31CqVn9wZCvauxn2mgqeccjR7ERL5yHsLFQuBhNJPtb4BB19e38PvJKtpimv8l3EauqZArN90jlZCZBLOJEktTAxAPTFTNZCBBduNCEOTqLso7iEAAGwZDZD';
+  const token = process.env.USER_KEY;
   const testToken = 2;
 
   beforeAll(async () => {
